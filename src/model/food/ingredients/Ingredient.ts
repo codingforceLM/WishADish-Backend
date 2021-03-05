@@ -6,6 +6,7 @@ import {
 } from "typeorm";
 import { User } from "../../user/User";
 import { DishIngredient } from "../dish/DishIngredient";
+import {ShoppingListIngredient} from "../../shoppinglist/ShoppingListIngredient";
 
 @Entity()
 export class Ingredient {
@@ -17,11 +18,16 @@ export class Ingredient {
     user: User;
     @OneToMany(() => DishIngredient, dishIngredients => dishIngredients.ingredient)
     dishIngredients: DishIngredient[];
+    @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.ingredient)
+    shoppingListIngredients: ShoppingListIngredient[];
 
-    constructor(id: string, title: string, user: User, dishIngredients: DishIngredient[]) {
+    constructor(id: string, title: string, user: User, dishIngredients: DishIngredient[], shoppingListIngredients: ShoppingListIngredient[]) {
         this.id = id;
         this.title = title;
         this.user = user;
         this.dishIngredients = dishIngredients;
+        this.shoppingListIngredients = shoppingListIngredients;
     }
+
+
 }

@@ -6,6 +6,13 @@ import { User } from "./model/user/User";
 import { Dish } from "./model/food/dish/Dish";
 import { DishIngredient} from "./model/food/dish/DishIngredient";
 import { Ingredient} from "./model/food/ingredients/Ingredient";
+import { Wish } from "./model/food/dish/Wish";
+import { Group } from "./model/user/group/Group";
+import { UserGroup } from "./model/user/UserGroup";
+import { Vote } from "./model/user/vote/Vote";
+import { ShoppingList } from "./model/shoppinglist/ShoppingList";
+import { ShoppingListIngredient } from "./model/shoppinglist/ShoppingListIngredient";
+import { Invitation } from "./model/user/group/Invitation";
 
 const userController = require("./controller/UserController");
 
@@ -20,7 +27,14 @@ createConnection({
 		User,
 		Dish,
 		DishIngredient,
-		Ingredient
+		Ingredient,
+		Wish,
+		Group,
+		UserGroup,
+		Vote,
+		ShoppingList,
+		ShoppingListIngredient,
+		Invitation
 	],
 	synchronize: true,
 	logging: false

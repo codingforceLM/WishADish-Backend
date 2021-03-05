@@ -13,12 +13,14 @@ exports.Ingredient = void 0;
 var typeorm_1 = require("typeorm");
 var User_1 = require("../../user/User");
 var DishIngredient_1 = require("../dish/DishIngredient");
+var ShoppingListIngredient_1 = require("../../shoppinglist/ShoppingListIngredient");
 var Ingredient = /** @class */ (function () {
-    function Ingredient(id, title, user, dishIngredients) {
+    function Ingredient(id, title, user, dishIngredients, shoppingListIngredients) {
         this.id = id;
         this.title = title;
         this.user = user;
         this.dishIngredients = dishIngredients;
+        this.shoppingListIngredients = shoppingListIngredients;
     }
     __decorate([
         typeorm_1.PrimaryColumn(),
@@ -36,9 +38,13 @@ var Ingredient = /** @class */ (function () {
         typeorm_1.OneToMany(function () { return DishIngredient_1.DishIngredient; }, function (dishIngredients) { return dishIngredients.ingredient; }),
         __metadata("design:type", Array)
     ], Ingredient.prototype, "dishIngredients", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return ShoppingListIngredient_1.ShoppingListIngredient; }, function (shoppingListIngredient) { return shoppingListIngredient.ingredient; }),
+        __metadata("design:type", Array)
+    ], Ingredient.prototype, "shoppingListIngredients", void 0);
     Ingredient = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [String, String, User_1.User, Array])
+        __metadata("design:paramtypes", [String, String, User_1.User, Array, Array])
     ], Ingredient);
     return Ingredient;
 }());

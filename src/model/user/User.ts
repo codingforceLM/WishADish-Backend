@@ -6,6 +6,9 @@ import {
 } from "typeorm";
 import { Dish } from "../food/dish/Dish";
 import { Ingredient } from "../food/ingredients/Ingredient";
+import { UserGroup } from "./UserGroup";
+import { Vote } from "./vote/Vote";
+import { ShoppingList } from "../shoppinglist/ShoppingList";
 
 @Entity()
 export class User {
@@ -27,8 +30,14 @@ export class User {
     dishes: Dish[];
     @OneToMany(() => Ingredient, ingredient => ingredient.user)
     ingredients: Ingredient[];
+    @OneToMany(() => UserGroup, userGroup => userGroup.user)
+    userGroups: UserGroup[];
+    @OneToMany(() => Vote, vote => vote.user)
+    votes: Vote[];
+    @OneToMany(() => ShoppingList, shoppingList => shoppingList.user)
+    lists: ShoppingList[];
 
-    constructor(id: string, firstname: string, lastname: string, email: string, birthday: string, username: string, fileurl: string, dishes: Dish[], ingredients: Ingredient[]) {
+    constructor(id: string, firstname: string, lastname: string, email: string, birthday: string, username: string, fileurl: string, dishes: Dish[], ingredients: Ingredient[], userGroups: UserGroup[], votes: Vote[], lists: ShoppingList[]) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -38,6 +47,10 @@ export class User {
         this.fileurl = fileurl;
         this.dishes = dishes;
         this.ingredients = ingredients;
+        this.userGroups = userGroups;
+        this.votes = votes;
+        this.lists = lists;
     }
+
 
 }
