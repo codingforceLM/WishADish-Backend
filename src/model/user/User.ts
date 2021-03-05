@@ -51,6 +51,4 @@ export class User {
         this.votes = votes;
         this.lists = lists;
     }
-
-
 }

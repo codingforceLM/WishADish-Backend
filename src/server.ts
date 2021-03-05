@@ -15,30 +15,26 @@ import { ShoppingListIngredient } from "./model/shoppinglist/ShoppingListIngredi
 import { Invitation } from "./model/user/group/Invitation";
 
 const userController = require("./controller/UserController");
+const ormconfig = require("../config/ormconfig.json");
 
-createConnection({
-	type: "mysql",
-	host: "localhost",
-	port: 3306,
-	username: "root",
-	password: "root",
-	database: "wishadish",
-	entities: [
-		User,
-		Dish,
-		DishIngredient,
-		Ingredient,
-		Wish,
-		Group,
-		UserGroup,
-		Vote,
-		ShoppingList,
-		ShoppingListIngredient,
-		Invitation
-	],
-	synchronize: true,
-	logging: false
-}).then(connection => {
+ormconfig.entities = [
+	User,
+	Dish,
+	DishIngredient,
+	Ingredient,
+	Wish,
+	Group,
+	UserGroup,
+	Vote,
+	ShoppingList,
+	ShoppingListIngredient,
+	Invitation
+]
+
+
+createConnection(
+	ormconfig
+).then(connection => {
 	console.log("Connection established!");
 }).catch(error => console.log(error));
 
