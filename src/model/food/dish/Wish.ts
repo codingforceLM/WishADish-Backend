@@ -11,20 +11,48 @@ import {Vote} from "../../user/vote/Vote";
 
 @Entity()
 export class Wish {
-    @PrimaryColumn()
-    id: string;
-    @ManyToOne(() => User, user => user.dishes)
-    user: User;
-    @OneToMany(() => Dish, dish => dish.wishes)
-    dish: Dish;
-    @OneToMany(() => Vote, vote => vote.wish)
-    votes: Vote[];
+    @PrimaryColumn() private _id: string;
+    @ManyToOne(() => User, user => user.dishes) private _user: User;
+    @OneToMany(() => Dish, dish => dish.wishes) private _dish: Dish;
+    @OneToMany(() => Vote, vote => vote.wish) private _votes: Vote[];
 
     constructor(id: string, user: User, dish: Dish, votes: Vote[]) {
-        this.id = id;
-        this.user = user;
-        this.dish = dish;
-        this.votes = votes;
+        this._id = id;
+        this._user = user;
+        this._dish = dish;
+        this._votes = votes;
+    }
+
+    get id(): string {
+        return this._id;
+    }
+
+    set id(value: string) {
+        this._id = value;
+    }
+
+    get user(): User {
+        return this._user;
+    }
+
+    set user(value: User) {
+        this._user = value;
+    }
+
+    get dish(): Dish {
+        return this._dish;
+    }
+
+    set dish(value: Dish) {
+        this._dish = value;
+    }
+
+    get votes(): Vote[] {
+        return this._votes;
+    }
+
+    set votes(value: Vote[]) {
+        this._votes = value;
     }
 
 }

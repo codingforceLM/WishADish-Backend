@@ -16,32 +16,82 @@ var DishIngredient_1 = require("../dish/DishIngredient");
 var ShoppingListIngredient_1 = require("../../shoppinglist/ShoppingListIngredient");
 var Ingredient = /** @class */ (function () {
     function Ingredient(id, title, user, dishIngredients, shoppingListIngredients) {
-        this.id = id;
-        this.title = title;
-        this.user = user;
-        this.dishIngredients = dishIngredients;
-        this.shoppingListIngredients = shoppingListIngredients;
+        this._id = id;
+        this._title = title;
+        this._user = user;
+        this._dishIngredients = dishIngredients;
+        this._shoppingListIngredients = shoppingListIngredients;
     }
+    Object.defineProperty(Ingredient.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Ingredient.prototype, "title", {
+        get: function () {
+            return this._title;
+        },
+        set: function (value) {
+            this._title = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Ingredient.prototype, "user", {
+        get: function () {
+            return this._user;
+        },
+        set: function (value) {
+            this._user = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Ingredient.prototype, "dishIngredients", {
+        get: function () {
+            return this._dishIngredients;
+        },
+        set: function (value) {
+            this._dishIngredients = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Ingredient.prototype, "shoppingListIngredients", {
+        get: function () {
+            return this._shoppingListIngredients;
+        },
+        set: function (value) {
+            this._shoppingListIngredients = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
-    ], Ingredient.prototype, "id", void 0);
+    ], Ingredient.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 100 }),
         __metadata("design:type", String)
-    ], Ingredient.prototype, "title", void 0);
+    ], Ingredient.prototype, "_title", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }),
         __metadata("design:type", User_1.User)
-    ], Ingredient.prototype, "user", void 0);
+    ], Ingredient.prototype, "_user", void 0);
     __decorate([
         typeorm_1.OneToMany(function () { return DishIngredient_1.DishIngredient; }, function (dishIngredients) { return dishIngredients.ingredient; }),
         __metadata("design:type", Array)
-    ], Ingredient.prototype, "dishIngredients", void 0);
+    ], Ingredient.prototype, "_dishIngredients", void 0);
     __decorate([
         typeorm_1.OneToMany(function () { return ShoppingListIngredient_1.ShoppingListIngredient; }, function (shoppingListIngredient) { return shoppingListIngredient.ingredient; }),
         __metadata("design:type", Array)
-    ], Ingredient.prototype, "shoppingListIngredients", void 0);
+    ], Ingredient.prototype, "_shoppingListIngredients", void 0);
     Ingredient = __decorate([
         typeorm_1.Entity(),
         __metadata("design:paramtypes", [String, String, User_1.User, Array, Array])

@@ -9,22 +9,58 @@ import { ShoppingListIngredient } from "./ShoppingListIngredient";
 
 @Entity()
 export class ShoppingList {
-    @PrimaryColumn()
-    id: string;
-    @Column({type: "varchar", length: 100})
-    title: string;
-    @Column("boolean")
-    done: boolean;
-    @ManyToOne(() => User, user => user.lists)
-    user: User;
-    @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.list)
-    shoppingListIngredients: ShoppingListIngredient[];
+    @PrimaryColumn() private _id: string;
+    @Column({type: "varchar", length: 100}) private _title: string;
+    @Column("boolean") private _done: boolean;
+    @ManyToOne(() => User, user => user.lists) private _user: User;
+    @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.list) private _shoppingListIngredients: ShoppingListIngredient[];
 
     constructor(id: string, title: string, done: boolean, user: User, shoppingListIngredients: ShoppingListIngredient[]) {
-        this.id = id;
-        this.title = title;
-        this.done = done;
-        this.user = user;
-        this.shoppingListIngredients = shoppingListIngredients;
+        this._id = id;
+        this._title = title;
+        this._done = done;
+        this._user = user;
+        this._shoppingListIngredients = shoppingListIngredients;
     }
+
+    get id(): string {
+        return this._id;
+    }
+
+    set id(value: string) {
+        this._id = value;
+    }
+
+    get title(): string {
+        return this._title;
+    }
+
+    set title(value: string) {
+        this._title = value;
+    }
+
+    get done(): boolean {
+        return this._done;
+    }
+
+    set done(value: boolean) {
+        this._done = value;
+    }
+
+    get user(): User {
+        return this._user;
+    }
+
+    set user(value: User) {
+        this._user = value;
+    }
+
+    get shoppingListIngredients(): ShoppingListIngredient[] {
+        return this._shoppingListIngredients;
+    }
+
+    set shoppingListIngredients(value: ShoppingListIngredient[]) {
+        this._shoppingListIngredients = value;
+    }
+
 }

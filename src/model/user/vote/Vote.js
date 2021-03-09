@@ -15,27 +15,67 @@ var User_1 = require("../../user/User");
 var Wish_1 = require("../../food/dish/Wish");
 var Vote = /** @class */ (function () {
     function Vote(id, vote, user, wish) {
-        this.id = id;
-        this.vote = vote;
-        this.user = user;
-        this.wish = wish;
+        this._id = id;
+        this._vote = vote;
+        this._user = user;
+        this._wish = wish;
     }
+    Object.defineProperty(Vote.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Vote.prototype, "vote", {
+        get: function () {
+            return this._vote;
+        },
+        set: function (value) {
+            this._vote = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Vote.prototype, "user", {
+        get: function () {
+            return this._user;
+        },
+        set: function (value) {
+            this._user = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Vote.prototype, "wish", {
+        get: function () {
+            return this._wish;
+        },
+        set: function (value) {
+            this._wish = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Vote.prototype, "id", void 0);
+    ], Vote.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column("int"),
         __metadata("design:type", Number)
-    ], Vote.prototype, "vote", void 0);
+    ], Vote.prototype, "_vote", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.votes; }),
         __metadata("design:type", User_1.User)
-    ], Vote.prototype, "user", void 0);
+    ], Vote.prototype, "_user", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return Wish_1.Wish; }, function (wish) { return wish.votes; }),
         __metadata("design:type", Wish_1.Wish)
-    ], Vote.prototype, "wish", void 0);
+    ], Vote.prototype, "_wish", void 0);
     Vote = __decorate([
         typeorm_1.Entity(),
         __metadata("design:paramtypes", [Number, Number, User_1.User, Wish_1.Wish])

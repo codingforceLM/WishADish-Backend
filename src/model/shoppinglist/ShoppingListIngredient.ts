@@ -9,22 +9,58 @@ import { ShoppingList } from "./ShoppingList";
 
 @Entity()
 export class ShoppingListIngredient {
-    @PrimaryGeneratedColumn()
-    id: number;
-    @Column("double")
-    ammount: number;
-    @Column({type: "varchar", length: 100})
-    unit: string;
-    @ManyToOne(() => ShoppingList, shoppingList => shoppingList.shoppingListIngredients)
-    list: ShoppingList;
-    @ManyToOne(() => Ingredient, ingredient => ingredient.shoppingListIngredients)
-    ingredient: Ingredient;
+    @PrimaryGeneratedColumn() private _id: number;
+    @Column("double") private _ammount: number;
+    @Column({type: "varchar", length: 100}) private _unit: string;
+    @ManyToOne(() => ShoppingList, shoppingList => shoppingList.shoppingListIngredients) private _list: ShoppingList;
+    @ManyToOne(() => Ingredient, ingredient => ingredient.shoppingListIngredients) private _ingredient: Ingredient;
 
-    constructor(id: number, ammount: number, unit: string, list: ShoppingList, ingredient: Ingredient) {
-        this.id = id;
-        this.ammount = ammount;
-        this.unit = unit;
-        this.list = list;
-        this.ingredient = ingredient;
+    constructor(id: number, list: ShoppingList, ingredient: Ingredient, ammount: number, unit: string) {
+        this._id = id;
+        this._ammount = ammount;
+        this._unit = unit;
+        this._list = list;
+        this._ingredient = ingredient;
     }
+
+    get id(): number {
+        return this._id;
+    }
+
+    set id(value: number) {
+        this._id = value;
+    }
+
+    get ammount(): number {
+        return this._ammount;
+    }
+
+    set ammount(value: number) {
+        this._ammount = value;
+    }
+
+    get unit(): string {
+        return this._unit;
+    }
+
+    set unit(value: string) {
+        this._unit = value;
+    }
+
+    get list(): ShoppingList {
+        return this._list;
+    }
+
+    set list(value: ShoppingList) {
+        this._list = value;
+    }
+
+    get ingredient(): Ingredient {
+        return this._ingredient;
+    }
+
+    set ingredient(value: Ingredient) {
+        this._ingredient = value;
+    }
+
 }

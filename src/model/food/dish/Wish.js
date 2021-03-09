@@ -16,27 +16,67 @@ var Dish_1 = require("./Dish");
 var Vote_1 = require("../../user/vote/Vote");
 var Wish = /** @class */ (function () {
     function Wish(id, user, dish, votes) {
-        this.id = id;
-        this.user = user;
-        this.dish = dish;
-        this.votes = votes;
+        this._id = id;
+        this._user = user;
+        this._dish = dish;
+        this._votes = votes;
     }
+    Object.defineProperty(Wish.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Wish.prototype, "user", {
+        get: function () {
+            return this._user;
+        },
+        set: function (value) {
+            this._user = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Wish.prototype, "dish", {
+        get: function () {
+            return this._dish;
+        },
+        set: function (value) {
+            this._dish = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Wish.prototype, "votes", {
+        get: function () {
+            return this._votes;
+        },
+        set: function (value) {
+            this._votes = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
-    ], Wish.prototype, "id", void 0);
+    ], Wish.prototype, "_id", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }),
         __metadata("design:type", User_1.User)
-    ], Wish.prototype, "user", void 0);
+    ], Wish.prototype, "_user", void 0);
     __decorate([
         typeorm_1.OneToMany(function () { return Dish_1.Dish; }, function (dish) { return dish.wishes; }),
         __metadata("design:type", Dish_1.Dish)
-    ], Wish.prototype, "dish", void 0);
+    ], Wish.prototype, "_dish", void 0);
     __decorate([
         typeorm_1.OneToMany(function () { return Vote_1.Vote; }, function (vote) { return vote.wish; }),
         __metadata("design:type", Array)
-    ], Wish.prototype, "votes", void 0);
+    ], Wish.prototype, "_votes", void 0);
     Wish = __decorate([
         typeorm_1.Entity(),
         __metadata("design:paramtypes", [String, User_1.User, Dish_1.Dish, Array])
