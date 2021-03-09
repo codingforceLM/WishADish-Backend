@@ -14,8 +14,15 @@ import { ShoppingList } from "./model/shoppinglist/ShoppingList";
 import { ShoppingListIngredient } from "./model/shoppinglist/ShoppingListIngredient";
 import { Invitation } from "./model/user/group/Invitation";
 
-const userController = require("./controller/UserController");
 const ormconfig = require("../config/ormconfig.json");
+const userController = require("./controller/UserController");
+const wishController = require("./controller/WishController");
+const voteController = require("./controller/VoteController");
+const listController = require("./controller/ListController");
+const dishController = require("./controller/DishController");
+const ingrdController = require("./controller/IngrdController");
+const groupController = require("./controller/GroupController");
+
 
 ormconfig.entities = [
 	User,
@@ -41,7 +48,13 @@ createConnection(
 //Create a new express app instance
 const app: express.Application = express();
 
-app.use("/bestinbuis", userController);
+app.use("/api/user", userController);
+app.use("/api/group", groupController);
+app.use("/api/wish", wishController);
+app.use("/api/vote", voteController);
+app.use("/api/list", listController);
+app.use("/api/dish", dishController);
+app.use("/api/ingrd", ingrdController);
 
 app.get('/', function(req, res) {
 	res.send('Hello World!');
