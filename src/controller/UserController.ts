@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
 
-router.get("/", function(req, res) {
-    const username = req.header("name");
+router.get("/:name", function(req, res) {
+    const username = req.params.name;
     if (username == undefined || username == ""){
         return res.status(404).json({"error": "ID unknown"})
     }
@@ -28,7 +28,7 @@ router.post("/", function(req, res) {
     const email = req.header("email");
     const password = req.header("password");
     const birthdate = req.header("birthdate");
-    if(firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == birthdate){
+    if(firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == undefined){
         return res.status(400).json({"error": "required field undefined"});
     }
     let json={
@@ -59,7 +59,9 @@ router.put("/", function(req, res) {
     const username = req.header("username");
     const email = req.header("email");
     const birthdate = req.header("birthdate");
-
+    if(id == undefined || id == ""){
+        return res.status(400).json({"error": "required field undefined"});
+    }
     let json={
         "msg": "User updated",
         "arguments": {
