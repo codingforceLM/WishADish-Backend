@@ -14,8 +14,14 @@ var Vote_1 = require("./model/user/vote/Vote");
 var ShoppingList_1 = require("./model/shoppinglist/ShoppingList");
 var ShoppingListIngredient_1 = require("./model/shoppinglist/ShoppingListIngredient");
 var Invitation_1 = require("./model/user/group/Invitation");
-var userController = require("./controller/UserController");
 var ormconfig = require("../config/ormconfig.json");
+var userController = require("./controller/UserController");
+var wishController = require("./controller/WishController");
+var voteController = require("./controller/VoteController");
+var listController = require("./controller/ListController");
+var dishController = require("./controller/DishController");
+var ingrdController = require("./controller/IngrdController");
+var groupController = require("./controller/GroupController");
 ormconfig.entities = [
     User_1.User,
     Dish_1.Dish,
@@ -34,7 +40,13 @@ typeorm_1.createConnection(ormconfig).then(function (connection) {
 }).catch(function (error) { return console.log(error); });
 //Create a new express app instance
 var app = express();
-app.use("/bestinbuis", userController);
+app.use("/api/user", userController);
+app.use("/api/group", groupController);
+app.use("/api/wish", wishController);
+app.use("/api/vote", voteController);
+app.use("/api/list", listController);
+app.use("/api/dish", dishController);
+app.use("/api/ingrd", ingrdController);
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
