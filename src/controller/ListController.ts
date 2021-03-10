@@ -1,5 +1,9 @@
 import express from "express";
-
+import {ShoppingList} from "../model/shoppinglist/ShoppingList";
+import {ShoppingListIngredient} from "../model/shoppinglist/ShoppingListIngredient";
+import {getConnection} from "typeorm/index";
+import {User} from "../model/user/User";
+const {v4: uuidv4} = require('uuid');
 const router = express.Router();
 
 router.get("/", function (req, res) {
@@ -59,21 +63,39 @@ router.get("/", function (req, res) {
     return res.status(200).json(json);
 });
 
-router.post("/", function (req, res) {
+router.post("/", async function (req, res) {
     const name = req.header("name");
     const groupId = req.header("groupId");
-    if (name == undefined || name == "" || groupId == undefined || groupId == "") {
+    const userId = req.header("userId");
+    if (name == undefined || name == "" || groupId == undefined || groupId == ""|| userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"});
     }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    let json = {
-        "msg": "List created",
-        "arguments": {
-            "name": name,
-            "groupId": groupId
-        }
+
+    let user;
+    try{
+        user = await getConnection().getRepository(User).findOne(
+            {
+                where:
+                    {_id: userId}
+            }) as User;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
     }
 
+    if(user == undefined) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    let list = new ShoppingList(uuidv4(),name,false,user,undefined as unknown as ShoppingListIngredient[])
+    try{
+        await getConnection().getRepository(ShoppingList).manager.save(list)
+    }catch (e){
+        console.log(e)
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    let json = {
+        "msg": "List created"
+    };
     return res.status(200).json(json);
 });
 
