@@ -1,19 +1,32 @@
 import express from "express";
+import { getConnection } from "typeorm";
+import {User} from "../model/user/User";
 const router = express.Router();
 
-router.get("/:name", function(req, res) {
-    const username = req.params.name;
-    if (username == undefined || username == ""){
-        return res.status(404).json({"error": "ID unknown"})
+router.get("/:name",  async function(req, res) {
+    const nick = req.params.name;
+    if (nick == undefined || nick == ""){
+        return res.status(404).json({"error": "cannot get user for undefined"})
     }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
+
+    let user = undefined;
+    try {
+        user = await getConnection().getRepository(User).findOne({ where: { _username: nick} }) as User;
+    } catch (e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown username"});
+    }
+    if(user == undefined) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
     let json={
-        "firstname": "Nicolas",
-        "lastname": "Cage",
-        "birthdate": "07-01-1964",
-        "email": "nic.cage@best-in-the-world.com",
+        "firstname": user.firstname,
+        "lastname": user.lastname,
+        "birthdate": user.birthday,
+        "email": user.email,
         "arguments": {
-            "name": username
+            "name": nick
         }
     }
 
