@@ -43,6 +43,7 @@ var express_1 = __importDefault(require("express"));
 var User_1 = require("../model/user/User");
 var UserGroup_1 = require("../model/user/UserGroup");
 var index_1 = require("typeorm/index");
+var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
 router.get("/:name", function (req, res) {
     var username = req.params.name;
@@ -76,7 +77,7 @@ router.post("/", function (req, res) {
                     if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == undefined) {
                         return [2 /*return*/, res.status(400).json({ "error": "required field undefined" })];
                     }
-                    user = new User_1.User("help i need some id", firstname, lastname, email, birthdate, username, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
+                    user = new User_1.User(uuidv4(), firstname, lastname, email, birthdate, username, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

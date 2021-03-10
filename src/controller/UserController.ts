@@ -6,7 +6,9 @@ import {UserGroup} from "../model/user/UserGroup";
 import {Vote} from "../model/user/vote/Vote";
 import {ShoppingList} from "../model/shoppinglist/ShoppingList";
 import {getConnection} from "typeorm/index";
+const {v4: uuidv4} = require('uuid');
 const router = express.Router();
+
 
 router.get("/:name", function(req, res) {
     const username = req.params.name;
@@ -39,7 +41,7 @@ router.post("/", async function(req, res) {
         return res.status(400).json({"error": "required field undefined"});
     }
 //TODO es gibt keine fileurl von
-    let user = new User("help i need some id",firstname,lastname,email,birthdate,username,"https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png"
+    let user = new User(uuidv4(),firstname,lastname,email,birthdate,username,"https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png"
         ,undefined as unknown as Dish[],
         undefined as unknown as Ingredient[],
         undefined as unknown as UserGroup[],
