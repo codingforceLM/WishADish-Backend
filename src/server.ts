@@ -45,7 +45,7 @@ createConnection(
 		"Thor",
 		"Odinson",
 		"thor@asgard.com",
-		"08-08-2020",
+		"2020-08-08",
 		"tod",
 		"https://static.wikia.nocookie.net/avengers/images/4/48/Thor_Gladiator.jpg/revision/latest/top-crop/width/360/height/360?cb=20171105082329&path-prefix=de",
 		undefined as unknown as Dish[],
@@ -60,7 +60,7 @@ createConnection(
 		"Loki",
 		"Odinson",
 		"loki@asgard.com",
-		"08-08-2020",
+		"2020-08-08",
 		"lod",
 		"https://static.wikia.nocookie.net/antagonisten/images/2/2d/The-avengers-loki.jpg/revision/latest?cb=20170506225328&path-prefix=de",
 		undefined as unknown as Dish[],
@@ -75,7 +75,7 @@ createConnection(
 		"Heimdall",
 		"Heimr",
 		"heimdall@asgard.com",
-		"08-08-2020",
+		"2020-08-08",
 		"hhe",
 		"https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png",
 		undefined as unknown as Dish[],
@@ -90,7 +90,7 @@ createConnection(
 		"Odin",
 		"Wodan",
 		"odin@asgard.com",
-		"08-08-2020",
+		"2020-08-08",
 		"owo",
 		"https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg",
 		undefined as unknown as Dish[],
@@ -105,7 +105,7 @@ createConnection(
 		"Freya",
 		"Freia",
 		"freya@asgard.com",
-		"08-08-2020",
+		"2020-08-08",
 		"owo",
 		"https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg",
 		undefined as unknown as Dish[],
@@ -118,14 +118,14 @@ createConnection(
 	let groupA = new Group(
 		"2985167a-f0dd-408c-a392-0b0a76b9b94d",
 		"toeftebois",
-		"09-03-2021",
+		"2021-03-09",
 		undefined as unknown as UserGroup[],
 		inv
 	);
 
 	let ugA = new UserGroup(
 		1,
-		"09-08-2020",
+		"2020-08-09",
 		"member",
 		userA,
 		groupA
@@ -133,7 +133,7 @@ createConnection(
 
 	let ugB = new UserGroup(
 		2,
-		"09-08-2020",
+		"2020-08-09",
 		"member",
 		userB,
 		groupA
@@ -141,7 +141,7 @@ createConnection(
 
 	let ugC = new UserGroup(
 		3,
-		"09-08-2020",
+		"2020-08-09",
 		"admin",
 		userC,
 		groupA
@@ -149,7 +149,7 @@ createConnection(
 
 	let ugD = new UserGroup(
 		4,
-		"09-08-2020",
+		"2020-08-09",
 		"member",
 		userD,
 		groupA
@@ -157,7 +157,7 @@ createConnection(
 
 	let ugE = new UserGroup(
 		5,
-		"09-08-2020",
+		"2020-08-09",
 		"admin",
 		userE,
 		groupA
@@ -537,6 +537,7 @@ createConnection(
 	userE.votes = [ wvA ];
 
 	// TODO persist objects
+	await connection.manager.save(userA);
 	console.log("Created sample data!");
 }).catch(error => console.log(error));
 
