@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var router = express_1.default.Router();
-router.get("/", function (req, res) {
-    var username = req.header("name");
+router.get("/:name", function (req, res) {
+    var username = req.params.name;
     if (username == undefined || username == "") {
         return res.status(404).json({ "error": "ID unknown" });
     }
@@ -29,7 +29,7 @@ router.post("/", function (req, res) {
     var email = req.header("email");
     var password = req.header("password");
     var birthdate = req.header("birthdate");
-    if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == birthdate) {
+    if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == undefined) {
         return res.status(400).json({ "error": "required field undefined" });
     }
     var json = {
@@ -58,6 +58,9 @@ router.put("/", function (req, res) {
     var username = req.header("username");
     var email = req.header("email");
     var birthdate = req.header("birthdate");
+    if (id == undefined || id == "") {
+        return res.status(400).json({ "error": "required field undefined" });
+    }
     var json = {
         "msg": "User updated",
         "arguments": {
