@@ -1,26 +1,38 @@
 import express from "express";
+import {getConnection} from "typeorm";
+import {Dish} from "../model/food/dish/Dish";
+import {Ingredient} from "../model/food/ingredients/Ingredient";
 const router = express.Router();
 
-router.get("/", function(req, res) {
+router.get("/", async function(req, res) {
     const userId = req.header("userId");
     if (userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"});
 
     }
+    let dishes = undefined;
+    try {
+        dishes = await getConnection().getRepository(Dish).find(
+            { where: { _user: userId } }
+        ) as Dish[];
+    } catch (e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
+    }
+    if(dishes == undefined) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
+
+
     //database res.status(400).json({"error": "ID couldnt be processed"})
-    let json=[{
-        "arguments": {
-            "userId": userId
-        }},
-        {
-            "id": "a4b13f26-a617-4303-9a63-a74c1e44d233",
-            "name": "Bolognese"
-        },
-        {
-            "id": "2ea16774-18dd-40b7-b724-bd2505b83ae0",
-            "name": "Nudelauflauf"
-        }
-    ]
+    let json=[];
+    for(let i=0; i<dishes.length; i++) {
+        json.push({
+            "id": dishes[i].id,
+            "name": dishes[i].title
+        });
+    }
 
     return res.status(200).json(json);
 });
