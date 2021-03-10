@@ -1,7 +1,12 @@
 import express from "express";
+import {getConnection} from "typeorm/index";
+import {Ingredient} from "../model/food/ingredients/Ingredient";
+import {DishIngredient} from "../model/food/dish/DishIngredient";
+import {ShoppingListIngredient} from "../model/shoppinglist/ShoppingListIngredient";
+import {User} from "../model/user/User";
 
 const router = express.Router();
-
+const {v4: uuidv4} = require('uuid');
 router.get("/", function (req, res) {
     const userId = req.header("userId");
     if (userId == undefined || userId == "") {
@@ -30,19 +35,37 @@ router.get("/", function (req, res) {
     return res.status(200).json(json);
 });
 
-router.post("/", function (req, res) {
+router.post("/", async function (req, res) {
     const name = req.header("name");
-    if (name == undefined || name == "") {
+    const userId = req.header("userId");
+    if (name == undefined || name == "" || userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"});
     }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    let json = {
-        "msg": "Ingredient created",
-        "arguments": {
-            "name": name
-        }
+    let user;
+    try{
+        user = await getConnection().getRepository(User).findOne(
+            {
+                where:
+                    {_id: userId}
+            }) as User;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
     }
 
+    if(user == undefined) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    let ingrd = new Ingredient(uuidv4(),name,user,undefined as unknown as DishIngredient[],undefined as unknown as ShoppingListIngredient[])
+    try{
+        await getConnection().getRepository(Ingredient).manager.save(ingrd)
+    }catch (e){
+        console.log(e)
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    let json = {
+        "msg": "Ingredient created"
+    };
     return res.status(200).json(json);
 });
 
