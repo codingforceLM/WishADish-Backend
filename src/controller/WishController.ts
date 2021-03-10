@@ -1,85 +1,76 @@
 import express from "express";
+import {getConnection} from "typeorm/index";
+import {Wish} from "../model/food/dish/Wish";
+import {Vote} from "../model/user/vote/Vote";
 
 const router = express.Router();
 
-router.get("/", function (req, res) {
+router.get("/", async function (req, res) {
     const userId = req.header("userId");
     const day = req.header("day");
     const month = req.header("month");
-    let json = undefined;
     if (userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"})
     }
+    let results_wish;
+    let results_vote;
+    let json = [];
     if (day != undefined && day != "") {
         if (month == undefined || month == "") {
             return res.status(404).json({"error": "month undefined"})
         }
-        json = [{
-            "arguments": {
-                "userId": userId,
-                "day": day,
-                "month": month
+
+        try{
+            results_wish = await getConnection().getRepository(Wish).find(
+                {
+                    relations: ['_user', '_dish'],
+                    where:
+                        {_user: userId}
+                }) as Wish[];
+        }catch(e) {
+            return res.status(400).json({"error": "Unknown userId"});
+        }
+        if(results_wish == undefined || results_wish == []) {
+            console.log("e");
+            return res.status(400).json({"error": "Error at db access"});
+        }
+
+        for(let i=0; i<results_wish.length;i++){
+            try{
+                results_vote = await getConnection().getRepository(Vote).find(
+                    {
+                        relations: ['_wish'],
+                        where:
+                            {_wish: results_wish[0].id}
+                    }) as Vote[];
+            }catch(e) {
+                return res.status(400).json({"error": "Unknown userId"});
             }
-        },
-            {
-                "id": "a4b13f26-a617-4303-9a63-a74c1e44d233",
-                "name": "Bolognese",
-                "groupname": "Familie Cage",
-                "day": "24-12-2020",
-                "daytime": "lunch",
-                "votes": {
-                    "positive": 5,
-                    "negative": 1
-                }
-            },
-            {
-                "id": "2ea16774-18dd-40b7-b724-bd2505b83ae0",
-                "name": "Nudelauflauf",
-                "groupname": "Familie Spacey",
-                "day": "24-12-2020",
-                "daytime": "evening",
-                "votes": {
-                    "positive": 4,
-                    "negative": 0
+            if(results_vote == undefined || results_vote == []) {
+                return res.status(400).json({"error": "Error at db access1"});
+            }
+
+            let vote_positiv = 0;
+            let vote_negativ = 0;
+            for(let i=0; i<results_vote.length; i++){
+                if(results_vote[i].vote==0){
+                    vote_negativ++;
+                }else{
+                    vote_positiv++;
                 }
             }
-        ]
+
+            json.push({
+                "id": results_wish[0].id,
+                "name": results_wish[0].dish.title,
+                "groupname": "MISSING BLLOOOOCK MISSING",
+                "day": "MISSING BLLOOOOCK MISSING",
+                "daytime": "MISSING BLLOOOOCK MISSING",
+                "votes": {"positive": vote_positiv,"negative": vote_negativ}
+            })
+        }
 
     }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    if (json == undefined) {
-        json = [{
-            "arguments": {
-                "userId": userId,
-                "day": day,
-                "month": month
-            }
-        },
-            {
-                "id": "a4b13f26-a617-4303-9a63-a74c1e44d233",
-                "name": "Bolognese",
-                "groupname": "Familie Cage",
-                "day": "24-12-2020",
-                "daytime": "lunch",
-                "votes": {
-                    "positive": 5,
-                    "negative": 1
-                }
-            },
-            {
-                "id": "2ea16774-18dd-40b7-b724-bd2505b83ae0",
-                "name": "Nudelauflauf",
-                "groupname": "Familie Spacey",
-                "day": "24-12-2020",
-                "daytime": "evening",
-                "votes": {
-                    "positive": 4,
-                    "negative": 0
-                }
-            }
-        ]
-    }
-
 
     return res.status(200).json(json);
 });
