@@ -57,7 +57,10 @@ router.get("/", function (req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Dish_1.Dish).find({ where: { _user: userId } })];
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Dish_1.Dish).find({
+                            relations: ["_user"],
+                            where: { _user: userId }
+                        })];
                 case 2:
                     dishes = (_a.sent());
                     return [3 /*break*/, 4];

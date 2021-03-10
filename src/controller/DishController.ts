@@ -12,9 +12,10 @@ router.get("/", async function(req, res) {
     }
     let dishes = undefined;
     try {
-        dishes = await getConnection().getRepository(Dish).find(
-            { where: { _user: userId } }
-        ) as Dish[];
+        dishes = await getConnection().getRepository(Dish).find({
+            relations: ["_user"],
+            where: { _user: userId }
+        }) as Dish[];
     } catch (e) {
         console.log(e);
         return res.status(400).json({"error": "Unknown userId"});
