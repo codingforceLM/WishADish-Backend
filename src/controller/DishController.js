@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var typeorm_1 = require("typeorm");
 var Dish_1 = require("../model/food/dish/Dish");
+var DishIngredient_1 = require("../model/food/dish/DishIngredient");
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -85,31 +86,53 @@ router.get("/", function (req, res) {
     });
 });
 router.get("/:id", function (req, res) {
-    var dishId = req.params.id;
-    if (dishId == undefined || dishId == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    var json = {
-        "argumetns": dishId,
-        "id": "0d5ee71b-da78-4f28-a5f3-396db3e453eb",
-        "name": "Schnitzel",
-        "ingredients": [
-            {
-                "id": "82c19302-dca8-405d-96a4-0a56c833b0ec",
-                "name": "Schweinefleisch",
-                "amount": "170",
-                "unit": "gramm"
-            },
-            {
-                "id": "699e0a1b-ea26-44fb-a1cc-f25bc503e55f",
-                "name": "Paniermehl",
-                "amount": "10",
-                "unit": "gramm"
+    return __awaiter(this, void 0, void 0, function () {
+        var dishId, dishes, e_2, dish, json, i, ingredient;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    dishId = req.params.id;
+                    if (dishId == undefined || dishId == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    dishes = undefined;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(DishIngredient_1.DishIngredient).find({
+                            relations: ["_dish", "_ingredient"],
+                            where: { _dish: dishId }
+                        })];
+                case 2:
+                    dishes = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_2 = _a.sent();
+                    console.log(e_2);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (dishes == undefined || dishes == [] || dishes.length == 0) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    dish = dishes[0].dish;
+                    json = {
+                        "id": dish.id,
+                        "name": dish.title,
+                        "ingredients": Array()
+                    };
+                    for (i = 0; i < dishes.length; i++) {
+                        ingredient = dishes[i].ingredient;
+                        json.ingredients.push({
+                            "id": ingredient.id,
+                            "name": ingredient.title,
+                            "ammount": dishes[i].ammount,
+                            "unit": dishes[i].unit
+                        });
+                    }
+                    return [2 /*return*/, res.status(200).json(json)];
             }
-        ]
-    };
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    return res.status(200).json(json);
+        });
+    });
 });
 router.post("/", function (req, res) {
     var name = req.header("name");
