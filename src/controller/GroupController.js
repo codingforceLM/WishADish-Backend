@@ -95,7 +95,7 @@ router.get("/:id", function (req, res) {
                     userlist = [];
                     for (i = 0; i < results.length; i++) {
                         userlist.push({
-                            "id": results[i].id,
+                            "id": results[i].user.id,
                             "name": results[i].user.firstname + " " + results[i].user.lastname,
                             "role": results[i].role
                         });

@@ -57,7 +57,7 @@ router.get("/:id", async function (req, res) {
 
     for(let i=0; i<results.length;i++){
         userlist.push({
-            "id": results[i].id,
+            "id": results[i].user.id,
             "name": results[i].user.firstname + " " + results[i].user.lastname,
             "role": results[i].role
         })
