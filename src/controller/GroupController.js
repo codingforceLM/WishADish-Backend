@@ -44,31 +44,47 @@ var typeorm_1 = require("typeorm");
 var UserGroup_1 = require("../model/user/UserGroup");
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
-    var userId = req.header("userId");
-    if (userId == undefined || userId == "") {
-        return res.status(400).json({ "error": "required field undefined" });
-    }
-    var json = {
-        "example": [
-            {
-                "id": "7ffaa46e-9645-4371-8bdf-5f87b787b09f"
-            },
-            {
-                "id": "f8575264-8b0d-4604-b8a7-9b7329d24bec"
-            },
-            {
-                "id": "18e3627c-af38-41c6-976f-f6f3b63decca"
+    return __awaiter(this, void 0, void 0, function () {
+        var userId, results, e_1, json, i;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userId = req.header("userId");
+                    if (userId == undefined || userId == "") {
+                        return [2 /*return*/, res.status(400).json({ "error": "required field undefined" })];
+                    }
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(UserGroup_1.UserGroup).find({
+                            relations: ['_group', '_user'],
+                            where: { _user: userId }
+                        })];
+                case 2:
+                    results = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (results == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    json = [];
+                    for (i = 0; i < results.length; i++) {
+                        json.push({
+                            "id": results[i].group.id
+                        });
+                    }
+                    return [2 /*return*/, res.status(200).json(json)];
             }
-        ],
-        "arguments": {
-            "userId": userId
-        }
-    };
-    return res.status(200).json(json);
+        });
+    });
 });
 router.get("/:id", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var groupId, results, e_1, json, userlist, i;
+        var groupId, results, e_2, json, userlist, i;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -87,10 +103,13 @@ router.get("/:id", function (req, res) {
                     results = (_a.sent());
                     return [3 /*break*/, 4];
                 case 3:
-                    e_1 = _a.sent();
-                    console.log(e_1);
+                    e_2 = _a.sent();
+                    console.log(e_2);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 4:
+                    if (results == undefined || results == []) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
                     json = [];
                     userlist = [];
                     for (i = 0; i < results.length; i++) {

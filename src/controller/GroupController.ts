@@ -1,32 +1,38 @@
 import express from "express";
-import {User} from "../model/user/User";
 import {getConnection} from "typeorm";
-import {Group} from "../model/user/group/Group";
 import {UserGroup} from "../model/user/UserGroup";
-import {Dish} from "../model/food/dish/Dish";
+
 
 const router = express.Router();
 
-router.get("/", function (req, res) {
+router.get("/", async function (req, res) {
     const userId = req.header("userId");
     if (userId == undefined || userId == "") {
         return res.status(400).json({"error": "required field undefined"});
     }
-    let json = {
-        "example": [
+
+    let results;
+    try{
+        results = await getConnection().getRepository(UserGroup).find(
             {
-                "id": "7ffaa46e-9645-4371-8bdf-5f87b787b09f"
-            },
-            {
-                "id": "f8575264-8b0d-4604-b8a7-9b7329d24bec"
-            },
-            {
-                "id": "18e3627c-af38-41c6-976f-f6f3b63decca"
-            }
-        ],
-        "arguments": {
-            "userId": userId
-        }
+                relations: ['_group', '_user'],
+                where:
+                    {_user: userId}
+            }) as UserGroup[];
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
+    }
+    if(results == undefined) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
+    let json = [];
+
+    for(let i=0; i<results.length;i++){
+        json.push({
+            "id": results[i].group.id
+        })
     }
 
     return res.status(200).json(json);
@@ -39,7 +45,7 @@ router.get("/:id", async function (req, res) {
         return res.status(400).json({"error": "required field undefined"});
     }
 
-    let results
+    let results;
     try{
         results = await getConnection().getRepository(UserGroup).find(
             {
@@ -52,8 +58,12 @@ router.get("/:id", async function (req, res) {
         return res.status(400).json({"error": "Unknown userId"});
     }
 
-    let json = []
-    let userlist = []
+    if(results == undefined || results == []) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
+    let json = [];
+    let userlist = [];
 
     for(let i=0; i<results.length;i++){
         userlist.push({
