@@ -1,4 +1,9 @@
 import express from "express";
+import {User} from "../model/user/User";
+import {getConnection} from "typeorm";
+import {Group} from "../model/user/group/Group";
+import {UserGroup} from "../model/user/UserGroup";
+import {Dish} from "../model/food/dish/Dish";
 
 const router = express.Router();
 
@@ -23,38 +28,46 @@ router.get("/", function (req, res) {
             "userId": userId
         }
     }
+
     return res.status(200).json(json);
 });
 
-router.get("/:id", function (req, res) {
+
+router.get("/:id", async function (req, res) {
     const groupId = req.params.id;
-    let json;
-        if (groupId == undefined || groupId == "") {
-            return res.status(400).json({"error": "required field undefined"});
-        }
-        json = {
-            "example": [
-                {
-                    "id": "123e4567-e89b-12d3-a456-426614174000",
-                    "name": "GroupA",
-                    "user": [
-                        {
-                            "id": "123s4555-f89k-12d3-a456-426661337000",
-                            "name": "Nicolas Cage",
-                            "role": "admin"
-                        },
-                        {
-                            "id": "321t6666-f888-asdf-re67-628322174550",
-                            "name": "Kevin Spacey",
-                            "role": "member"
-                        }
-                    ]
-                }
-            ],
-            "arguments": {
-                "groupId": groupId
-            }
-        }
+    if (groupId == undefined || groupId == "") {
+        return res.status(400).json({"error": "required field undefined"});
+    }
+
+    let results
+    try{
+        results = await getConnection().getRepository(UserGroup).find(
+            {
+                relations: ['_group', '_user'],
+                where:
+                    {_group: groupId}
+            }) as UserGroup[];
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
+    }
+
+    let json = []
+    let userlist = []
+
+    for(let i=0; i<results.length;i++){
+        userlist.push({
+            "id": results[i].id,
+            "name": results[i].user.firstname + " " + results[i].user.lastname,
+            "role": results[i].role
+        })
+    }
+
+    json.push({
+        "id": results[0].group.id,
+        "name": results[0].group.title,
+        "user": userlist
+    })
 
     return res.status(200).json(json);
 });
