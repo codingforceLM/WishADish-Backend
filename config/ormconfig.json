@@ -4,5 +4,6 @@
   "port": 3306,
   "username": "root",
   "password": "root",
-  "database": "wishadish"
+  "database": "wishadish",
+  "synchronize": true
 }

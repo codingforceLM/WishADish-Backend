@@ -15,32 +15,82 @@ var User_1 = require("../user/User");
 var ShoppingListIngredient_1 = require("./ShoppingListIngredient");
 var ShoppingList = /** @class */ (function () {
     function ShoppingList(id, title, done, user, shoppingListIngredients) {
-        this.id = id;
-        this.title = title;
-        this.done = done;
-        this.user = user;
-        this.shoppingListIngredients = shoppingListIngredients;
+        this._id = id;
+        this._title = title;
+        this._done = done;
+        this._user = user;
+        this._shoppingListIngredients = shoppingListIngredients;
     }
+    Object.defineProperty(ShoppingList.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ShoppingList.prototype, "title", {
+        get: function () {
+            return this._title;
+        },
+        set: function (value) {
+            this._title = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ShoppingList.prototype, "done", {
+        get: function () {
+            return this._done;
+        },
+        set: function (value) {
+            this._done = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ShoppingList.prototype, "user", {
+        get: function () {
+            return this._user;
+        },
+        set: function (value) {
+            this._user = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ShoppingList.prototype, "shoppingListIngredients", {
+        get: function () {
+            return this._shoppingListIngredients;
+        },
+        set: function (value) {
+            this._shoppingListIngredients = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
-    ], ShoppingList.prototype, "id", void 0);
+    ], ShoppingList.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 100 }),
         __metadata("design:type", String)
-    ], ShoppingList.prototype, "title", void 0);
+    ], ShoppingList.prototype, "_title", void 0);
     __decorate([
         typeorm_1.Column("boolean"),
         __metadata("design:type", Boolean)
-    ], ShoppingList.prototype, "done", void 0);
+    ], ShoppingList.prototype, "_done", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.lists; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.lists; }, { cascade: true }),
         __metadata("design:type", User_1.User)
-    ], ShoppingList.prototype, "user", void 0);
+    ], ShoppingList.prototype, "_user", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return ShoppingListIngredient_1.ShoppingListIngredient; }, function (shoppingListIngredient) { return shoppingListIngredient.list; }),
+        typeorm_1.OneToMany(function () { return ShoppingListIngredient_1.ShoppingListIngredient; }, function (shoppingListIngredient) { return shoppingListIngredient.list; }, { cascade: true }),
         __metadata("design:type", Array)
-    ], ShoppingList.prototype, "shoppingListIngredients", void 0);
+    ], ShoppingList.prototype, "_shoppingListIngredients", void 0);
     ShoppingList = __decorate([
         typeorm_1.Entity(),
         __metadata("design:paramtypes", [String, String, Boolean, User_1.User, Array])

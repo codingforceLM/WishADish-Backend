@@ -16,32 +16,82 @@ var DishIngredient_1 = require("./DishIngredient");
 var Wish_1 = require("./Wish");
 var Dish = /** @class */ (function () {
     function Dish(id, title, user, dishIngredients, wishes) {
-        this.id = id;
-        this.title = title;
-        this.user = user;
-        this.dishIngredients = dishIngredients;
-        this.wishes = wishes;
+        this._id = id;
+        this._title = title;
+        this._user = user;
+        this._dishIngredients = dishIngredients;
+        this._wishes = wishes;
     }
+    Object.defineProperty(Dish.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Dish.prototype, "title", {
+        get: function () {
+            return this._title;
+        },
+        set: function (value) {
+            this._title = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Dish.prototype, "user", {
+        get: function () {
+            return this._user;
+        },
+        set: function (value) {
+            this._user = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Dish.prototype, "dishIngredients", {
+        get: function () {
+            return this._dishIngredients;
+        },
+        set: function (value) {
+            this._dishIngredients = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Dish.prototype, "wishes", {
+        get: function () {
+            return this._wishes;
+        },
+        set: function (value) {
+            this._wishes = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
-    ], Dish.prototype, "id", void 0);
+    ], Dish.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 100 }),
         __metadata("design:type", String)
-    ], Dish.prototype, "title", void 0);
+    ], Dish.prototype, "_title", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }, { cascade: true }),
         __metadata("design:type", User_1.User)
-    ], Dish.prototype, "user", void 0);
+    ], Dish.prototype, "_user", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return DishIngredient_1.DishIngredient; }, function (dishIngredients) { return dishIngredients.dish; }),
+        typeorm_1.OneToMany(function () { return DishIngredient_1.DishIngredient; }, function (dishIngredients) { return dishIngredients.dish; }, { cascade: true }),
         __metadata("design:type", Array)
-    ], Dish.prototype, "dishIngredients", void 0);
+    ], Dish.prototype, "_dishIngredients", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Wish_1.Wish; }, function (wish) { return wish.dish; }),
+        typeorm_1.OneToMany(function () { return Wish_1.Wish; }, function (wish) { return wish.dish; }, { cascade: true }),
         __metadata("design:type", Array)
-    ], Dish.prototype, "wishes", void 0);
+    ], Dish.prototype, "_wishes", void 0);
     Dish = __decorate([
         typeorm_1.Entity(),
         __metadata("design:paramtypes", [String, String, User_1.User, Array, Array])

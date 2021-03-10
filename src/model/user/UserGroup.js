@@ -15,32 +15,82 @@ var User_1 = require("./User");
 var Group_1 = require("./group/Group");
 var UserGroup = /** @class */ (function () {
     function UserGroup(id, entrydate, role, user, group) {
-        this.id = id;
-        this.entrydate = entrydate;
-        this.role = role;
-        this.user = user;
-        this.group = group;
+        this._id = id;
+        this._entrydate = entrydate;
+        this._role = role;
+        this._user = user;
+        this._group = group;
     }
+    Object.defineProperty(UserGroup.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(UserGroup.prototype, "entrydate", {
+        get: function () {
+            return this._entrydate;
+        },
+        set: function (value) {
+            this._entrydate = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(UserGroup.prototype, "role", {
+        get: function () {
+            return this._role;
+        },
+        set: function (value) {
+            this._role = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(UserGroup.prototype, "user", {
+        get: function () {
+            return this._user;
+        },
+        set: function (value) {
+            this._user = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(UserGroup.prototype, "group", {
+        get: function () {
+            return this._group;
+        },
+        set: function (value) {
+            this._group = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], UserGroup.prototype, "id", void 0);
+    ], UserGroup.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column("date"),
         __metadata("design:type", String)
-    ], UserGroup.prototype, "entrydate", void 0);
+    ], UserGroup.prototype, "_entrydate", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 100 }),
         __metadata("design:type", String)
-    ], UserGroup.prototype, "role", void 0);
+    ], UserGroup.prototype, "_role", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.userGroups; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.userGroups; }, { cascade: true }),
         __metadata("design:type", User_1.User)
-    ], UserGroup.prototype, "user", void 0);
+    ], UserGroup.prototype, "_user", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Group_1.Group; }, function (group) { return group.userGroups; }),
+        typeorm_1.ManyToOne(function () { return Group_1.Group; }, function (group) { return group.userGroups; }, { cascade: true }),
         __metadata("design:type", Group_1.Group)
-    ], UserGroup.prototype, "group", void 0);
+    ], UserGroup.prototype, "_group", void 0);
     UserGroup = __decorate([
         typeorm_1.Entity(),
         __metadata("design:paramtypes", [Number, String, String, User_1.User, Group_1.Group])

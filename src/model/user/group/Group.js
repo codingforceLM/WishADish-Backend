@@ -15,32 +15,82 @@ var UserGroup_1 = require("../UserGroup");
 var Invitation_1 = require("./Invitation");
 var Group = /** @class */ (function () {
     function Group(id, title, creation, userGroups, invites) {
-        this.id = id;
-        this.title = title;
-        this.creation = creation;
-        this.userGroups = userGroups;
-        this.invites = invites;
+        this._id = id;
+        this._title = title;
+        this._creation = creation;
+        this._userGroups = userGroups;
+        this._invites = invites;
     }
+    Object.defineProperty(Group.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "title", {
+        get: function () {
+            return this._title;
+        },
+        set: function (value) {
+            this._title = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "creation", {
+        get: function () {
+            return this._creation;
+        },
+        set: function (value) {
+            this._creation = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "userGroups", {
+        get: function () {
+            return this._userGroups;
+        },
+        set: function (value) {
+            this._userGroups = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Group.prototype, "invites", {
+        get: function () {
+            return this._invites;
+        },
+        set: function (value) {
+            this._invites = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
-    ], Group.prototype, "id", void 0);
+    ], Group.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 100 }),
         __metadata("design:type", String)
-    ], Group.prototype, "title", void 0);
+    ], Group.prototype, "_title", void 0);
     __decorate([
         typeorm_1.Column("date"),
         __metadata("design:type", String)
-    ], Group.prototype, "creation", void 0);
+    ], Group.prototype, "_creation", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return UserGroup_1.UserGroup; }, function (userGroup) { return userGroup.group; }),
+        typeorm_1.OneToMany(function () { return UserGroup_1.UserGroup; }, function (userGroup) { return userGroup.group; }, { cascade: true }),
         __metadata("design:type", Array)
-    ], Group.prototype, "userGroups", void 0);
+    ], Group.prototype, "_userGroups", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Invitation_1.Invitation; }, function (invitation) { return invitation.group; }),
+        typeorm_1.OneToMany(function () { return Invitation_1.Invitation; }, function (invitation) { return invitation.group; }, { cascade: true }),
         __metadata("design:type", Array)
-    ], Group.prototype, "invites", void 0);
+    ], Group.prototype, "_invites", void 0);
     Group = __decorate([
         typeorm_1.Entity(),
         __metadata("design:paramtypes", [String, String, String, Array, Array])

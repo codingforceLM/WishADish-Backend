@@ -9,19 +9,48 @@ import { Wish } from "../../food/dish/Wish";
 
 @Entity()
 export class Vote {
-    @PrimaryGeneratedColumn()
-    id: number;
-    @Column("int")
-    vote: number;
-    @ManyToOne(() => User, user => user.votes)
-    user: User;
-    @ManyToOne(() => Wish, wish => wish.votes)
-    wish: Wish;
+    @PrimaryGeneratedColumn() private _id: number;
+    @Column("int") private _vote: number;
+    @ManyToOne(() => User, user => user.votes, {cascade: true}) private _user: User;
+    @ManyToOne(() => Wish, wish => wish.votes, {cascade: true}) private _wish: Wish;
 
     constructor(id: number, vote: number, user: User, wish: Wish) {
-        this.id = id;
-        this.vote = vote;
-        this.user = user;
-        this.wish = wish;
+        this._id = id;
+        this._vote = vote;
+        this._user = user;
+        this._wish = wish;
     }
+
+    get id(): number {
+        return this._id;
+    }
+
+    set id(value: number) {
+        this._id = value;
+    }
+
+    get vote(): number {
+        return this._vote;
+    }
+
+    set vote(value: number) {
+        this._vote = value;
+    }
+
+    get user(): User {
+        return this._user;
+    }
+
+    set user(value: User) {
+        this._user = value;
+    }
+
+    get wish(): Wish {
+        return this._wish;
+    }
+
+    set wish(value: Wish) {
+        this._wish = value;
+    }
+
 }

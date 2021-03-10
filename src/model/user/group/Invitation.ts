@@ -8,19 +8,48 @@ import { Group } from "./Group";
 
 @Entity()
 export class Invitation {
-    @PrimaryColumn()
-    id: string;
-    @Column("timestamp")
-    timestamp: string;
-    @Column({type: "varchar", length: 500})
-    url: string;
-    @ManyToOne(() => Group, group => group.invites)
-    group: Group;
+    @PrimaryColumn() private _id: string;
+    @Column("timestamp") private _timestamp: string;
+    @Column({type: "varchar", length: 500}) private _url: string;
+    @ManyToOne(() => Group, group => group.invites, {cascade: true}) private _group: Group;
 
     constructor(id: string, timestamp: string, url: string, group: Group) {
-        this.id = id;
-        this.timestamp = timestamp;
-        this.url = url;
-        this.group = group;
+        this._id = id;
+        this._timestamp = timestamp;
+        this._url = url;
+        this._group = group;
     }
+
+    get id(): string {
+        return this._id;
+    }
+
+    set id(value: string) {
+        this._id = value;
+    }
+
+    get timestamp(): string {
+        return this._timestamp;
+    }
+
+    set timestamp(value: string) {
+        this._timestamp = value;
+    }
+
+    get url(): string {
+        return this._url;
+    }
+
+    set url(value: string) {
+        this._url = value;
+    }
+
+    get group(): Group {
+        return this._group;
+    }
+
+    set group(value: Group) {
+        this._group = value;
+    }
+
 }
