@@ -15,9 +15,9 @@ export class UserGroup {
     private _entrydate: string;
     @Column({type:"varchar", length: 100})
     private _role: string;
-    @ManyToOne(() => User, user => user.userGroups)
+    @ManyToOne(() => User, user => user.userGroups, {cascade: true})
     private _user: User;
-    @ManyToOne(() => Group, group => group.userGroups)
+    @ManyToOne(() => Group, group => group.userGroups, {cascade: true})
     private _group: Group;
 
     constructor(id: number, entrydate: string, role: string, user: User, group: Group) {

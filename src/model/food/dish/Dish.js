@@ -81,15 +81,15 @@ var Dish = /** @class */ (function () {
         __metadata("design:type", String)
     ], Dish.prototype, "_title", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }, { cascade: true }),
         __metadata("design:type", User_1.User)
     ], Dish.prototype, "_user", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return DishIngredient_1.DishIngredient; }, function (dishIngredients) { return dishIngredients.dish; }),
+        typeorm_1.OneToMany(function () { return DishIngredient_1.DishIngredient; }, function (dishIngredients) { return dishIngredients.dish; }, { cascade: true }),
         __metadata("design:type", Array)
     ], Dish.prototype, "_dishIngredients", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Wish_1.Wish; }, function (wish) { return wish.dish; }),
+        typeorm_1.OneToMany(function () { return Wish_1.Wish; }, function (wish) { return wish.dish; }, { cascade: true }),
         __metadata("design:type", Array)
     ], Dish.prototype, "_wishes", void 0);
     Dish = __decorate([

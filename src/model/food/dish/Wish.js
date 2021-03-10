@@ -66,15 +66,15 @@ var Wish = /** @class */ (function () {
         __metadata("design:type", String)
     ], Wish.prototype, "_id", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }, { cascade: true }),
         __metadata("design:type", User_1.User)
     ], Wish.prototype, "_user", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Dish_1.Dish; }, function (dish) { return dish.wishes; }),
+        typeorm_1.ManyToOne(function () { return Dish_1.Dish; }, function (dish) { return dish.wishes; }, { cascade: true }),
         __metadata("design:type", Dish_1.Dish)
     ], Wish.prototype, "_dish", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Vote_1.Vote; }, function (vote) { return vote.wish; }),
+        typeorm_1.OneToMany(function () { return Vote_1.Vote; }, function (vote) { return vote.wish; }, { cascade: true }),
         __metadata("design:type", Array)
     ], Wish.prototype, "_votes", void 0);
     Wish = __decorate([

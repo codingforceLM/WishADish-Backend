@@ -84,11 +84,11 @@ var Group = /** @class */ (function () {
         __metadata("design:type", String)
     ], Group.prototype, "_creation", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return UserGroup_1.UserGroup; }, function (userGroup) { return userGroup.group; }),
+        typeorm_1.OneToMany(function () { return UserGroup_1.UserGroup; }, function (userGroup) { return userGroup.group; }, { cascade: true }),
         __metadata("design:type", Array)
     ], Group.prototype, "_userGroups", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Invitation_1.Invitation; }, function (invitation) { return invitation.group; }),
+        typeorm_1.OneToMany(function () { return Invitation_1.Invitation; }, function (invitation) { return invitation.group; }, { cascade: true }),
         __metadata("design:type", Array)
     ], Group.prototype, "_invites", void 0);
     Group = __decorate([

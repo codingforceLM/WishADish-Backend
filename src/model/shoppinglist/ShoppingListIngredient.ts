@@ -12,8 +12,8 @@ export class ShoppingListIngredient {
     @PrimaryGeneratedColumn() private _id: number;
     @Column("double") private _ammount: number;
     @Column({type: "varchar", length: 100}) private _unit: string;
-    @ManyToOne(() => ShoppingList, shoppingList => shoppingList.shoppingListIngredients) private _list: ShoppingList;
-    @ManyToOne(() => Ingredient, ingredient => ingredient.shoppingListIngredients) private _ingredient: Ingredient;
+    @ManyToOne(() => ShoppingList, shoppingList => shoppingList.shoppingListIngredients, {cascade: true}) private _list: ShoppingList;
+    @ManyToOne(() => Ingredient, ingredient => ingredient.shoppingListIngredients, {cascade: true}) private _ingredient: Ingredient;
 
     constructor(id: number, list: ShoppingList, ingredient: Ingredient, ammount: number, unit: string) {
         this._id = id;

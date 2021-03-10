@@ -13,9 +13,9 @@ import { Wish } from "./Wish";
 export class Dish {
     @PrimaryColumn() private _id: string;
     @Column({type: "varchar", length: 100}) private _title: string;
-    @ManyToOne(() => User, user => user.dishes) private _user: User;
-    @OneToMany(() => DishIngredient, dishIngredients => dishIngredients.dish) private _dishIngredients: DishIngredient[];
-    @ManyToOne(() => Wish, wish => wish.dish) private _wishes: Wish[];
+    @ManyToOne(() => User, user => user.dishes, {cascade: true}) private _user: User;
+    @OneToMany(() => DishIngredient, dishIngredients => dishIngredients.dish, {cascade: true}) private _dishIngredients: DishIngredient[];
+    @OneToMany(() => Wish, wish => wish.dish, {cascade: true}) private _wishes: Wish[];
 
     constructor(id: string, title: string, user: User, dishIngredients: DishIngredient[], wishes: Wish[]) {
         this._id = id;

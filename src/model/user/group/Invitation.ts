@@ -11,7 +11,7 @@ export class Invitation {
     @PrimaryColumn() private _id: string;
     @Column("timestamp") private _timestamp: string;
     @Column({type: "varchar", length: 500}) private _url: string;
-    @ManyToOne(() => Group, group => group.invites) private _group: Group;
+    @ManyToOne(() => Group, group => group.invites, {cascade: true}) private _group: Group;
 
     constructor(id: string, timestamp: string, url: string, group: Group) {
         this._id = id;

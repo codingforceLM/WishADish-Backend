@@ -12,9 +12,9 @@ import {Vote} from "../../user/vote/Vote";
 @Entity()
 export class Wish {
     @PrimaryColumn() private _id: string;
-    @ManyToOne(() => User, user => user.dishes) private _user: User;
-    @OneToMany(() => Dish, dish => dish.wishes) private _dish: Dish;
-    @OneToMany(() => Vote, vote => vote.wish) private _votes: Vote[];
+    @ManyToOne(() => User, user => user.dishes, {cascade: true}) private _user: User;
+    @ManyToOne(() => Dish, dish => dish.wishes, {cascade: true}) private _dish: Dish;
+    @OneToMany(() => Vote, vote => vote.wish, {cascade: true}) private _votes: Vote[];
 
     constructor(id: string, user: User, dish: Dish, votes: Vote[]) {
         this._id = id;

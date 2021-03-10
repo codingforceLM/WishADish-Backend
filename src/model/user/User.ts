@@ -26,15 +26,15 @@ export class User {
     private _username: string;
     @Column({type: "varchar", length: 250})
     private _fileurl: string;
-    @OneToMany(() => Dish, dish => dish.user)
+    @OneToMany(() => Dish, dish => dish.user, {cascade: true})
     private _dishes: Dish[];
-    @OneToMany(() => Ingredient, ingredient => ingredient.user)
+    @OneToMany(() => Ingredient, ingredient => ingredient.user, {cascade: true})
     private _ingredients: Ingredient[];
-    @OneToMany(() => UserGroup, userGroup => userGroup.user)
+    @OneToMany(() => UserGroup, userGroup => userGroup.user, {cascade: true})
     private _userGroups: UserGroup[];
-    @OneToMany(() => Vote, vote => vote.user)
+    @OneToMany(() => Vote, vote => vote.user, {cascade: true})
     private _votes: Vote[];
-    @OneToMany(() => ShoppingList, shoppingList => shoppingList.user)
+    @OneToMany(() => ShoppingList, shoppingList => shoppingList.user, {cascade: true})
     private _lists: ShoppingList[];
 
     constructor(id: string, firstname: string, lastname: string, email: string, birthday: string, username: string, fileurl: string, dishes: Dish[], ingredients: Ingredient[], userGroups: UserGroup[], votes: Vote[], lists: ShoppingList[]) {

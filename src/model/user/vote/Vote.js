@@ -69,11 +69,11 @@ var Vote = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Vote.prototype, "_vote", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.votes; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.votes; }, { cascade: true }),
         __metadata("design:type", User_1.User)
     ], Vote.prototype, "_user", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Wish_1.Wish; }, function (wish) { return wish.votes; }),
+        typeorm_1.ManyToOne(function () { return Wish_1.Wish; }, function (wish) { return wish.votes; }, { cascade: true }),
         __metadata("design:type", Wish_1.Wish)
     ], Vote.prototype, "_wish", void 0);
     Vote = __decorate([

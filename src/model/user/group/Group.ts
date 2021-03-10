@@ -15,9 +15,9 @@ export class Group {
     private _title: string;
     @Column("date")
     private _creation: string;
-    @OneToMany(() => UserGroup, userGroup => userGroup.group)
+    @OneToMany(() => UserGroup, userGroup => userGroup.group, {cascade: true})
     private _userGroups: UserGroup[];
-    @OneToMany(() => Invitation, invitation => invitation.group)
+    @OneToMany(() => Invitation, invitation => invitation.group, {cascade: true})
     private _invites: Invitation[];
 
     constructor(id: string, title: string, creation: string, userGroups: UserGroup[], invites: Invitation[]) {

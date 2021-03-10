@@ -76,11 +76,11 @@ var DishIngredient = /** @class */ (function () {
         __metadata("design:type", Number)
     ], DishIngredient.prototype, "_id", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Dish_1.Dish; }, function (dish) { return dish.dishIngredients; }),
+        typeorm_1.ManyToOne(function () { return Dish_1.Dish; }, function (dish) { return dish.dishIngredients; }, { cascade: true }),
         __metadata("design:type", Dish_1.Dish)
     ], DishIngredient.prototype, "_dish", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Ingredient_1.Ingredient; }, function (ingredient) { return ingredient.dishIngredients; }),
+        typeorm_1.ManyToOne(function () { return Ingredient_1.Ingredient; }, function (ingredient) { return ingredient.dishIngredients; }, { cascade: true }),
         __metadata("design:type", Ingredient_1.Ingredient)
     ], DishIngredient.prototype, "_ingredient", void 0);
     __decorate([

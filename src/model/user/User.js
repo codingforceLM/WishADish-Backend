@@ -180,23 +180,23 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "_fileurl", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Dish_1.Dish; }, function (dish) { return dish.user; }),
+        typeorm_1.OneToMany(function () { return Dish_1.Dish; }, function (dish) { return dish.user; }, { cascade: true }),
         __metadata("design:type", Array)
     ], User.prototype, "_dishes", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Ingredient_1.Ingredient; }, function (ingredient) { return ingredient.user; }),
+        typeorm_1.OneToMany(function () { return Ingredient_1.Ingredient; }, function (ingredient) { return ingredient.user; }, { cascade: true }),
         __metadata("design:type", Array)
     ], User.prototype, "_ingredients", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return UserGroup_1.UserGroup; }, function (userGroup) { return userGroup.user; }),
+        typeorm_1.OneToMany(function () { return UserGroup_1.UserGroup; }, function (userGroup) { return userGroup.user; }, { cascade: true }),
         __metadata("design:type", Array)
     ], User.prototype, "_userGroups", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Vote_1.Vote; }, function (vote) { return vote.user; }),
+        typeorm_1.OneToMany(function () { return Vote_1.Vote; }, function (vote) { return vote.user; }, { cascade: true }),
         __metadata("design:type", Array)
     ], User.prototype, "_votes", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return ShoppingList_1.ShoppingList; }, function (shoppingList) { return shoppingList.user; }),
+        typeorm_1.OneToMany(function () { return ShoppingList_1.ShoppingList; }, function (shoppingList) { return shoppingList.user; }, { cascade: true }),
         __metadata("design:type", Array)
     ], User.prototype, "_lists", void 0);
     User = __decorate([

@@ -11,8 +11,8 @@ import { Wish } from "../../food/dish/Wish";
 export class Vote {
     @PrimaryGeneratedColumn() private _id: number;
     @Column("int") private _vote: number;
-    @ManyToOne(() => User, user => user.votes) private _user: User;
-    @ManyToOne(() => Wish, wish => wish.votes) private _wish: Wish;
+    @ManyToOne(() => User, user => user.votes, {cascade: true}) private _user: User;
+    @ManyToOne(() => Wish, wish => wish.votes, {cascade: true}) private _wish: Wish;
 
     constructor(id: number, vote: number, user: User, wish: Wish) {
         this._id = id;

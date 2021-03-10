@@ -12,8 +12,8 @@ export class ShoppingList {
     @PrimaryColumn() private _id: string;
     @Column({type: "varchar", length: 100}) private _title: string;
     @Column("boolean") private _done: boolean;
-    @ManyToOne(() => User, user => user.lists) private _user: User;
-    @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.list) private _shoppingListIngredients: ShoppingListIngredient[];
+    @ManyToOne(() => User, user => user.lists, {cascade: true}) private _user: User;
+    @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.list, {cascade: true}) private _shoppingListIngredients: ShoppingListIngredient[];
 
     constructor(id: string, title: string, done: boolean, user: User, shoppingListIngredients: ShoppingListIngredient[]) {
         this._id = id;

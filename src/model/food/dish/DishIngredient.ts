@@ -10,8 +10,8 @@ import { Ingredient } from "../ingredients/Ingredient";
 @Entity()
 export class DishIngredient {
     @PrimaryGeneratedColumn() private _id: number;
-    @ManyToOne(() => Dish, dish => dish.dishIngredients) private _dish: Dish;
-    @ManyToOne(() => Ingredient, ingredient => ingredient.dishIngredients) private _ingredient: Ingredient;
+    @ManyToOne(() => Dish, dish => dish.dishIngredients, {cascade: true}) private _dish: Dish;
+    @ManyToOne(() => Ingredient, ingredient => ingredient.dishIngredients, {cascade: true}) private _ingredient: Ingredient;
     @Column("double") private _ammount: number;
     @Column({type: "varchar", length: 100}) private _unit: string;
 

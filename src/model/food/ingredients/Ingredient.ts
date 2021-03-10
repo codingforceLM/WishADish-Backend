@@ -12,9 +12,9 @@ import {ShoppingListIngredient} from "../../shoppinglist/ShoppingListIngredient"
 export class Ingredient {
     @PrimaryColumn() private _id: string;
     @Column({type: "varchar", length: 100}) private _title: string;
-    @ManyToOne(() => User, user => user.dishes) private _user: User;
-    @OneToMany(() => DishIngredient, dishIngredients => dishIngredients.ingredient) private _dishIngredients: DishIngredient[];
-    @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.ingredient) private _shoppingListIngredients: ShoppingListIngredient[];
+    @ManyToOne(() => User, user => user.dishes, {cascade: true}) private _user: User;
+    @OneToMany(() => DishIngredient, dishIngredients => dishIngredients.ingredient, {cascade: true}) private _dishIngredients: DishIngredient[];
+    @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.ingredient, {cascade: true}) private _shoppingListIngredients: ShoppingListIngredient[];
 
     constructor(id: string, title: string, user: User, dishIngredients: DishIngredient[], shoppingListIngredients: ShoppingListIngredient[]) {
         this._id = id;

@@ -84,11 +84,11 @@ var ShoppingListIngredient = /** @class */ (function () {
         __metadata("design:type", String)
     ], ShoppingListIngredient.prototype, "_unit", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return ShoppingList_1.ShoppingList; }, function (shoppingList) { return shoppingList.shoppingListIngredients; }),
+        typeorm_1.ManyToOne(function () { return ShoppingList_1.ShoppingList; }, function (shoppingList) { return shoppingList.shoppingListIngredients; }, { cascade: true }),
         __metadata("design:type", ShoppingList_1.ShoppingList)
     ], ShoppingListIngredient.prototype, "_list", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Ingredient_1.Ingredient; }, function (ingredient) { return ingredient.shoppingListIngredients; }),
+        typeorm_1.ManyToOne(function () { return Ingredient_1.Ingredient; }, function (ingredient) { return ingredient.shoppingListIngredients; }, { cascade: true }),
         __metadata("design:type", Ingredient_1.Ingredient)
     ], ShoppingListIngredient.prototype, "_ingredient", void 0);
     ShoppingListIngredient = __decorate([

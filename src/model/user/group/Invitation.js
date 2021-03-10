@@ -72,7 +72,7 @@ var Invitation = /** @class */ (function () {
         __metadata("design:type", String)
     ], Invitation.prototype, "_url", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Group_1.Group; }, function (group) { return group.invites; }),
+        typeorm_1.ManyToOne(function () { return Group_1.Group; }, function (group) { return group.invites; }, { cascade: true }),
         __metadata("design:type", Group_1.Group)
     ], Invitation.prototype, "_group", void 0);
     Invitation = __decorate([

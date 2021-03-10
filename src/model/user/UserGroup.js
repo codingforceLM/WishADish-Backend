@@ -84,11 +84,11 @@ var UserGroup = /** @class */ (function () {
         __metadata("design:type", String)
     ], UserGroup.prototype, "_role", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.userGroups; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.userGroups; }, { cascade: true }),
         __metadata("design:type", User_1.User)
     ], UserGroup.prototype, "_user", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Group_1.Group; }, function (group) { return group.userGroups; }),
+        typeorm_1.ManyToOne(function () { return Group_1.Group; }, function (group) { return group.userGroups; }, { cascade: true }),
         __metadata("design:type", Group_1.Group)
     ], UserGroup.prototype, "_group", void 0);
     UserGroup = __decorate([
