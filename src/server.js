@@ -72,19 +72,21 @@ ormconfig.entities = [
     Invitation_1.Invitation
 ];
 typeorm_1.createConnection(ormconfig).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var inv, userA, userB, userC, userD, userE, groupA, ugA, ugB, ugC, ugD, ugE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
+    var inv, lists, wishes, userA, userB, userC, userD, userE, groupA, ugA, ugB, ugC, ugD, ugE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log("Connection established!");
                 console.log("Creating example data!");
                 inv = [];
+                lists = [];
+                wishes = [];
                 userA = new User_1.User("8bdb8aed-e579-4b25-a16a-9cf219572ca7", "Thor", "Odinson", "thor@asgard.com", "2020-08-08", "tod", "https://static.wikia.nocookie.net/avengers/images/4/48/Thor_Gladiator.jpg/revision/latest/top-crop/width/360/height/360?cb=20171105082329&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
                 userB = new User_1.User("3cb7d028-5629-442c-bd17-24689115694c", "Loki", "Odinson", "loki@asgard.com", "2020-08-08", "lod", "https://static.wikia.nocookie.net/antagonisten/images/2/2d/The-avengers-loki.jpg/revision/latest?cb=20170506225328&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
                 userC = new User_1.User("40eca8dd-d3c4-47ae-9b95-8f57cb9d8185", "Heimdall", "Heimr", "heimdall@asgard.com", "2020-08-08", "hhe", "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
                 userD = new User_1.User("8c957413-2cb6-46af-8f47-816c6a183cd1", "Odin", "Wodan", "odin@asgard.com", "2020-08-08", "owo", "https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg", undefined, undefined, undefined, undefined, undefined);
                 userE = new User_1.User("3a2f5fdf-8b00-4b33-bd73-689a6544f027", "Freya", "Freia", "freya@asgard.com", "2020-08-08", "owo", "https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg", undefined, undefined, undefined, undefined, undefined);
-                groupA = new Group_1.Group("2985167a-f0dd-408c-a392-0b0a76b9b94d", "toeftebois", "2021-03-09", undefined, inv);
+                groupA = new Group_1.Group("2985167a-f0dd-408c-a392-0b0a76b9b94d", "toeftebois", "2021-03-09", undefined, inv, lists, wishes);
                 ugA = new UserGroup_1.UserGroup(1, "2020-08-09", "member", userA, groupA);
                 ugB = new UserGroup_1.UserGroup(2, "2020-08-09", "member", userB, groupA);
                 ugC = new UserGroup_1.UserGroup(3, "2020-08-09", "admin", userC, groupA);
@@ -156,7 +158,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                     dishB
                 ];
                 userE.dishes = [];
-                shoppingListA = new ShoppingList_1.ShoppingList("09f6ec3f-05e1-48a8-859a-d14d33506312", "PHA Einkaufsliste", false, userA, undefined);
+                shoppingListA = new ShoppingList_1.ShoppingList("09f6ec3f-05e1-48a8-859a-d14d33506312", "PHA Einkaufsliste", false, userA, undefined, groupA);
                 sliA = new ShoppingListIngredient_1.ShoppingListIngredient(1, shoppingListA, ingrdA, 200, "gramm");
                 sliB = new ShoppingListIngredient_1.ShoppingListIngredient(2, shoppingListA, ingrdB, 200, "gramm");
                 sliC = new ShoppingListIngredient_1.ShoppingListIngredient(3, shoppingListA, ingrdC, 1, "kilogramm");
@@ -183,8 +185,9 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userC.lists = [];
                 userD.lists = [];
                 userE.lists = [];
-                wishA = new Wish_1.Wish("58b3b01f-489a-44f3-9889-0e2445b23097", userA, dishA, undefined);
-                wishB = new Wish_1.Wish("7637b9c1-c4b1-447d-ad1c-5780ed75e261", userD, dishB, undefined);
+                groupA.lists = [shoppingListA];
+                wishA = new Wish_1.Wish("58b3b01f-489a-44f3-9889-0e2445b23097", "lucnh", userA, dishA, groupA, undefined);
+                wishB = new Wish_1.Wish("7637b9c1-c4b1-447d-ad1c-5780ed75e261", "morning", userD, dishB, groupA, undefined);
                 wvA = new Vote_1.Vote(1, 1, userA, wishA);
                 wvB = new Vote_1.Vote(2, 0, userB, wishA);
                 wvC = new Vote_1.Vote(3, 1, userC, wishB);

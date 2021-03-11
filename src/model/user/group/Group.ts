@@ -7,6 +7,7 @@ import {
 import { UserGroup } from "../UserGroup";
 import { Invitation } from "./Invitation";
 import {ShoppingList} from "../../shoppinglist/ShoppingList";
+import {Wish} from "../../food/dish/Wish";
 
 @Entity()
 export class Group {
@@ -22,14 +23,17 @@ export class Group {
     private _invites: Invitation[];
     @OneToMany(() => ShoppingList, shoppingList => shoppingList.group, {cascade: true})
     private _lists: ShoppingList[];
+    @OneToMany(() => Wish, wish => wish.group)
+    private _wishes: Wish[];
 
-    constructor(id: string, title: string, creation: string, userGroups: UserGroup[], invites: Invitation[], lists: ShoppingList[]) {
+    constructor(id: string, title: string, creation: string, userGroups: UserGroup[], invites: Invitation[], lists: ShoppingList[], wishes: Wish[]) {
         this._id = id;
         this._title = title;
         this._creation = creation;
         this._userGroups = userGroups;
         this._invites = invites;
         this._lists = lists;
+        this._wishes = wishes;
     }
 
     get id(): string {
@@ -78,5 +82,13 @@ export class Group {
 
     set lists(value: ShoppingList[]) {
         this._lists = value;
+    }
+
+    get wishes(): Wish[] {
+        return this._wishes;
+    }
+
+    set wishes(value: Wish[]) {
+        this._wishes = value;
     }
 }

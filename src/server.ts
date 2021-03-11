@@ -46,6 +46,8 @@ createConnection(
 
 	console.log("Creating example data!");
 	let inv: Array<Invitation> = [];
+	let lists: Array<ShoppingList> = [];
+	let wishes: Array<Wish> = [];
 
 	let userA = new User(
 		"8bdb8aed-e579-4b25-a16a-9cf219572ca7",
@@ -127,7 +129,9 @@ createConnection(
 		"toeftebois",
 		"2021-03-09",
 		undefined as unknown as UserGroup[],
-		inv
+		inv,
+		lists,
+		wishes
 	);
 
 	let ugA = new UserGroup(
@@ -386,7 +390,8 @@ createConnection(
 		"PHA Einkaufsliste",
 		false,
 		userA,
-		undefined as unknown as ShoppingListIngredient[]
+		undefined as unknown as ShoppingListIngredient[],
+		groupA
 	);
 
 	let sliA = new ShoppingListIngredient(
@@ -481,17 +486,23 @@ createConnection(
 	userD.lists = [];
 	userE.lists = [];
 
+	groupA.lists = [ shoppingListA ];
+
 	let wishA = new Wish(
 		"58b3b01f-489a-44f3-9889-0e2445b23097",
+		"lucnh",
 		userA,
 		dishA,
-		undefined as unknown as Vote[]
+		groupA,
+		undefined as unknown as Vote[],
 	);
 
 	let wishB = new Wish(
 		"7637b9c1-c4b1-447d-ad1c-5780ed75e261",
+		"morning",
 		userD,
 		dishB,
+		groupA,
 		undefined as unknown as Vote[]
 	);
 
