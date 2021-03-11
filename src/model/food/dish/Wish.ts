@@ -15,14 +15,17 @@ export class Wish {
     @PrimaryColumn() private _id: string;
     @Column({type: "varchar", length: 50})
     private _daytime: string;
+    @Column("date")
+    private _date: string;
     @ManyToOne(() => User, user => user.dishes, {cascade: true}) private _user: User;
     @ManyToOne(() => Dish, dish => dish.wishes, {cascade: true}) private _dish: Dish;
     @ManyToOne(() => Group, group => group.wishes, {cascade: true}) private _group: Group;
     @OneToMany(() => Vote, vote => vote.wish, {cascade: true}) private _votes: Vote[];
 
-    constructor(id: string, daytime: string, user: User, dish: Dish, group: Group, votes: Vote[]) {
+    constructor(id: string, daytime: string, date: string, user: User, dish: Dish, group: Group, votes: Vote[]) {
         this._id = id;
         this._daytime = daytime;
+        this._date = date;
         this._user = user;
         this._dish = dish;
         this._group = group;
@@ -73,5 +76,13 @@ export class Wish {
 
     set group(value: Group) {
         this._group = value;
+    }
+
+    get date(): string {
+        return this._date;
+    }
+
+    set date(value: string) {
+        this._date = value;
     }
 }

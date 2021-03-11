@@ -186,8 +186,8 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userD.lists = [];
                 userE.lists = [];
                 groupA.lists = [shoppingListA];
-                wishA = new Wish_1.Wish("58b3b01f-489a-44f3-9889-0e2445b23097", "lunch", userA, dishA, groupA, undefined);
-                wishB = new Wish_1.Wish("7637b9c1-c4b1-447d-ad1c-5780ed75e261", "morning", userD, dishB, groupA, undefined);
+                wishA = new Wish_1.Wish("58b3b01f-489a-44f3-9889-0e2445b23097", "lunch", "2021-03-11", userA, dishA, groupA, undefined);
+                wishB = new Wish_1.Wish("7637b9c1-c4b1-447d-ad1c-5780ed75e261", "morning", "2021-03-11", userD, dishB, groupA, undefined);
                 wvA = new Vote_1.Vote("e8fab827-b868-49ea-a92d-3a52caffa80f", 1, userA, wishA);
                 wvB = new Vote_1.Vote("81ccc911-be0a-4b3a-b19f-1bb0c93373c3", 0, userB, wishA);
                 wvC = new Vote_1.Vote("da4a64e0-2f7a-4db5-8f19-64c71f0d13ac", 1, userC, wishB);

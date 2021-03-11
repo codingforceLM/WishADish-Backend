@@ -491,6 +491,7 @@ createConnection(
 	let wishA = new Wish(
 		"58b3b01f-489a-44f3-9889-0e2445b23097",
 		"lunch",
+		"2021-03-11",
 		userA,
 		dishA,
 		groupA,
@@ -500,6 +501,7 @@ createConnection(
 	let wishB = new Wish(
 		"7637b9c1-c4b1-447d-ad1c-5780ed75e261",
 		"morning",
+		"2021-03-11",
 		userD,
 		dishB,
 		groupA,

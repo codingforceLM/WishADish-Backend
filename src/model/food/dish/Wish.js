@@ -16,9 +16,10 @@ var Dish_1 = require("./Dish");
 var Vote_1 = require("../../user/vote/Vote");
 var Group_1 = require("../../user/group/Group");
 var Wish = /** @class */ (function () {
-    function Wish(id, daytime, user, dish, group, votes) {
+    function Wish(id, daytime, date, user, dish, group, votes) {
         this._id = id;
         this._daytime = daytime;
+        this._date = date;
         this._user = user;
         this._dish = dish;
         this._group = group;
@@ -84,6 +85,16 @@ var Wish = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Wish.prototype, "date", {
+        get: function () {
+            return this._date;
+        },
+        set: function (value) {
+            this._date = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
@@ -92,6 +103,10 @@ var Wish = /** @class */ (function () {
         typeorm_1.Column({ type: "varchar", length: 50 }),
         __metadata("design:type", String)
     ], Wish.prototype, "_daytime", void 0);
+    __decorate([
+        typeorm_1.Column("date"),
+        __metadata("design:type", String)
+    ], Wish.prototype, "_date", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }, { cascade: true }),
         __metadata("design:type", User_1.User)
@@ -110,7 +125,7 @@ var Wish = /** @class */ (function () {
     ], Wish.prototype, "_votes", void 0);
     Wish = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [String, String, User_1.User, Dish_1.Dish, Group_1.Group, Array])
+        __metadata("design:paramtypes", [String, String, String, User_1.User, Dish_1.Dish, Group_1.Group, Array])
     ], Wish);
     return Wish;
 }());
