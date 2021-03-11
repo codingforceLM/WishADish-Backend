@@ -24,10 +24,7 @@ router.get("/:name",  async function(req, res) {
         "firstname": user.firstname,
         "lastname": user.lastname,
         "birthdate": user.birthday,
-        "email": user.email,
-        "arguments": {
-            "name": nick
-        }
+        "email": user.email
     }
 
     return res.status(200).json(json);
