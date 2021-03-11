@@ -64,7 +64,7 @@ router.get("/:name", function (req, res) {
 });
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var firstname, lastname, username, email, password, birthdate, user, e_1, json;
+        var firstname, lastname, username, email, password, birthday, fileurl, user, e_1, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -73,11 +73,15 @@ router.post("/", function (req, res) {
                     username = req.header("username");
                     email = req.header("email");
                     password = req.header("password");
-                    birthdate = req.header("birthdate");
-                    if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == undefined) {
+                    birthday = req.header("birthday");
+                    fileurl = req.header("fileurl");
+                    if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthday == undefined) {
                         return [2 /*return*/, res.status(400).json({ "error": "required field undefined" })];
                     }
-                    user = new User_1.User(uuidv4(), firstname, lastname, email, birthdate, username, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
+                    if (fileurl == undefined) {
+                        fileurl = "";
+                    }
+                    user = new User_1.User(uuidv4(), firstname, lastname, email, birthday, username, fileurl, undefined, undefined, undefined, undefined, undefined);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
