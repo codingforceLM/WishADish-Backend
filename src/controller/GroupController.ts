@@ -1,10 +1,13 @@
 import express from "express";
 import {getConnection} from "typeorm";
 import {UserGroup} from "../model/user/UserGroup";
+import {User} from "../model/user/User";
+import {Group} from "../model/user/group/Group";
+import {Invitation} from "../model/user/group/Invitation";
 
 
 const router = express.Router();
-
+const {v4: uuidv4} = require('uuid');
 router.get("/", async function (req, res) {
     const userId = req.header("userId");
     if (userId == undefined || userId == "") {
@@ -82,19 +85,47 @@ router.get("/:id", async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.post("/", function (req, res) {
+router.post("/", async function (req, res) {
     const name = req.header("name");
-    if (name == undefined || name == "") {
-        return res.status(404).json({"error": "ID unknown"})///aaaaahhhhhhhh no doc?
+    const userId = req.header("userId");
+    if (name == undefined || name == "" || userId == undefined || userId == "") {
+        return res.status(404).json({"error": "required field undefined"});
     }
 
+    let user;
+    try{
+        user = await getConnection().getRepository(User).findOne(
+            {
+                where:
+                    {_id: userId}
+            }) as User;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
+    }
+
+    if(user == undefined) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    let date: Date = new Date();
+    let group = new Group(
+        uuidv4(),
+        name,
+        date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay(),
+        undefined as unknown as UserGroup[],
+        undefined as unknown as Invitation[]
+    );
+    let userGroup = new UserGroup(uuidv4(),date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay(),"admin",user,group)
+    try{
+        await getConnection().getRepository(Group).manager.save(group);
+        await getConnection().getRepository(Group).manager.save(userGroup);
+    }catch (e){
+        console.log(e)
+        return res.status(400).json({"error": "Error at db access"});
+    }
     let json = {
-        "msg": "Group created",
-        "arguments": {
-            "name": name
-        }
-    }
-
+        "msg": "Group created"
+    };
     return res.status(200).json(json);
 });
 
