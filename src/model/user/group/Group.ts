@@ -6,6 +6,7 @@ import {
 } from "typeorm";
 import { UserGroup } from "../UserGroup";
 import { Invitation } from "./Invitation";
+import {ShoppingList} from "../../shoppinglist/ShoppingList";
 
 @Entity()
 export class Group {
@@ -19,13 +20,16 @@ export class Group {
     private _userGroups: UserGroup[];
     @OneToMany(() => Invitation, invitation => invitation.group, {cascade: true})
     private _invites: Invitation[];
+    @OneToMany(() => ShoppingList, shoppingList => shoppingList.group, {cascade: true})
+    private _lists: ShoppingList[];
 
-    constructor(id: string, title: string, creation: string, userGroups: UserGroup[], invites: Invitation[]) {
+    constructor(id: string, title: string, creation: string, userGroups: UserGroup[], invites: Invitation[], lists: ShoppingList[]) {
         this._id = id;
         this._title = title;
         this._creation = creation;
         this._userGroups = userGroups;
         this._invites = invites;
+        this._lists = lists;
     }
 
     get id(): string {
@@ -66,5 +70,13 @@ export class Group {
 
     set invites(value: Invitation[]) {
         this._invites = value;
+    }
+
+    get lists(): ShoppingList[] {
+        return this._lists;
+    }
+
+    set lists(value: ShoppingList[]) {
+        this._lists = value;
     }
 }
