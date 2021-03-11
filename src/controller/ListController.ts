@@ -3,6 +3,7 @@ import {ShoppingList} from "../model/shoppinglist/ShoppingList";
 import {ShoppingListIngredient} from "../model/shoppinglist/ShoppingListIngredient";
 import {getConnection} from "typeorm/index";
 import {User} from "../model/user/User";
+import {Group} from "../model/user/group/Group";
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();
 
@@ -72,21 +73,27 @@ router.post("/", async function (req, res) {
     }
 
     let user;
+    let group;
     try{
         user = await getConnection().getRepository(User).findOne(
             {
                 where:
                     {_id: userId}
             }) as User;
+        group = await getConnection().getRepository(Group).findOne(
+            {
+                where:
+                    {_id: groupId}
+            }) as Group;
     }catch(e) {
         console.log(e);
         return res.status(400).json({"error": "Unknown userId"});
     }
 
-    if(user == undefined) {
+    if(user == undefined || group == undefined ) {
         return res.status(400).json({"error": "Error at db access"});
     }
-    let list = new ShoppingList(uuidv4(),name,false,user,undefined as unknown as ShoppingListIngredient[])
+    let list = new ShoppingList(uuidv4(),name,false,user,undefined as unknown as ShoppingListIngredient[],group)
     try{
         await getConnection().getRepository(ShoppingList).manager.save(list)
     }catch (e){
