@@ -16,7 +16,7 @@ export class DishIngredient {
     @Column({type: "varchar", length: 100}) private _unit: string;
 
 
-    constructor(id: number, dish: Dish, ingredient: Ingredient, amount: number, unit: string) {
+    constructor(id: string, dish: Dish, ingredient: Ingredient, amount: number, unit: string) {
         this._id = id;
         this._dish = dish;
         this._ingredient = ingredient;
