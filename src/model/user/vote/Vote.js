@@ -61,8 +61,8 @@ var Vote = /** @class */ (function () {
         configurable: true
     });
     __decorate([
-        typeorm_1.PrimaryGeneratedColumn(),
-        __metadata("design:type", Number)
+        typeorm_1.PrimaryColumn(),
+        __metadata("design:type", String)
     ], Vote.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column("int"),
@@ -78,7 +78,7 @@ var Vote = /** @class */ (function () {
     ], Vote.prototype, "_wish", void 0);
     Vote = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [Number, Number, User_1.User, Wish_1.Wish])
+        __metadata("design:paramtypes", [String, Number, User_1.User, Wish_1.Wish])
     ], Vote);
     return Vote;
 }());
