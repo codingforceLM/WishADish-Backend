@@ -72,8 +72,8 @@ var UserGroup = /** @class */ (function () {
         configurable: true
     });
     __decorate([
-        typeorm_1.PrimaryGeneratedColumn(),
-        __metadata("design:type", Number)
+        typeorm_1.PrimaryColumn(),
+        __metadata("design:type", String)
     ], UserGroup.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column("date"),
@@ -93,7 +93,7 @@ var UserGroup = /** @class */ (function () {
     ], UserGroup.prototype, "_group", void 0);
     UserGroup = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [Number, String, String, User_1.User, Group_1.Group])
+        __metadata("design:paramtypes", [String, String, String, User_1.User, Group_1.Group])
     ], UserGroup);
     return UserGroup;
 }());

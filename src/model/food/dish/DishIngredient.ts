@@ -2,32 +2,33 @@ import {
     Entity,
     Column,
     PrimaryColumn,
-    ManyToOne, PrimaryGeneratedColumn
+    ManyToOne
 } from "typeorm";
 import { Dish } from "./Dish";
 import { Ingredient } from "../ingredients/Ingredient";
 
 @Entity()
 export class DishIngredient {
-    @PrimaryGeneratedColumn() private _id: number;
+    @PrimaryColumn() private _id: string;
     @ManyToOne(() => Dish, dish => dish.dishIngredients, {cascade: true}) private _dish: Dish;
     @ManyToOne(() => Ingredient, ingredient => ingredient.dishIngredients, {cascade: true}) private _ingredient: Ingredient;
-    @Column("double") private _ammount: number;
+    @Column("double") private _amount: number;
     @Column({type: "varchar", length: 100}) private _unit: string;
 
-    constructor(id: number, dish: Dish, ingredient: Ingredient, ammount: number, unit: string) {
+
+    constructor(id: string, dish: Dish, ingredient: Ingredient, amount: number, unit: string) {
         this._id = id;
         this._dish = dish;
         this._ingredient = ingredient;
-        this._ammount = ammount;
+        this._amount = amount;
         this._unit = unit;
     }
 
-    get id(): number {
+    get id(): string {
         return this._id;
     }
 
-    set id(value: number) {
+    set id(value: string) {
         this._id = value;
     }
 
@@ -47,12 +48,12 @@ export class DishIngredient {
         this._ingredient = value;
     }
 
-    get ammount(): number {
-        return this._ammount;
+    get amount(): number {
+        return this._amount;
     }
 
-    set ammount(value: number) {
-        this._ammount = value;
+    set amount(value: number) {
+        this._amount = value;
     }
 
     get unit(): string {
