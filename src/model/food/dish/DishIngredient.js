@@ -14,11 +14,11 @@ var typeorm_1 = require("typeorm");
 var Dish_1 = require("./Dish");
 var Ingredient_1 = require("../ingredients/Ingredient");
 var DishIngredient = /** @class */ (function () {
-    function DishIngredient(id, dish, ingredient, ammount, unit) {
+    function DishIngredient(id, dish, ingredient, amount, unit) {
         this._id = id;
         this._dish = dish;
         this._ingredient = ingredient;
-        this._ammount = ammount;
+        this._amount = amount;
         this._unit = unit;
     }
     Object.defineProperty(DishIngredient.prototype, "id", {
@@ -51,12 +51,12 @@ var DishIngredient = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DishIngredient.prototype, "ammount", {
+    Object.defineProperty(DishIngredient.prototype, "amount", {
         get: function () {
-            return this._ammount;
+            return this._amount;
         },
         set: function (value) {
-            this._ammount = value;
+            this._amount = value;
         },
         enumerable: false,
         configurable: true
@@ -86,7 +86,7 @@ var DishIngredient = /** @class */ (function () {
     __decorate([
         typeorm_1.Column("double"),
         __metadata("design:type", Number)
-    ], DishIngredient.prototype, "_ammount", void 0);
+    ], DishIngredient.prototype, "_amount", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 100 }),
         __metadata("design:type", String)

@@ -70,7 +70,7 @@ router.get("/", function (req, res) {
                     console.log(e_1);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 4:
-                    if (dishes == undefined) {
+                    if (dishes == undefined || dishes == []) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
                     json = [];
@@ -125,7 +125,7 @@ router.get("/:id", function (req, res) {
                         json.ingredients.push({
                             "id": ingredient.id,
                             "name": ingredient.title,
-                            "ammount": dishes[i].ammount,
+                            "amount": dishes[i].amount,
                             "unit": dishes[i].unit
                         });
                     }

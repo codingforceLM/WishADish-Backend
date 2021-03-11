@@ -21,7 +21,7 @@ router.get("/", async function(req, res) {
         console.log(e);
         return res.status(400).json({"error": "Unknown userId"});
     }
-    if(dishes == undefined) {
+    if(dishes == undefined || dishes == []) {
         return res.status(400).json({"error": "Error at db access"});
     }
 
@@ -72,7 +72,7 @@ router.get("/:id", async function(req, res) {
         json.ingredients.push({
             "id": ingredient.id,
             "name": ingredient.title,
-            "ammount": dishes[i].ammount,
+            "amount": dishes[i].amount,
             "unit": dishes[i].unit
         });
     }
