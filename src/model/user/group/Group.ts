@@ -15,7 +15,7 @@ export class Group {
     private _id: string;
     @Column({type: "varchar", length: 100})
     private _title: string;
-    @Column("date")
+    @Column({type: "date"})
     private _creation: string;
     @OneToMany(() => UserGroup, userGroup => userGroup.group, {cascade: true})
     private _userGroups: UserGroup[];
@@ -23,7 +23,7 @@ export class Group {
     private _invites: Invitation[];
     @OneToMany(() => ShoppingList, shoppingList => shoppingList.group, {cascade: true})
     private _lists: ShoppingList[];
-    @OneToMany(() => Wish, wish => wish.group)
+    @OneToMany(() => Wish, wish => wish.group, {cascade: true})
     private _wishes: Wish[];
 
     constructor(id: string, title: string, creation: string, userGroups: UserGroup[], invites: Invitation[], lists: ShoppingList[], wishes: Wish[]) {

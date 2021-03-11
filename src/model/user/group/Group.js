@@ -104,7 +104,7 @@ var Group = /** @class */ (function () {
         __metadata("design:type", String)
     ], Group.prototype, "_title", void 0);
     __decorate([
-        typeorm_1.Column("date"),
+        typeorm_1.Column({ type: "date" }),
         __metadata("design:type", String)
     ], Group.prototype, "_creation", void 0);
     __decorate([
@@ -120,7 +120,7 @@ var Group = /** @class */ (function () {
         __metadata("design:type", Array)
     ], Group.prototype, "_lists", void 0);
     __decorate([
-        typeorm_1.OneToMany(function () { return Wish_1.Wish; }, function (wish) { return wish.group; }),
+        typeorm_1.OneToMany(function () { return Wish_1.Wish; }, function (wish) { return wish.group; }, { cascade: true }),
         __metadata("design:type", Array)
     ], Group.prototype, "_wishes", void 0);
     Group = __decorate([

@@ -135,7 +135,7 @@ createConnection(
 	);
 
 	let ugA = new UserGroup(
-		1,
+		"0530c310-ddc9-4c25-a262-000a43c7e018",
 		"2020-08-09",
 		"member",
 		userA,
@@ -143,7 +143,7 @@ createConnection(
 	);
 
 	let ugB = new UserGroup(
-		2,
+		"dbf36590-8163-4dd6-802b-90aafde431a8",
 		"2020-08-09",
 		"member",
 		userB,
@@ -151,7 +151,7 @@ createConnection(
 	);
 
 	let ugC = new UserGroup(
-		3,
+		"5555da1b-271d-4430-9fa5-c34eb658db73",
 		"2020-08-09",
 		"admin",
 		userC,
@@ -159,7 +159,7 @@ createConnection(
 	);
 
 	let ugD = new UserGroup(
-		4,
+		"b375702a-716d-47d4-a4d6-7e9ba71b21ba",
 		"2020-08-09",
 		"member",
 		userD,
@@ -167,7 +167,7 @@ createConnection(
 	);
 
 	let ugE = new UserGroup(
-		5,
+		"4a253a74-fcfe-4303-8b23-e992435ec061",
 		"2020-08-09",
 		"admin",
 		userE,
@@ -277,7 +277,7 @@ createConnection(
 	);
 
 	let diA = new DishIngredient(
-		1,
+		"94b9afa3-3c03-4e2a-944f-17f2d30c7191",
 		dishA,
 		ingrdA,
 		200,
@@ -285,7 +285,7 @@ createConnection(
 	);
 
 	let diB = new DishIngredient(
-		2,
+		"56115f58-0cee-4298-91d2-fbc049fe4e0c",
 		dishA,
 		ingrdB,
 		200,
@@ -293,7 +293,7 @@ createConnection(
 	);
 
 	let diC = new DishIngredient(
-		3,
+		"5ec73635-988b-4681-a54c-02c2fa76ca76",
 		dishA,
 		ingrdC,
 		1,
@@ -301,7 +301,7 @@ createConnection(
 	);
 
 	let diD = new DishIngredient(
-		4,
+		"3de8cd5d-db83-426b-94a9-42a14951897c",
 		dishA,
 		ingrdD,
 		400,
@@ -309,7 +309,7 @@ createConnection(
 	);
 
 	let diE = new DishIngredient(
-		5,
+		"cbd6ceb1-393f-448e-9250-52033f589ea0",
 		dishA,
 		ingrdE,
 		200,
@@ -317,7 +317,7 @@ createConnection(
 	);
 
 	let diF = new DishIngredient(
-		6,
+		"3fbd04f1-92d5-447a-b0bf-348a73082625",
 		dishA,
 		ingrdF,
 		250,
@@ -325,7 +325,7 @@ createConnection(
 	);
 
 	let diG = new DishIngredient(
-		7,
+		"80040453-7de4-490b-a457-04b99ef52cab",
 		dishB,
 		ingrdG,
 		1,
@@ -333,7 +333,7 @@ createConnection(
 	);
 
 	let diH = new DishIngredient(
-		8,
+		"6c78a45d-d98b-421e-9eef-2c3968afa2c7",
 		dishB,
 		ingrdH,
 		500,
@@ -341,7 +341,7 @@ createConnection(
 	);
 
 	let diI = new DishIngredient(
-		9,
+		"5a360d49-141d-438c-b86b-6f43d518ef2b",
 		dishB,
 		ingrdI,
 		50,
@@ -395,7 +395,7 @@ createConnection(
 	);
 
 	let sliA = new ShoppingListIngredient(
-		1,
+		"06694575-07dc-45bf-9b3b-0ae5d8544a5a",
 		shoppingListA,
 		ingrdA,
 		200,
@@ -403,7 +403,7 @@ createConnection(
 	);
 
 	let sliB = new ShoppingListIngredient(
-		2,
+		"2bc81935-ed05-47e6-8903-576ca14bf7c2",
 		shoppingListA,
 		ingrdB,
 		200,
@@ -411,7 +411,7 @@ createConnection(
 	);
 
 	let sliC = new ShoppingListIngredient(
-		3,
+		"206adbc3-a473-49f0-aaf3-4640d7d4e556",
 		shoppingListA,
 		ingrdC,
 		1,
@@ -419,7 +419,7 @@ createConnection(
 	);
 
 	let sliD = new ShoppingListIngredient(
-		4,
+		"5d4451c1-55cd-4479-a5ea-667556e1fa06",
 		shoppingListA,
 		ingrdD,
 		400,
@@ -427,7 +427,7 @@ createConnection(
 	);
 
 	let sliE = new ShoppingListIngredient(
-		5,
+		"5d4451c1-55cd-4479-a5ea-667556e1fa06",
 		shoppingListA,
 		ingrdE,
 		200,
@@ -435,7 +435,7 @@ createConnection(
 	);
 
 	let sliF = new ShoppingListIngredient(
-		6,
+		"a8405910-27b9-447f-8c6a-13865ca8cfb8",
 		shoppingListA,
 		ingrdF,
 		250,
@@ -443,7 +443,7 @@ createConnection(
 	);
 
 	let sliG = new ShoppingListIngredient(
-		7,
+		"f36f3186-f64e-4607-8bce-0f257fe67621",
 		shoppingListA,
 		ingrdG,
 		1,
@@ -451,7 +451,7 @@ createConnection(
 	);
 
 	let sliH = new ShoppingListIngredient(
-		8,
+		"3e7f463d-8b1a-44f2-aeaf-93c79ffd3af3",
 		shoppingListA,
 		ingrdH,
 		500,
@@ -459,7 +459,7 @@ createConnection(
 	);
 
 	let sliI = new ShoppingListIngredient(
-		9,
+		"1d66a872-7fc0-4e32-8149-33bb47c4d98b",
 		shoppingListA,
 		ingrdI,
 		50,
@@ -490,7 +490,7 @@ createConnection(
 
 	let wishA = new Wish(
 		"58b3b01f-489a-44f3-9889-0e2445b23097",
-		"lucnh",
+		"lunch",
 		userA,
 		dishA,
 		groupA,
@@ -507,35 +507,35 @@ createConnection(
 	);
 
 	let wvA = new Vote(
-		1,
+		"e8fab827-b868-49ea-a92d-3a52caffa80f",
 		1,
 		userA,
 		wishA
 	);
 
 	let wvB = new Vote(
-		2,
+		"81ccc911-be0a-4b3a-b19f-1bb0c93373c3",
 		0,
 		userB,
 		wishA
 	);
 
 	let wvC = new Vote(
-		3,
+		"da4a64e0-2f7a-4db5-8f19-64c71f0d13ac",
 		1,
 		userC,
 		wishB
 	);
 
 	let wvD = new Vote(
-		4,
+		"43f8a6ff-e108-41cc-a509-a854b53ef118",
 		1,
 		userD,
 		wishB
 	);
 
 	let wvE = new Vote(
-		5,
+		"f479ec09-34fd-4814-817d-f610a2caa706",
 		0,
 		userE,
 		wishB
