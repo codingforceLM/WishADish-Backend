@@ -40,36 +40,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var typeorm_1 = require("typeorm");
 var index_1 = require("typeorm/index");
 var Ingredient_1 = require("../model/food/ingredients/Ingredient");
 var User_1 = require("../model/user/User");
 var router = express_1.default.Router();
 var uuidv4 = require('uuid').v4;
 router.get("/", function (req, res) {
-    var userId = req.header("userId");
-    if (userId == undefined || userId == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    var json = [{
-            "arguments": {
-                "userId": userId
+    return __awaiter(this, void 0, void 0, function () {
+        var userId, user, e_1, json, i;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userId = req.header("userId");
+                    if (userId == undefined || userId == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    user = undefined;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Ingredient_1.Ingredient).find({ where: { _user: userId } })];
+                case 2:
+                    user = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (user == undefined || user == []) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    json = [];
+                    for (i = 0; i < user.length; i++) {
+                        json.push({
+                            "id": user[i].id,
+                            "name": user[i].title
+                        });
+                    }
+                    return [2 /*return*/, res.status(200).json(json)];
             }
-        },
-        {
-            "id": "80c3c252-b290-4736-b3a9-cc633459f6c9",
-            "name": "Curry"
-        },
-        {
-            "id": "b9746a95-70d8-46c4-b72a-0dc2191a69d9",
-            "name": "Knoblauch"
-        },
-        {
-            "id": "1c27f32f-f2b5-47ce-9b96-eb0442d12b27",
-            "name": "Salz"
-        }
-    ];
-    return res.status(200).json(json);
+        });
+    });
 });
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
