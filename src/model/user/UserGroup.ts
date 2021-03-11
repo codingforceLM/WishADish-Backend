@@ -2,15 +2,15 @@ import {
     Entity,
     Column,
     PrimaryColumn,
-    ManyToOne, PrimaryGeneratedColumn
+    ManyToOne
 } from "typeorm";
 import { User } from "./User";
 import { Group } from "./group/Group";
 
 @Entity()
 export class UserGroup {
-    @PrimaryGeneratedColumn()
-    private _id: number;
+    @PrimaryColumn()
+    private _id: string;
     @Column("date")
     private _entrydate: string;
     @Column({type:"varchar", length: 100})
@@ -20,7 +20,7 @@ export class UserGroup {
     @ManyToOne(() => Group, group => group.userGroups, {cascade: true})
     private _group: Group;
 
-    constructor(id: number, entrydate: string, role: string, user: User, group: Group) {
+    constructor(id: string, entrydate: string, role: string, user: User, group: Group) {
         this._id = id;
         this._entrydate = entrydate;
         this._role = role;
@@ -28,11 +28,11 @@ export class UserGroup {
         this._group = group;
     }
 
-    get id(): number {
+    get id(): string {
         return this._id;
     }
 
-    set id(value: number) {
+    set id(value: string) {
         this._id = value;
     }
 

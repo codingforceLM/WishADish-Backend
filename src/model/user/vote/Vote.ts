@@ -2,30 +2,30 @@ import {
     Entity,
     Column,
     ManyToOne,
-    PrimaryGeneratedColumn
+    PrimaryColumn
 } from "typeorm";
 import { User } from "../../user/User";
 import { Wish } from "../../food/dish/Wish";
 
 @Entity()
 export class Vote {
-    @PrimaryGeneratedColumn() private _id: number;
+    @PrimaryColumn() private _id: string;
     @Column("int") private _vote: number;
     @ManyToOne(() => User, user => user.votes, {cascade: true}) private _user: User;
     @ManyToOne(() => Wish, wish => wish.votes, {cascade: true}) private _wish: Wish;
 
-    constructor(id: number, vote: number, user: User, wish: Wish) {
+    constructor(id: string, vote: number, user: User, wish: Wish) {
         this._id = id;
         this._vote = vote;
         this._user = user;
         this._wish = wish;
     }
 
-    get id(): number {
+    get id(): string {
         return this._id;
     }
 
-    set id(value: number) {
+    set id(value: string) {
         this._id = value;
     }
 

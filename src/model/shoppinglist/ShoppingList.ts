@@ -6,6 +6,7 @@ import {
 } from "typeorm";
 import { User } from "../user/User";
 import { ShoppingListIngredient } from "./ShoppingListIngredient";
+import {Group} from "../user/group/Group";
 
 @Entity()
 export class ShoppingList {
@@ -13,14 +14,16 @@ export class ShoppingList {
     @Column({type: "varchar", length: 100}) private _title: string;
     @Column("boolean") private _done: boolean;
     @ManyToOne(() => User, user => user.lists, {cascade: true}) private _user: User;
+    @ManyToOne(() => Group, group => group.lists, { cascade: true }) private _group: Group;
     @OneToMany(() => ShoppingListIngredient, shoppingListIngredient => shoppingListIngredient.list, {cascade: true}) private _shoppingListIngredients: ShoppingListIngredient[];
 
-    constructor(id: string, title: string, done: boolean, user: User, shoppingListIngredients: ShoppingListIngredient[]) {
+    constructor(id: string, title: string, done: boolean, user: User, shoppingListIngredients: ShoppingListIngredient[], group: Group) {
         this._id = id;
         this._title = title;
         this._done = done;
         this._user = user;
         this._shoppingListIngredients = shoppingListIngredients;
+        this._group = group;
     }
 
     get id(): string {
@@ -63,4 +66,11 @@ export class ShoppingList {
         this._shoppingListIngredients = value;
     }
 
+    get group(): Group {
+        return this._group;
+    }
+
+    set group(value: Group) {
+        this._group = value;
+    }
 }

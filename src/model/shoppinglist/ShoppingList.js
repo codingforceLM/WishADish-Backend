@@ -13,13 +13,15 @@ exports.ShoppingList = void 0;
 var typeorm_1 = require("typeorm");
 var User_1 = require("../user/User");
 var ShoppingListIngredient_1 = require("./ShoppingListIngredient");
+var Group_1 = require("../user/group/Group");
 var ShoppingList = /** @class */ (function () {
-    function ShoppingList(id, title, done, user, shoppingListIngredients) {
+    function ShoppingList(id, title, done, user, shoppingListIngredients, group) {
         this._id = id;
         this._title = title;
         this._done = done;
         this._user = user;
         this._shoppingListIngredients = shoppingListIngredients;
+        this._group = group;
     }
     Object.defineProperty(ShoppingList.prototype, "id", {
         get: function () {
@@ -71,6 +73,16 @@ var ShoppingList = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(ShoppingList.prototype, "group", {
+        get: function () {
+            return this._group;
+        },
+        set: function (value) {
+            this._group = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
@@ -88,12 +100,16 @@ var ShoppingList = /** @class */ (function () {
         __metadata("design:type", User_1.User)
     ], ShoppingList.prototype, "_user", void 0);
     __decorate([
+        typeorm_1.ManyToOne(function () { return Group_1.Group; }, function (group) { return group.lists; }, { cascade: true }),
+        __metadata("design:type", Group_1.Group)
+    ], ShoppingList.prototype, "_group", void 0);
+    __decorate([
         typeorm_1.OneToMany(function () { return ShoppingListIngredient_1.ShoppingListIngredient; }, function (shoppingListIngredient) { return shoppingListIngredient.list; }, { cascade: true }),
         __metadata("design:type", Array)
     ], ShoppingList.prototype, "_shoppingListIngredients", void 0);
     ShoppingList = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [String, String, Boolean, User_1.User, Array])
+        __metadata("design:paramtypes", [String, String, Boolean, User_1.User, Array, Group_1.Group])
     ], ShoppingList);
     return ShoppingList;
 }());
