@@ -419,7 +419,7 @@ createConnection(
 	);
 
 	let sliD = new ShoppingListIngredient(
-		"5d4451c1-55cd-4479-a5ea-667556e1fa06",
+		" b5328bc3-54bb-4f4a-9b86-12086f532879",
 		shoppingListA,
 		ingrdD,
 		400,
@@ -555,7 +555,7 @@ createConnection(
 	userE.votes = [ wvA ];
 
 	// TODO persist objects
-	await connection.manager.save(userA);
+	await connection.manager.save(userE);
 	console.log("Created sample data!");
 }).catch(error => console.log(error));
 

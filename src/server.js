@@ -162,7 +162,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 sliA = new ShoppingListIngredient_1.ShoppingListIngredient("06694575-07dc-45bf-9b3b-0ae5d8544a5a", shoppingListA, ingrdA, 200, "gramm");
                 sliB = new ShoppingListIngredient_1.ShoppingListIngredient("2bc81935-ed05-47e6-8903-576ca14bf7c2", shoppingListA, ingrdB, 200, "gramm");
                 sliC = new ShoppingListIngredient_1.ShoppingListIngredient("206adbc3-a473-49f0-aaf3-4640d7d4e556", shoppingListA, ingrdC, 1, "kilogramm");
-                sliD = new ShoppingListIngredient_1.ShoppingListIngredient("5d4451c1-55cd-4479-a5ea-667556e1fa06", shoppingListA, ingrdD, 400, "gramm");
+                sliD = new ShoppingListIngredient_1.ShoppingListIngredient(" b5328bc3-54bb-4f4a-9b86-12086f532879", shoppingListA, ingrdD, 400, "gramm");
                 sliE = new ShoppingListIngredient_1.ShoppingListIngredient("5d4451c1-55cd-4479-a5ea-667556e1fa06", shoppingListA, ingrdE, 200, "gramm");
                 sliF = new ShoppingListIngredient_1.ShoppingListIngredient("a8405910-27b9-447f-8c6a-13865ca8cfb8", shoppingListA, ingrdF, 250, "gramm");
                 sliG = new ShoppingListIngredient_1.ShoppingListIngredient("f36f3186-f64e-4607-8bce-0f257fe67621", shoppingListA, ingrdG, 1, "kilogramm");
@@ -205,7 +205,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userD.votes = [wvA];
                 userE.votes = [wvA];
                 // TODO persist objects
-                return [4 /*yield*/, connection.manager.save(userA)];
+                return [4 /*yield*/, connection.manager.save(userE)];
             case 1:
                 // TODO persist objects
                 _a.sent();
