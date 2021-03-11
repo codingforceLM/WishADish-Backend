@@ -2,20 +2,20 @@ import {
     Entity,
     Column,
     PrimaryColumn,
-    ManyToOne, PrimaryGeneratedColumn
+    ManyToOne
 } from "typeorm";
 import { Dish } from "./Dish";
 import { Ingredient } from "../ingredients/Ingredient";
 
 @Entity()
 export class DishIngredient {
-    @PrimaryGeneratedColumn() private _id: number;
+    @PrimaryColumn() private _id: string;
     @ManyToOne(() => Dish, dish => dish.dishIngredients, {cascade: true}) private _dish: Dish;
     @ManyToOne(() => Ingredient, ingredient => ingredient.dishIngredients, {cascade: true}) private _ingredient: Ingredient;
     @Column("double") private _ammount: number;
     @Column({type: "varchar", length: 100}) private _unit: string;
 
-    constructor(id: number, dish: Dish, ingredient: Ingredient, ammount: number, unit: string) {
+    constructor(id: string, dish: Dish, ingredient: Ingredient, ammount: number, unit: string) {
         this._id = id;
         this._dish = dish;
         this._ingredient = ingredient;
@@ -23,11 +23,11 @@ export class DishIngredient {
         this._unit = unit;
     }
 
-    get id(): number {
+    get id(): string {
         return this._id;
     }
 
-    set id(value: number) {
+    set id(value: string) {
         this._id = value;
     }
 

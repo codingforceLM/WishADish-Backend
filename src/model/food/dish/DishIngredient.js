@@ -72,8 +72,8 @@ var DishIngredient = /** @class */ (function () {
         configurable: true
     });
     __decorate([
-        typeorm_1.PrimaryGeneratedColumn(),
-        __metadata("design:type", Number)
+        typeorm_1.PrimaryColumn(),
+        __metadata("design:type", String)
     ], DishIngredient.prototype, "_id", void 0);
     __decorate([
         typeorm_1.ManyToOne(function () { return Dish_1.Dish; }, function (dish) { return dish.dishIngredients; }, { cascade: true }),
@@ -93,7 +93,7 @@ var DishIngredient = /** @class */ (function () {
     ], DishIngredient.prototype, "_unit", void 0);
     DishIngredient = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [Number, Dish_1.Dish, Ingredient_1.Ingredient, Number, String])
+        __metadata("design:paramtypes", [String, Dish_1.Dish, Ingredient_1.Ingredient, Number, String])
     ], DishIngredient);
     return DishIngredient;
 }());
