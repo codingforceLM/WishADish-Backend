@@ -48,16 +48,17 @@ var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var wishId, userId, vote, user, wish, e_1, voteObj, e_2, json;
+        var wishId, userId, votepam, vote, user, wish, e_1, voteObj, e_2, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     wishId = req.header("wishId");
                     userId = req.header("userId");
-                    vote = Number(req.header("vote"));
-                    if (wishId == undefined || wishId == "" || userId == undefined || userId == "") {
+                    votepam = req.header("vote");
+                    if (wishId == undefined || wishId == "" || userId == undefined || userId == "" || votepam == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
                     }
+                    vote = Number(votepam);
                     if (vote != 0 && vote != 1) {
                         return [2 /*return*/, res.status(404).json({ "error": "vote unknown" })];
                     }

@@ -9,10 +9,12 @@ const router = express.Router();
 router.post("/", async function (req, res) {
     const wishId = req.header("wishId");
     const userId = req.header("userId");
-    const vote = Number(req.header("vote"));
-    if (wishId == undefined || wishId == "" || userId == undefined || userId == "") {
+    const votepam = req.header("vote");
+    if (wishId == undefined || wishId == "" || userId == undefined || userId == "" || votepam == "") {
         return res.status(404).json({"error": "required field undefined"});
     }
+
+    const vote = Number(votepam);
     if(vote != 0 && vote != 1){
         return res.status(404).json({"error": "vote unknown"});
     }
