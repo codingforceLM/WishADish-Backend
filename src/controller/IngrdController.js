@@ -41,8 +41,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var typeorm_1 = require("typeorm");
+var index_1 = require("typeorm/index");
 var Ingredient_1 = require("../model/food/ingredients/Ingredient");
+var User_1 = require("../model/user/User");
 var router = express_1.default.Router();
+var uuidv4 = require('uuid').v4;
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userId, user, e_1, json, i;
@@ -82,18 +85,53 @@ router.get("/", function (req, res) {
     });
 });
 router.post("/", function (req, res) {
-    var name = req.header("name");
-    if (name == undefined || name == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    var json = {
-        "msg": "Ingredient created",
-        "arguments": {
-            "name": name
-        }
-    };
-    return res.status(200).json(json);
+    return __awaiter(this, void 0, void 0, function () {
+        var name, userId, user, e_1, ingrd, e_2, json;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    name = req.header("name");
+                    userId = req.header("userId");
+                    if (name == undefined || name == "" || userId == undefined || userId == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({
+                            where: { _id: userId }
+                        })];
+                case 2:
+                    user = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (user == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    ingrd = new Ingredient_1.Ingredient(uuidv4(), name, user, undefined, undefined);
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Ingredient_1.Ingredient).manager.save(ingrd)];
+                case 6:
+                    _a.sent();
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_2 = _a.sent();
+                    console.log(e_2);
+                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                case 8:
+                    json = {
+                        "msg": "Ingredient created"
+                    };
+                    return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
 });
 router.put("/", function (req, res) {
     var id = req.header("id");

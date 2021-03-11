@@ -72,8 +72,8 @@ var ShoppingListIngredient = /** @class */ (function () {
         configurable: true
     });
     __decorate([
-        typeorm_1.PrimaryGeneratedColumn(),
-        __metadata("design:type", Number)
+        typeorm_1.PrimaryColumn(),
+        __metadata("design:type", String)
     ], ShoppingListIngredient.prototype, "_id", void 0);
     __decorate([
         typeorm_1.Column("double"),
@@ -93,7 +93,7 @@ var ShoppingListIngredient = /** @class */ (function () {
     ], ShoppingListIngredient.prototype, "_ingredient", void 0);
     ShoppingListIngredient = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [Number, ShoppingList_1.ShoppingList, Ingredient_1.Ingredient, Number, String])
+        __metadata("design:paramtypes", [String, ShoppingList_1.ShoppingList, Ingredient_1.Ingredient, Number, String])
     ], ShoppingListIngredient);
     return ShoppingListIngredient;
 }());
