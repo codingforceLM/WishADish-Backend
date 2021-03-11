@@ -58,7 +58,7 @@ router.get("/:id", async function (req, res) {
         return res.status(400).json({"error": "Unknown userId"});
     }
 
-    if(results == undefined || results == []) {
+    if(results == undefined || results == [] || results.length == 0) {
         return res.status(400).json({"error": "Error at db access"});
     }
 
