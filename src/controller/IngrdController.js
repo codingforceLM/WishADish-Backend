@@ -66,7 +66,7 @@ router.get("/", function (req, res) {
                     console.log(e_1);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 4:
-                    if (user == undefined) {
+                    if (user == undefined || user == []) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
                     json = [];
