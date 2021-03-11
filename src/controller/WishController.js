@@ -47,7 +47,7 @@ var typeorm_1 = require("typeorm");
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var userId, day, month, results_wish, results_vote, json, date, e_1, i, e_2, vote_positiv, vote_negativ, i_1, e_3, i, e_4, vote_positiv, vote_negativ, i_2, e_5, i, e_6, vote_positiv, vote_negativ, i_3;
+        var userId, day, month, results_wish, results_vote, json, date, e_1, i, e_2, vote_positiv, vote_negativ, i_1, e_3, i, e_4, vote_positiv, vote_negativ, i_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -59,6 +59,8 @@ router.get("/", function (req, res) {
                     }
                     json = [];
                     date = new Date();
+                    console.log("day   " + day + ";");
+                    console.log("month " + month + ";");
                     if (!(day != undefined && day != "")) return [3 /*break*/, 11];
                     if (month == undefined || month == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "month undefined" })];
@@ -68,7 +70,9 @@ router.get("/", function (req, res) {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, index_1.getConnection().getRepository(Wish_1.Wish).find({
                             relations: ['_user', '_dish', '_group'],
-                            where: { _user: userId, _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-" + day) }
+                            where: 
+                            // month march or 3 needs to be 03
+                            { _user: userId, _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-" + day) }
                         })];
                 case 2:
                     results_wish = (_a.sent());
@@ -125,7 +129,7 @@ router.get("/", function (req, res) {
                     i++;
                     return [3 /*break*/, 5];
                 case 11:
-                    if (!(month != undefined && month != "")) return [3 /*break*/, 23];
+                    if (!(month != undefined && month != "")) return [3 /*break*/, 22];
                     _a.label = 12;
                 case 12:
                     _a.trys.push([12, 14, , 15]);
@@ -187,68 +191,7 @@ router.get("/", function (req, res) {
                 case 21:
                     i++;
                     return [3 /*break*/, 16];
-                case 22: return [3 /*break*/, 33];
-                case 23:
-                    _a.trys.push([23, 25, , 26]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Wish_1.Wish).find({
-                            relations: ['_user', '_dish', '_group'],
-                            where: { _user: userId }
-                        })];
-                case 24:
-                    results_wish = (_a.sent());
-                    return [3 /*break*/, 26];
-                case 25:
-                    e_5 = _a.sent();
-                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
-                case 26:
-                    if (results_wish == undefined || results_wish == []) {
-                        console.log("e");
-                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
-                    }
-                    i = 0;
-                    _a.label = 27;
-                case 27:
-                    if (!(i < results_wish.length)) return [3 /*break*/, 33];
-                    _a.label = 28;
-                case 28:
-                    _a.trys.push([28, 30, , 31]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Vote_1.Vote).find({
-                            relations: ['_wish'],
-                            where: { _wish: results_wish[i].id }
-                        })];
-                case 29:
-                    results_vote = (_a.sent());
-                    return [3 /*break*/, 31];
-                case 30:
-                    e_6 = _a.sent();
-                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
-                case 31:
-                    if (results_vote == undefined || results_vote == []) {
-                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access1" })];
-                    }
-                    vote_positiv = 0;
-                    vote_negativ = 0;
-                    for (i_3 = 0; i_3 < results_vote.length; i_3++) {
-                        if (results_vote[i_3].vote == 0) {
-                            vote_negativ++;
-                        }
-                        else {
-                            vote_positiv++;
-                        }
-                    }
-                    json.push({
-                        "id": results_wish[i].id,
-                        "name": results_wish[i].dish.title,
-                        "groupname": results_wish[i].group.title,
-                        "day": results_wish[i].date,
-                        "daytime": results_wish[i].daytime,
-                        "votes": { "positive": vote_positiv, "negative": vote_negativ }
-                    });
-                    _a.label = 32;
-                case 32:
-                    i++;
-                    return [3 /*break*/, 27];
-                case 33: return [2 /*return*/, res.status(200).json(json)];
+                case 22: return [2 /*return*/, res.status(200).json(json)];
             }
         });
     });

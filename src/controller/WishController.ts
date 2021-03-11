@@ -17,6 +17,8 @@ router.get("/", async function (req, res) {
     let results_vote;
     let json = [];
     let date = new Date()
+    console.log("day   "+day+";");
+    console.log("month "+month+";");
     if (day != undefined && day != "") {
         if (month == undefined || month == "") {
             return res.status(404).json({"error": "month undefined"})
@@ -26,6 +28,7 @@ router.get("/", async function (req, res) {
                 {
                     relations: ['_user', '_dish','_group'],
                     where:
+                        // month march or 3 needs to be 03
                         {_user: userId, _date: Like(date.getFullYear() + "-" + month + "-"+day)}
                 }) as Wish[];
         } catch (e) {
@@ -121,58 +124,7 @@ router.get("/", async function (req, res) {
                 "votes": {"positive": vote_positiv, "negative": vote_negativ}
             })
         }
-    }else{
-        try {
-            results_wish = await getConnection().getRepository(Wish).find(
-                {
-                    relations: ['_user', '_dish','_group'],
-                    where:
-                        {_user: userId}
-                }) as Wish[];
-        } catch (e) {
-            return res.status(400).json({"error": "Unknown userId"});
-        }
-        if (results_wish == undefined || results_wish == []) {
-            console.log("e");
-            return res.status(400).json({"error": "Error at db access"});
-        }
-
-        for (let i = 0; i < results_wish.length; i++) {
-            try {
-                results_vote = await getConnection().getRepository(Vote).find(
-                    {
-                        relations: ['_wish'],
-                        where:
-                            {_wish: results_wish[i].id}
-                    }) as Vote[];
-            } catch (e) {
-                return res.status(400).json({"error": "Unknown userId"});
-            }
-            if (results_vote == undefined || results_vote == []) {
-                return res.status(400).json({"error": "Error at db access1"});
-            }
-
-            let vote_positiv = 0;
-            let vote_negativ = 0;
-            for (let i = 0; i < results_vote.length; i++) {
-                if (results_vote[i].vote == 0) {
-                    vote_negativ++;
-                } else {
-                    vote_positiv++;
-                }
-            }
-            json.push({
-                "id": results_wish[i].id,
-                "name": results_wish[i].dish.title,
-                "groupname": results_wish[i].group.title,
-                "day": results_wish[i].date,
-                "daytime": results_wish[i].daytime,
-                "votes": {"positive": vote_positiv, "negative": vote_negativ}
-            })
-        }
-
     }
-
 
     return res.status(200).json(json);
 });
