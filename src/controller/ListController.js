@@ -42,10 +42,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var index_1 = require("typeorm/index");
 var ShoppingList_1 = require("../model/shoppinglist/ShoppingList");
+var ShoppingListIngredient_1 = require("../model/shoppinglist/ShoppingListIngredient");
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var groupId, done, results, e_1;
+        var groupId, done, lists, json, e_1, i, result, e_2, ingrd, i_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -54,43 +55,73 @@ router.get("/", function (req, res) {
                     if (groupId == undefined || groupId == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
                     }
+                    json = [];
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _a.trys.push([1, 5, , 6]);
+                    if (!(done == "true")) return [3 /*break*/, 3];
                     return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).find({
-                            relations: ['_shoppingListIngredients'],
-                            where: { _id: groupId }
+                            where: { _group: groupId,
+                                _done: false }
                         })];
                 case 2:
-                    results = (_a.sent());
-                    return [3 /*break*/, 4];
-                case 3:
+                    lists = (_a.sent());
+                    _a.label = 3;
+                case 3: return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).find({
+                        where: { _group: groupId }
+                    })];
+                case 4:
+                    lists = (_a.sent());
+                    return [3 /*break*/, 6];
+                case 5:
                     e_1 = _a.sent();
                     console.log(e_1);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown groupId" })];
-                case 4:
-                    if (results == undefined || results == []) {
+                case 6:
+                    if (lists == undefined || lists == []) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
-                    /*
-                        let json = [];
-                        let userlist = [];
-                    
-                        for(let i=0; i<results.length;i++){
-                            userlist.push({
-                                "id": results[i].user.id,
-                                "name": results[i].user.firstname + " " + results[i].user.lastname,
-                                "role": results[i].role
-                            })
-                        }
-                    
-                        json.push({
-                            "id": results[0].group.id,
-                            "name": results[0].group.title,
-                            "user": userlist
-                        })
-                    */
-                    return [2 /*return*/, res.status(200).json(results)];
+                    i = 0;
+                    _a.label = 7;
+                case 7:
+                    if (!(i < lists.length)) return [3 /*break*/, 13];
+                    result = void 0;
+                    _a.label = 8;
+                case 8:
+                    _a.trys.push([8, 10, , 11]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingListIngredient_1.ShoppingListIngredient).find({
+                            relations: ['_ingredient'],
+                            where: { _list: lists[i] }
+                        })];
+                case 9:
+                    result = (_a.sent());
+                    return [3 /*break*/, 11];
+                case 10:
+                    e_2 = _a.sent();
+                    console.log(e_2);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown groupId" })];
+                case 11:
+                    if (result == undefined || result == []) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    ingrd = [];
+                    for (i_1 = 0; i_1 < result.length; i_1++) {
+                        ingrd.push({
+                            'id': result[i_1].ingredient.id,
+                            'name': result[i_1].ingredient.title,
+                            'done': "missing"
+                        });
+                    }
+                    json.push({
+                        'id': lists[i].id,
+                        'name': lists[i].title,
+                        'ingredients': ingrd
+                    });
+                    _a.label = 12;
+                case 12:
+                    i++;
+                    return [3 /*break*/, 7];
+                case 13: return [2 /*return*/, res.status(200).json(json)];
             }
         });
     });

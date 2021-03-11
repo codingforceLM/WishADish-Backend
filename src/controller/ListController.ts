@@ -2,6 +2,7 @@ import express from "express";
 import {getConnection} from "typeorm/index";
 import {ShoppingList} from "../model/shoppinglist/ShoppingList";
 import {Group} from "../model/user/group/Group";
+import {ShoppingListIngredient} from "../model/shoppinglist/ShoppingListIngredient";
 
 const router = express.Router();
 
@@ -11,41 +12,66 @@ router.get("/", async function (req, res) {
     if (groupId == undefined || groupId == "") {
         return res.status(404).json({"error": "required field undefined"});
     }
-    let results;
+
+    let lists;
+    let json = [];
     try{
-        results = await getConnection().getRepository(ShoppingList).find(
+        if(done == "true"){
+            lists = await getConnection().getRepository(ShoppingList).find(
+                {
+                    where:
+                        {_group: groupId,
+                        _done : false}
+                }) as ShoppingList[];
+        }
+        lists = await getConnection().getRepository(ShoppingList).find(
             {
-                relations: ['_shoppingListIngredients'],
                 where:
-                    {_id: groupId}
+                    {_group: groupId}
             }) as ShoppingList[];
     }catch(e) {
         console.log(e);
         return res.status(400).json({"error": "Unknown groupId"});
     }
 
-    if(results == undefined || results == []) {
+    if(lists == undefined || lists == []) {
         return res.status(400).json({"error": "Error at db access"});
     }
-/*
-    let json = [];
-    let userlist = [];
+    for(let i=0; i<lists.length;i++){
+        let result;
+        try{
+            result = await getConnection().getRepository(ShoppingListIngredient).find(
+                {
+                    relations: ['_ingredient'],
+                    where:
+                        {_list: lists[i]}
+                }) as ShoppingListIngredient[];
+        }catch(e) {
+            console.log(e);
+            return res.status(400).json({"error": "Unknown groupId"});
+        }
 
-    for(let i=0; i<results.length;i++){
-        userlist.push({
-            "id": results[i].user.id,
-            "name": results[i].user.firstname + " " + results[i].user.lastname,
-            "role": results[i].role
+        if(result == undefined || result == []) {
+            return res.status(400).json({"error": "Error at db access"});
+        }
+
+        let ingrd = []
+        for(let i=0; i<result.length;i++){
+            ingrd.push({
+                'id': result[i].ingredient.id,
+                'name': result[i].ingredient.title,
+                'done': "missing"
+            })
+        }
+
+        json.push({
+            'id': lists[i].id,
+            'name': lists[i].title,
+            'ingredients': ingrd
         })
     }
 
-    json.push({
-        "id": results[0].group.id,
-        "name": results[0].group.title,
-        "user": userlist
-    })
-*/
-    return res.status(200).json(results);
+    return res.status(200).json(json);
 });
 
 
