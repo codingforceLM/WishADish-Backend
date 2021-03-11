@@ -55,7 +55,7 @@ router.post("/", function (req, res) {
                     wishId = req.header("wishId");
                     userId = req.header("userId");
                     vote = Number(req.header("vote"));
-                    if (wishId == undefined || wishId == "" || vote == undefined || userId == undefined || userId == "") {
+                    if (wishId == undefined || wishId == "" || userId == undefined || userId == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
                     }
                     if (vote != 0 && vote != 1) {

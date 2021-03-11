@@ -10,7 +10,7 @@ router.post("/", async function (req, res) {
     const wishId = req.header("wishId");
     const userId = req.header("userId");
     const vote = Number(req.header("vote"));
-    if (wishId == undefined || wishId == "" || vote == undefined || userId == undefined || userId == "") {
+    if (wishId == undefined || wishId == "" || userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"});
     }
     if(vote != 0 && vote != 1){
