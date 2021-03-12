@@ -40,90 +40,164 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+
+var Vote_1 = require("../model/user/vote/Vote");
 var typeorm_1 = require("typeorm");
 var User_1 = require("../model/user/User");
 var Wish_1 = require("../model/food/dish/Wish");
 var Group_1 = require("../model/user/group/Group");
 var Dish_1 = require("../model/food/dish/Dish");
 var uuidv4 = require('uuid').v4;
+
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
-    var userId = req.header("userId");
-    var day = req.header("day");
-    var month = req.header("month");
-    var json = undefined;
-    if (userId == undefined || userId == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    if (day != undefined && day != "") {
-        if (month == undefined || month == "") {
-            return res.status(404).json({ "error": "month undefined" });
-        }
-        json = [{
-                "arguments": {
-                    "userId": userId,
-                    "day": day,
-                    "month": month
-                }
-            },
-            {
-                "id": "a4b13f26-a617-4303-9a63-a74c1e44d233",
-                "name": "Bolognese",
-                "groupname": "Familie Cage",
-                "day": "24-12-2020",
-                "daytime": "lunch",
-                "votes": {
-                    "positive": 5,
-                    "negative": 1
-                }
-            },
-            {
-                "id": "2ea16774-18dd-40b7-b724-bd2505b83ae0",
-                "name": "Nudelauflauf",
-                "groupname": "Familie Spacey",
-                "day": "24-12-2020",
-                "daytime": "evening",
-                "votes": {
-                    "positive": 4,
-                    "negative": 0
-                }
+    return __awaiter(this, void 0, void 0, function () {
+        var userId, day, month, results_wish, results_vote, json, date, e_1, i, e_2, vote_positiv, vote_negativ, i_1, e_3, i, e_4, vote_positiv, vote_negativ, i_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userId = req.header("userId");
+                    day = req.header("day");
+                    month = req.header("month");
+                    if (userId == undefined || userId == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    json = [];
+                    date = new Date();
+                    if (!(day != undefined && day != "")) return [3 /*break*/, 11];
+                    if (month == undefined || month == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "month undefined" })];
+                    }
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Wish_1.Wish).find({
+                            relations: ['_user', '_dish', '_group'],
+                            where: 
+                            // month march or 3 needs to be 03
+                            { _user: userId, _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-" + day) }
+                        })];
+                case 2:
+                    results_wish = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (results_wish == undefined || results_wish == []) {
+                        console.log("e");
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    i = 0;
+                    _a.label = 5;
+                case 5:
+                    if (!(i < results_wish.length)) return [3 /*break*/, 11];
+                    _a.label = 6;
+                case 6:
+                    _a.trys.push([6, 8, , 9]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Vote_1.Vote).find({
+                            relations: ['_wish'],
+                            where: { _wish: results_wish[0].id }
+                        })];
+                case 7:
+                    results_vote = (_a.sent());
+                    return [3 /*break*/, 9];
+                case 8:
+                    e_2 = _a.sent();
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 9:
+                    if (results_vote == undefined || results_vote == []) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access1" })];
+                    }
+                    vote_positiv = 0;
+                    vote_negativ = 0;
+                    for (i_1 = 0; i_1 < results_vote.length; i_1++) {
+                        if (results_vote[i_1].vote == 0) {
+                            vote_negativ++;
+                        }
+                        else {
+                            vote_positiv++;
+                        }
+                    }
+                    json.push({
+                        "id": results_wish[i].id,
+                        "name": results_wish[i].dish.title,
+                        "groupname": results_wish[i].group.title,
+                        "day": results_wish[i].date,
+                        "daytime": results_wish[i].daytime,
+                        "votes": { "positive": vote_positiv, "negative": vote_negativ }
+                    });
+                    _a.label = 10;
+                case 10:
+                    i++;
+                    return [3 /*break*/, 5];
+                case 11:
+                    if (!(month != undefined && month != "")) return [3 /*break*/, 22];
+                    _a.label = 12;
+                case 12:
+                    _a.trys.push([12, 14, , 15]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Wish_1.Wish).find({
+                            relations: ['_user', '_dish', '_group'],
+                            where: { _user: userId, _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-%") }
+                        })];
+                case 13:
+                    results_wish = (_a.sent());
+                    return [3 /*break*/, 15];
+                case 14:
+                    e_3 = _a.sent();
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 15:
+                    if (results_wish == undefined || results_wish == []) {
+                        console.log("e");
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    i = 0;
+                    _a.label = 16;
+                case 16:
+                    if (!(i < results_wish.length)) return [3 /*break*/, 22];
+                    _a.label = 17;
+                case 17:
+                    _a.trys.push([17, 19, , 20]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Vote_1.Vote).find({
+                            relations: ['_wish'],
+                            where: { _wish: results_wish[i].id }
+                        })];
+                case 18:
+                    results_vote = (_a.sent());
+                    return [3 /*break*/, 20];
+                case 19:
+                    e_4 = _a.sent();
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 20:
+                    if (results_vote == undefined || results_vote == []) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access1" })];
+                    }
+                    vote_positiv = 0;
+                    vote_negativ = 0;
+                    for (i_2 = 0; i_2 < results_vote.length; i_2++) {
+                        if (results_vote[i_2].vote == 0) {
+                            vote_negativ++;
+                        }
+                        else {
+                            vote_positiv++;
+                        }
+                    }
+                    json.push({
+                        "id": results_wish[i].id,
+                        "name": results_wish[i].dish.title,
+                        "groupname": results_wish[i].group.title,
+                        "day": results_wish[i].date,
+                        "daytime": results_wish[i].daytime,
+                        "votes": { "positive": vote_positiv, "negative": vote_negativ }
+                    });
+                    _a.label = 21;
+                case 21:
+                    i++;
+                    return [3 /*break*/, 16];
+                case 22: return [2 /*return*/, res.status(200).json(json)];
             }
-        ];
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    if (json == undefined) {
-        json = [{
-                "arguments": {
-                    "userId": userId,
-                    "day": day,
-                    "month": month
-                }
-            },
-            {
-                "id": "a4b13f26-a617-4303-9a63-a74c1e44d233",
-                "name": "Bolognese",
-                "groupname": "Familie Cage",
-                "day": "24-12-2020",
-                "daytime": "lunch",
-                "votes": {
-                    "positive": 5,
-                    "negative": 1
-                }
-            },
-            {
-                "id": "2ea16774-18dd-40b7-b724-bd2505b83ae0",
-                "name": "Nudelauflauf",
-                "groupname": "Familie Spacey",
-                "day": "24-12-2020",
-                "daytime": "evening",
-                "votes": {
-                    "positive": 4,
-                    "negative": 0
-                }
-            }
-        ];
-    }
-    return res.status(200).json(json);
+        });
+    });
 });
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
