@@ -81,7 +81,7 @@ var Ingredient = /** @class */ (function () {
         __metadata("design:type", String)
     ], Ingredient.prototype, "_title", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.dishes; }, { cascade: true }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.ingredients; }, { cascade: true }),
         __metadata("design:type", User_1.User)
     ], Ingredient.prototype, "_user", void 0);
     __decorate([

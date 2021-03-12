@@ -40,8 +40,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var typeorm_1 = require("typeorm");
+
 var User_1 = require("../model/user/User");
+var UserGroup_1 = require("../model/user/UserGroup");
+var index_1 = require("typeorm/index");
+var uuidv4 = require('uuid').v4;
+
 var router = express_1.default.Router();
 router.get("/:name", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -81,33 +85,44 @@ router.get("/:name", function (req, res) {
     });
 });
 router.post("/", function (req, res) {
-    var firstname = req.header("firstname");
-    var lastname = req.header("lastname");
-    var username = req.header("username");
-    var email = req.header("email");
-    var password = req.header("password");
-    var birthdate = req.header("birthdate");
-    if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == undefined) {
-        return res.status(400).json({ "error": "required field undefined" });
-    }
-    var json = {
-        "msg": "User created",
-        "arguments": {
-            "firstname": firstname,
-            "lastname": lastname,
-            "username": username,
-            "email": email,
-            "password": password,
-            "birthdate": birthdate
-        }
-    };
-    var success = true;
-    if (success) {
-        return res.status(200).json(json);
-    }
-    else {
-        return res.status(400).json({ "error": "ID couldnt be processed" });
-    }
+    return __awaiter(this, void 0, void 0, function () {
+        var firstname, lastname, username, email, password, birthday, fileurl, user, e_1, json;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    firstname = req.header("firstname");
+                    lastname = req.header("lastname");
+                    username = req.header("username");
+                    email = req.header("email");
+                    password = req.header("password");
+                    birthday = req.header("birthday");
+                    fileurl = req.header("fileurl");
+                    if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthday == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "required field undefined" })];
+                    }
+                    if (fileurl == undefined) {
+                        fileurl = "";
+                    }
+                    user = new User_1.User(uuidv4(), firstname, lastname, email, birthday, username, fileurl, undefined, undefined, undefined, undefined, undefined);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(UserGroup_1.UserGroup).manager.save(user)];
+                case 2:
+                    _a.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                case 4:
+                    json = {
+                        "msg": "User created"
+                    };
+                    return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
 });
 router.put("/", function (req, res) {
     var id = req.header("id");

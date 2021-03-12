@@ -1,6 +1,13 @@
 import express from "express";
-import { getConnection } from "typeorm";
+
 import {User} from "../model/user/User";
+import {Dish} from "../model/food/dish/Dish";
+import {Ingredient} from "../model/food/ingredients/Ingredient";
+import {UserGroup} from "../model/user/UserGroup";
+import {Vote} from "../model/user/vote/Vote";
+import {ShoppingList} from "../model/shoppinglist/ShoppingList";
+import {getConnection} from "typeorm/index";
+const {v4: uuidv4} = require('uuid');
 const router = express.Router();
 
 router.get("/:name",  async function(req, res) {
@@ -31,34 +38,39 @@ router.get("/:name",  async function(req, res) {
 });
 
 
-router.post("/", function(req, res) {
+router.post("/", async function(req, res) {
     const firstname = req.header("firstname");
     const lastname = req.header("lastname");
     const username = req.header("username");
     const email = req.header("email");
     const password = req.header("password");
-    const birthdate = req.header("birthdate");
-    if(firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthdate == undefined){
+    const birthday = req.header("birthday");
+    let fileurl = req.header("fileurl");
+    if(firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthday == undefined){
         return res.status(400).json({"error": "required field undefined"});
     }
-    let json={
-        "msg": "User created",
-        "arguments": {
-            "firstname": firstname,
-            "lastname": lastname,
-            "username": username,
-            "email": email,
-            "password": password,
-            "birthdate": birthdate
-        }
+    if(fileurl == undefined){
+        fileurl = ""
     }
+    let user = new User(uuidv4(),firstname,lastname,email,birthday,username,fileurl,
+        undefined as unknown as Dish[],
+        undefined as unknown as Ingredient[],
+        undefined as unknown as UserGroup[],
+        undefined as unknown as Vote[],
+        undefined as unknown as ShoppingList[]
+    )
+    try{
+        await getConnection().getRepository(UserGroup).manager.save(user)
+    }catch (e){
+        console.log(e)
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    let json = {
+        "msg": "User created"
+    };
 
-    let success = true;
-    if(success){
-        return res.status(200).json(json);
-    }else{
-        return res.status(400).json({"error": "ID couldnt be processed"});
-    }
+    return res.status(200).json(json);
+
 
 });
 

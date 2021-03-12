@@ -40,9 +40,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var index_1 = require("typeorm/index");
+
 var ShoppingList_1 = require("../model/shoppinglist/ShoppingList");
-var ShoppingListIngredient_1 = require("../model/shoppinglist/ShoppingListIngredient");
+var index_1 = require("typeorm/index");
+var User_1 = require("../model/user/User");
+var Group_1 = require("../model/user/group/Group");
+var uuidv4 = require('uuid').v4;
+
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -127,20 +131,59 @@ router.get("/", function (req, res) {
     });
 });
 router.post("/", function (req, res) {
-    var name = req.header("name");
-    var groupId = req.header("groupId");
-    if (name == undefined || name == "" || groupId == undefined || groupId == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    var json = {
-        "msg": "List created",
-        "arguments": {
-            "name": name,
-            "groupId": groupId
-        }
-    };
-    return res.status(200).json(json);
+    return __awaiter(this, void 0, void 0, function () {
+        var name, groupId, userId, user, group, e_1, list, e_2, json;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    name = req.header("name");
+                    groupId = req.header("groupId");
+                    userId = req.header("userId");
+                    if (name == undefined || name == "" || groupId == undefined || groupId == "" || userId == undefined || userId == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 4, , 5]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({
+                            where: { _id: userId }
+                        })];
+                case 2:
+                    user = (_a.sent());
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Group_1.Group).findOne({
+                            where: { _id: groupId }
+                        })];
+                case 3:
+                    group = (_a.sent());
+                    return [3 /*break*/, 5];
+                case 4:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 5:
+                    if (user == undefined || group == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    list = new ShoppingList_1.ShoppingList(uuidv4(), name, false, user, undefined, group);
+                    _a.label = 6;
+                case 6:
+                    _a.trys.push([6, 8, , 9]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).manager.save(list)];
+                case 7:
+                    _a.sent();
+                    return [3 /*break*/, 9];
+                case 8:
+                    e_2 = _a.sent();
+                    console.log(e_2);
+                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                case 9:
+                    json = {
+                        "msg": "List created"
+                    };
+                    return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
 });
 router.put("/", function (req, res) {
     var id = req.header("id");
