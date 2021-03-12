@@ -59,8 +59,6 @@ router.get("/", function (req, res) {
                     }
                     json = [];
                     date = new Date();
-                    console.log("day   " + day + ";");
-                    console.log("month " + month + ";");
                     if (!(day != undefined && day != "")) return [3 /*break*/, 11];
                     if (month == undefined || month == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "month undefined" })];

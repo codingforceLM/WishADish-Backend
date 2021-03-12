@@ -17,8 +17,6 @@ router.get("/", async function (req, res) {
     let results_vote;
     let json = [];
     let date = new Date()
-    console.log("day   "+day+";");
-    console.log("month "+month+";");
     if (day != undefined && day != "") {
         if (month == undefined || month == "") {
             return res.status(404).json({"error": "month undefined"})
