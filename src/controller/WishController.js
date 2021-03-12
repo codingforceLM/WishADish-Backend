@@ -40,10 +40,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var index_1 = require("typeorm/index");
-var Wish_1 = require("../model/food/dish/Wish");
+
 var Vote_1 = require("../model/user/vote/Vote");
 var typeorm_1 = require("typeorm");
+var User_1 = require("../model/user/User");
+var Wish_1 = require("../model/food/dish/Wish");
+var Group_1 = require("../model/user/group/Group");
+var Dish_1 = require("../model/food/dish/Dish");
+var uuidv4 = require('uuid').v4;
+
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -195,22 +200,102 @@ router.get("/", function (req, res) {
     });
 });
 router.post("/", function (req, res) {
-    var groupId = req.header("groupId");
-    var dishId = req.header("dishId");
-    var daytime = req.header("daytime");
-    if (groupId == undefined || groupId == "" || dishId == undefined || dishId == "" || daytime == undefined || daytime == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    var json = {
-        "msg": "Wish created",
-        "arguments": {
-            "groupId": groupId,
-            "dishId": dishId,
-            "daytime": daytime
-        }
-    };
-    return res.status(200).json(json);
+    return __awaiter(this, void 0, void 0, function () {
+        var userId, groupId, dishId, daytime, date, user, e_1, group, e_2, dish, e_3, datef, wish, json, e_4;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userId = req.header("userId");
+                    groupId = req.header("groupId");
+                    dishId = req.header("dishId");
+                    daytime = req.header("daytime");
+                    date = req.header("date");
+                    if (groupId == undefined || groupId == "" || dishId == undefined || dishId == "" || daytime == undefined || daytime == "" || date == undefined || date == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(User_1.User).findOne({
+                            where: { _id: userId }
+                        })];
+                case 2:
+                    user = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (user == null) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                    }
+                    if (user == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Group_1.Group).findOne({
+                            where: { _id: groupId }
+                        })];
+                case 6:
+                    group = (_a.sent());
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_2 = _a.sent();
+                    console.log(e_2);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown groupId" })];
+                case 8:
+                    if (group == null) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Unknown groupId" })];
+                    }
+                    if (group == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    _a.label = 9;
+                case 9:
+                    _a.trys.push([9, 11, , 12]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Dish_1.Dish).findOne({
+                            where: { _id: dishId }
+                        })];
+                case 10:
+                    dish = (_a.sent());
+                    return [3 /*break*/, 12];
+                case 11:
+                    e_3 = _a.sent();
+                    console.log(e_3);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown dishId" })];
+                case 12:
+                    if (dish == null) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Unknown dishId" })];
+                    }
+                    if (dish == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    datef = date.match("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+                    if (datef == null || datef.length != 1) {
+                        return [2 /*return*/, res.status(400).json({ "error": "wrong date format" })];
+                    }
+                    wish = new Wish_1.Wish(uuidv4(), daytime, date, user, dish, group, undefined);
+                    json = {
+                        "msg": "Wish created",
+                    };
+                    _a.label = 13;
+                case 13:
+                    _a.trys.push([13, 15, , 16]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Wish_1.Wish).manager.save(wish)];
+                case 14:
+                    _a.sent();
+                    return [3 /*break*/, 16];
+                case 15:
+                    e_4 = _a.sent();
+                    console.log(e_4);
+                    return [2 /*return*/, res.status(400).json({ "error": "Error at persistence" })];
+                case 16: return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
 });
 router.put("/", function (req, res) {
     var wishId = req.header("wishId");
