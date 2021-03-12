@@ -40,64 +40,95 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+
 var ShoppingList_1 = require("../model/shoppinglist/ShoppingList");
 var index_1 = require("typeorm/index");
 var User_1 = require("../model/user/User");
 var Group_1 = require("../model/user/group/Group");
 var uuidv4 = require('uuid').v4;
+
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
-    var userId = req.header("userId");
-    var done = req.header("done");
-    if (userId == undefined || userId == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    var json = [{
-            "arguments": {
-                "userId": userId,
-                "done": done
+    return __awaiter(this, void 0, void 0, function () {
+        var groupId, done, lists, json, e_1, i, result, e_2, ingrd, i_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    groupId = req.header("groupId");
+                    done = req.header("done");
+                    if (groupId == undefined || groupId == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    json = [];
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 6, , 7]);
+                    if (!(done == "true")) return [3 /*break*/, 3];
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).find({
+                            where: { _group: groupId, _done: Number(0) }
+                        })];
+                case 2:
+                    lists = (_a.sent());
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).find({
+                        where: { _group: groupId }
+                    })];
+                case 4:
+                    lists = (_a.sent());
+                    _a.label = 5;
+                case 5: return [3 /*break*/, 7];
+                case 6:
+                    e_1 = _a.sent();
+                    console.log(e_1);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown groupId" })];
+                case 7:
+                    if (lists == undefined || lists == [] || lists.length == 0) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    i = 0;
+                    _a.label = 8;
+                case 8:
+                    if (!(i < lists.length)) return [3 /*break*/, 14];
+                    result = void 0;
+                    _a.label = 9;
+                case 9:
+                    _a.trys.push([9, 11, , 12]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingListIngredient_1.ShoppingListIngredient).find({
+                            relations: ['_ingredient'],
+                            where: { _list: lists[i] }
+                        })];
+                case 10:
+                    result = (_a.sent());
+                    return [3 /*break*/, 12];
+                case 11:
+                    e_2 = _a.sent();
+                    console.log(e_2);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown groupId" })];
+                case 12:
+                    if (result == undefined || result == []) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    ingrd = [];
+                    for (i_1 = 0; i_1 < result.length; i_1++) {
+                        ingrd.push({
+                            'id': result[i_1].ingredient.id,
+                            'name': result[i_1].ingredient.title,
+                            'done': "missing"
+                        });
+                    }
+                    json.push({
+                        'id': lists[i].id,
+                        'name': lists[i].title,
+                        'ingredients': ingrd
+                    });
+                    _a.label = 13;
+                case 13:
+                    i++;
+                    return [3 /*break*/, 8];
+                case 14: return [2 /*return*/, res.status(200).json(json)];
             }
-        },
-        {
-            "id": "273e8601-beea-414b-a771-7495a8a416d4",
-            "name": "Cage's list",
-            "ingredients": [
-                {
-                    "id": "b625bcbc-a085-4f88-9ae2-2ba50c64644f",
-                    "name": "Zwiebel",
-                    "done": false
-                },
-                {
-                    "id": "be07d3c1-8526-443d-97c1-f4ff2bf3d1dd",
-                    "name": "Tomate",
-                    "done": true
-                }
-            ]
-        },
-        {
-            "id": "273e8601-beea-414b-a771-7495a8a416d4",
-            "name": "Cage's list",
-            "ingredients": [
-                {
-                    "id": "c89f1005-3960-4107-bfda-97228231cdda",
-                    "name": "Mehl",
-                    "done": false
-                },
-                {
-                    "id": "f7886fad-b3e1-4748-a942-6209c60295de",
-                    "name": "Zucker",
-                    "done": false
-                },
-                {
-                    "id": "2b752bfe-14b2-45c8-b6da-a08d1427ba42",
-                    "name": "Backpulver",
-                    "done": true
-                }
-            ]
-        }
-    ];
-    return res.status(200).json(json);
+        });
+    });
 });
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
