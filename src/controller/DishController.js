@@ -42,7 +42,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var typeorm_1 = require("typeorm");
 var Dish_1 = require("../model/food/dish/Dish");
+var Ingredient_1 = require("../model/food/ingredients/Ingredient");
 var DishIngredient_1 = require("../model/food/dish/DishIngredient");
+var User_1 = require("../model/user/User");
+var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -135,20 +138,102 @@ router.get("/:id", function (req, res) {
     });
 });
 router.post("/", function (req, res) {
-    var name = req.header("name");
-    var ingridients = req.header("ingridients");
-    if (name == undefined || name == "" || ingridients == undefined || ingridients == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    var json = {
-        "msg": "Dish created",
-        "arguments": {
-            "name": name,
-            "ingridients": ingridients
-        }
-    };
-    return res.status(200).json(json);
+    return __awaiter(this, void 0, void 0, function () {
+        var name, ingridientsparam, userId, user, e_3, ingredients, i, ingrd, idmiss, ammiss, unmiss, missing, dish, dis, i, ingrd, qIngrd, e_4, json;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    name = req.header("name");
+                    ingridientsparam = req.header("ingredients");
+                    userId = req.header("userId");
+                    if (name == undefined || name == "" || ingridientsparam == undefined || ingridientsparam == "" || userId == undefined || userId == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(User_1.User).findOne({
+                            where: { _id: userId }
+                        })];
+                case 2:
+                    user = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_3 = _a.sent();
+                    console.log(e_3);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (user == null) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                    }
+                    try {
+                        ingredients = JSON.parse(ingridientsparam);
+                    }
+                    catch (e) {
+                        console.log(e);
+                        return [2 /*return*/, res.status(400).json({ "error": "couldnt parse ingredients json" })];
+                    }
+                    for (i = 0; i < ingredients.length; i++) {
+                        ingrd = ingredients[i];
+                        idmiss = true;
+                        ammiss = true;
+                        unmiss = true;
+                        if (ingrd.hasOwnProperty("id")) {
+                            idmiss = false;
+                        }
+                        if (ingrd.hasOwnProperty("amount")) {
+                            ammiss = false;
+                        }
+                        if (ingrd.hasOwnProperty("unit")) {
+                            unmiss = false;
+                        }
+                        if (idmiss || ammiss || unmiss) {
+                            missing = (!idmiss ? "" : "id, ") + (!ammiss ? "" : "amount, ") + (!unmiss ? "" : "unit");
+                            return [2 /*return*/, res.status(400).json({ "error": "object " + i + " is missing " + missing })];
+                        }
+                    }
+                    dish = new Dish_1.Dish(uuidv4(), name, user, undefined, undefined);
+                    dis = [];
+                    i = 0;
+                    _a.label = 5;
+                case 5:
+                    if (!(i < ingredients.length)) return [3 /*break*/, 11];
+                    ingrd = ingredients[i];
+                    qIngrd = void 0;
+                    _a.label = 6;
+                case 6:
+                    _a.trys.push([6, 8, , 9]);
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Ingredient_1.Ingredient).findOne({
+                            where: { _id: ingrd.id }
+                        })];
+                case 7:
+                    qIngrd = (_a.sent());
+                    return [3 /*break*/, 9];
+                case 8:
+                    e_4 = _a.sent();
+                    console.log(e_4);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown ingredientId " + ingrd.id })];
+                case 9:
+                    if (qIngrd == null) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Unknown ingredientId " + ingrd.id })];
+                    }
+                    dis.push(new DishIngredient_1.DishIngredient(uuidv4(), dish, qIngrd, ingrd.amount, ingrd.unit));
+                    _a.label = 10;
+                case 10:
+                    i++;
+                    return [3 /*break*/, 5];
+                case 11:
+                    dish.dishIngredients = dis;
+                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Dish_1.Dish).manager.save(dish)];
+                case 12:
+                    _a.sent();
+                    json = {
+                        "msg": "Dish created",
+                    };
+                    return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
 });
 router.put("/", function (req, res) {
     var dishId = req.header("dishId");
