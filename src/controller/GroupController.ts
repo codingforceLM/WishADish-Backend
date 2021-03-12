@@ -4,6 +4,8 @@ import {UserGroup} from "../model/user/UserGroup";
 import {User} from "../model/user/User";
 import {Group} from "../model/user/group/Group";
 import {Invitation} from "../model/user/group/Invitation";
+import {ShoppingList} from "../model/shoppinglist/ShoppingList";
+import {Wish} from "../model/food/dish/Wish";
 
 
 const router = express.Router();
@@ -113,7 +115,9 @@ router.post("/", async function (req, res) {
         name,
         date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay(),
         undefined as unknown as UserGroup[],
-        undefined as unknown as Invitation[]
+        undefined as unknown as Invitation[],
+        undefined as unknown as ShoppingList[],
+        undefined as unknown as Wish[]
     );
     let userGroup = new UserGroup(uuidv4(),date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay(),"admin",user,group)
     try{

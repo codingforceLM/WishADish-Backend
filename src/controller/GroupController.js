@@ -161,7 +161,7 @@ router.post("/", function (req, res) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
                     date = new Date();
-                    group = new Group_1.Group(uuidv4(), name, date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(), undefined, undefined);
+                    group = new Group_1.Group(uuidv4(), name, date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(), undefined, undefined, undefined, undefined);
                     userGroup = new UserGroup_1.UserGroup(uuidv4(), date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(), "admin", user, group);
                     _a.label = 5;
                 case 5:
