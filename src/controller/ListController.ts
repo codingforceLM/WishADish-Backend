@@ -20,21 +20,22 @@ router.get("/", async function (req, res) {
             lists = await getConnection().getRepository(ShoppingList).find(
                 {
                     where:
-                        {_group: groupId,
-                        _done : false}
+                        {_group: groupId,_done : Number(0)}
+                }) as ShoppingList[];
+        }else {
+            lists = await getConnection().getRepository(ShoppingList).find(
+                {
+                    where:
+                        {_group: groupId}
                 }) as ShoppingList[];
         }
-        lists = await getConnection().getRepository(ShoppingList).find(
-            {
-                where:
-                    {_group: groupId}
-            }) as ShoppingList[];
+
     }catch(e) {
         console.log(e);
         return res.status(400).json({"error": "Unknown groupId"});
     }
 
-    if(lists == undefined || lists == []) {
+    if(lists == undefined || lists == [] || lists.length == 0) {
         return res.status(400).json({"error": "Error at db access"});
     }
     for(let i=0; i<lists.length;i++){
