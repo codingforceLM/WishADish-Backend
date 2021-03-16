@@ -2,17 +2,41 @@ import express from "express";
 import {ShoppingList} from "../model/shoppinglist/ShoppingList";
 import {ShoppingListIngredient} from "../model/shoppinglist/ShoppingListIngredient";
 import {getConnection} from "typeorm/index";
+import {In} from "typeorm";
 import {User} from "../model/user/User";
 import {Group} from "../model/user/group/Group";
+import {UserGroup} from "../model/user/UserGroup";
 const {v4: uuidv4} = require('uuid');
 
 const router = express.Router();
 
 router.get("/", async function (req, res) {
-    const groupId = req.header("groupId");
+    const userId = req.header("userId");
     const done = req.header("done");
-    if (groupId == undefined || groupId == "") {
+    if (userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"});
+    }
+
+    let results_ug = undefined as unknown as UserGroup[];
+    try {
+        results_ug = await getConnection().getRepository(UserGroup).find(
+            {
+                relations: ['_group'],
+                where:
+                    {_user: userId}
+            }) as UserGroup[];
+    } catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown groupId"});
+    }
+
+    if(results_ug == undefined || results_ug == [] || results_ug.length == 0) {
+        return res.status(200).json([]);
+    }
+
+    let groupIds = [];
+    for(let i=0;i<results_ug.length;i++) {
+        groupIds.push(results_ug[i].group.id);
     }
 
     let lists;
@@ -22,13 +46,13 @@ router.get("/", async function (req, res) {
             lists = await getConnection().getRepository(ShoppingList).find(
                 {
                     where:
-                        {_group: groupId,_done : Number(0)}
+                        {_group: In(groupIds),_done : Number(0)}
                 }) as ShoppingList[];
         }else {
             lists = await getConnection().getRepository(ShoppingList).find(
                 {
                     where:
-                        {_group: groupId}
+                        {_group: In(groupIds)}
                 }) as ShoppingList[];
         }
 
@@ -77,6 +101,63 @@ router.get("/", async function (req, res) {
     return res.status(200).json(json);
 });
 
+router.get("/:id", async function(req, res){
+    const id = req.params.id;
+    if(id == undefined || id.trim() == "") {
+        return res.status(400).json({"error": "required field undefined"});
+    }
+
+    let result = undefined as unknown as ShoppingList;
+    try{
+        result = await getConnection().getRepository(ShoppingList).findOne(
+            {
+                where:
+                    {_id: id}
+            }) as ShoppingList;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown id"});
+    }
+    if(result == undefined) {
+        return res.status(400).json({"error": "Unknown id"});
+    }
+
+    let json = {
+        "id": result.id,
+        "name": result.title,
+        "done": result.done,
+        "ingredients": [] as Object[]
+    };
+
+    let results_sli = undefined as unknown as ShoppingListIngredient[];
+    try{
+        results_sli = await getConnection().getRepository(ShoppingListIngredient).find(
+            {
+                relations: ['_ingredient'],
+                where:
+                    {_list: result.id}
+            }) as ShoppingListIngredient[];
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    if(results_sli == undefined || results_sli == [] || results_sli.length == 0) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
+    for(let i=0;i<results_sli.length;i++) {
+        let ingrd = results_sli[i].ingredient;
+        json.ingredients.push({
+            "id": ingrd.id,
+            "name": ingrd.title,
+            "amount": results_sli[i].ammount,
+            "unit": results_sli[i].unit,
+            "done": results_sli[i].done
+        });
+    }
+
+    return res.status(200).json(json);
+});
 
 router.post("/", async function (req, res) {
     const name = req.header("name");
