@@ -394,6 +394,15 @@ createConnection(
 		groupA
 	);
 
+	let shoppingListB = new ShoppingList(
+		"05511be6-e417-482d-b543-571062d42b92",
+		"BA Einkaufsliste",
+		false,
+		userD,
+		undefined as unknown as ShoppingListIngredient[],
+		groupA
+	);
+
 	let sliA = new ShoppingListIngredient(
 		"06694575-07dc-45bf-9b3b-0ae5d8544a5a",
 		shoppingListA,
@@ -466,8 +475,16 @@ createConnection(
 		"gramm"
 	);
 
+	let slibA = new ShoppingListIngredient(
+		"62fe484d-154c-4621-b323-d9f54cfc6675",
+		shoppingListB,
+		ingrdB,
+		1,
+		"kilogramm"
+	);
+
 	ingrdA.shoppingListIngredients = [sliA];
-	ingrdB.shoppingListIngredients = [sliB];
+	ingrdB.shoppingListIngredients = [sliB, slibA];
 	ingrdC.shoppingListIngredients = [sliC];
 	ingrdD.shoppingListIngredients = [sliD];
 	ingrdE.shoppingListIngredients = [sliE];
@@ -480,10 +497,14 @@ createConnection(
 		sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI
 	];
 
+	shoppingListB.shoppingListIngredients = [
+		slibA
+	];
+
 	userA.lists = [ shoppingListA ];
 	userB.lists = [];
 	userC.lists = [];
-	userD.lists = [];
+	userD.lists = [ shoppingListB ];
 	userE.lists = [];
 
 	groupA.lists = [ shoppingListA ];

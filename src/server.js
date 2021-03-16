@@ -72,7 +72,7 @@ ormconfig.entities = [
     Invitation_1.Invitation
 ];
 typeorm_1.createConnection(ormconfig).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var inv, lists, wishes, userA, userB, userC, userD, userE, groupA, ugA, ugB, ugC, ugD, ugE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
+    var inv, lists, wishes, userA, userB, userC, userD, userE, groupA, ugA, ugB, ugC, ugD, ugE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -159,6 +159,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 ];
                 userE.dishes = [];
                 shoppingListA = new ShoppingList_1.ShoppingList("09f6ec3f-05e1-48a8-859a-d14d33506312", "PHA Einkaufsliste", false, userA, undefined, groupA);
+                shoppingListB = new ShoppingList_1.ShoppingList("05511be6-e417-482d-b543-571062d42b92", "BA Einkaufsliste", false, userD, undefined, groupA);
                 sliA = new ShoppingListIngredient_1.ShoppingListIngredient("06694575-07dc-45bf-9b3b-0ae5d8544a5a", shoppingListA, ingrdA, 200, "gramm");
                 sliB = new ShoppingListIngredient_1.ShoppingListIngredient("2bc81935-ed05-47e6-8903-576ca14bf7c2", shoppingListA, ingrdB, 200, "gramm");
                 sliC = new ShoppingListIngredient_1.ShoppingListIngredient("206adbc3-a473-49f0-aaf3-4640d7d4e556", shoppingListA, ingrdC, 1, "kilogramm");
@@ -168,8 +169,9 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 sliG = new ShoppingListIngredient_1.ShoppingListIngredient("f36f3186-f64e-4607-8bce-0f257fe67621", shoppingListA, ingrdG, 1, "kilogramm");
                 sliH = new ShoppingListIngredient_1.ShoppingListIngredient("3e7f463d-8b1a-44f2-aeaf-93c79ffd3af3", shoppingListA, ingrdH, 500, "gramm");
                 sliI = new ShoppingListIngredient_1.ShoppingListIngredient("1d66a872-7fc0-4e32-8149-33bb47c4d98b", shoppingListA, ingrdI, 50, "gramm");
+                slibA = new ShoppingListIngredient_1.ShoppingListIngredient("62fe484d-154c-4621-b323-d9f54cfc6675", shoppingListB, ingrdB, 1, "kilogramm");
                 ingrdA.shoppingListIngredients = [sliA];
-                ingrdB.shoppingListIngredients = [sliB];
+                ingrdB.shoppingListIngredients = [sliB, slibA];
                 ingrdC.shoppingListIngredients = [sliC];
                 ingrdD.shoppingListIngredients = [sliD];
                 ingrdE.shoppingListIngredients = [sliE];
@@ -180,10 +182,13 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 shoppingListA.shoppingListIngredients = [
                     sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI
                 ];
+                shoppingListB.shoppingListIngredients = [
+                    slibA
+                ];
                 userA.lists = [shoppingListA];
                 userB.lists = [];
                 userC.lists = [];
-                userD.lists = [];
+                userD.lists = [shoppingListB];
                 userE.lists = [];
                 groupA.lists = [shoppingListA];
                 wishA = new Wish_1.Wish("58b3b01f-489a-44f3-9889-0e2445b23097", "lunch", "2021-03-11", userA, dishA, groupA, undefined);
