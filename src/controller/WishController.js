@@ -40,19 +40,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-
-var Vote_1 = require("../model/user/vote/Vote");
 var typeorm_1 = require("typeorm");
+var typeorm_2 = require("typeorm");
+var typeorm_3 = require("typeorm");
 var User_1 = require("../model/user/User");
 var Wish_1 = require("../model/food/dish/Wish");
 var Group_1 = require("../model/user/group/Group");
 var Dish_1 = require("../model/food/dish/Dish");
+var Vote_1 = require("../model/user/vote/Vote");
+var UserGroup_1 = require("../model/user/UserGroup");
 var uuidv4 = require('uuid').v4;
-
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var userId, day, month, results_wish, results_vote, json, date, e_1, i, e_2, vote_positiv, vote_negativ, i_1, e_3, i, e_4, vote_positiv, vote_negativ, i_2;
+        var userId, day, month, results_wish, results_vote, results_ug, json, date, e_1, groupIds, i, e_2, i, e_3, vote_positiv, vote_negativ, i_1, e_4, i, e_5, vote_positiv, vote_negativ, i_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -64,48 +65,66 @@ router.get("/", function (req, res) {
                     }
                     json = [];
                     date = new Date();
-                    if (!(day != undefined && day != "")) return [3 /*break*/, 11];
-                    if (month == undefined || month == "") {
-                        return [2 /*return*/, res.status(404).json({ "error": "month undefined" })];
-                    }
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Wish_1.Wish).find({
-                            relations: ['_user', '_dish', '_group'],
-                            where: 
-                            // month march or 3 needs to be 03
-                            { _user: userId, _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-" + day) }
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(UserGroup_1.UserGroup).find({
+                            relations: ['_group'],
+                            where: { _user: userId }
                         })];
                 case 2:
-                    results_wish = (_a.sent());
+                    results_ug = (_a.sent());
                     return [3 /*break*/, 4];
                 case 3:
                     e_1 = _a.sent();
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 4:
+                    groupIds = [];
+                    for (i = 0; i < results_ug.length; i++) {
+                        groupIds.push(results_ug[i].group.id);
+                    }
+                    if (!(day != undefined && day != "")) return [3 /*break*/, 16];
+                    if (month == undefined || month == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "month undefined" })];
+                    }
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(Wish_1.Wish).find({
+                            relations: ['_user', '_dish', '_group'],
+                            where: 
+                            // month march or 3 needs to be 03
+                            { _group: typeorm_2.In(groupIds), _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-" + day) }
+                        })];
+                case 6:
+                    results_wish = (_a.sent());
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_2 = _a.sent();
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 8:
                     if (results_wish == undefined || results_wish == []) {
                         console.log("e");
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
                     i = 0;
-                    _a.label = 5;
-                case 5:
-                    if (!(i < results_wish.length)) return [3 /*break*/, 11];
-                    _a.label = 6;
-                case 6:
-                    _a.trys.push([6, 8, , 9]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Vote_1.Vote).find({
+                    _a.label = 9;
+                case 9:
+                    if (!(i < results_wish.length)) return [3 /*break*/, 15];
+                    _a.label = 10;
+                case 10:
+                    _a.trys.push([10, 12, , 13]);
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(Vote_1.Vote).find({
                             relations: ['_wish'],
                             where: { _wish: results_wish[0].id }
                         })];
-                case 7:
+                case 11:
                     results_vote = (_a.sent());
-                    return [3 /*break*/, 9];
-                case 8:
-                    e_2 = _a.sent();
+                    return [3 /*break*/, 13];
+                case 12:
+                    e_3 = _a.sent();
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
-                case 9:
+                case 13:
                     if (results_vote == undefined || results_vote == []) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access1" })];
                     }
@@ -127,48 +146,49 @@ router.get("/", function (req, res) {
                         "daytime": results_wish[i].daytime,
                         "votes": { "positive": vote_positiv, "negative": vote_negativ }
                     });
-                    _a.label = 10;
-                case 10:
-                    i++;
-                    return [3 /*break*/, 5];
-                case 11:
-                    if (!(month != undefined && month != "")) return [3 /*break*/, 22];
-                    _a.label = 12;
-                case 12:
-                    _a.trys.push([12, 14, , 15]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Wish_1.Wish).find({
-                            relations: ['_user', '_dish', '_group'],
-                            where: { _user: userId, _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-%") }
-                        })];
-                case 13:
-                    results_wish = (_a.sent());
-                    return [3 /*break*/, 15];
+                    _a.label = 14;
                 case 14:
-                    e_3 = _a.sent();
-                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
-                case 15:
-                    if (results_wish == undefined || results_wish == []) {
-                        console.log("e");
-                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
-                    }
-                    i = 0;
-                    _a.label = 16;
+                    i++;
+                    return [3 /*break*/, 9];
+                case 15: return [3 /*break*/, 29];
                 case 16:
-                    if (!(i < results_wish.length)) return [3 /*break*/, 22];
+                    if (!(month != undefined && month != "")) return [3 /*break*/, 28];
                     _a.label = 17;
                 case 17:
                     _a.trys.push([17, 19, , 20]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Vote_1.Vote).find({
-                            relations: ['_wish'],
-                            where: { _wish: results_wish[i].id }
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(Wish_1.Wish).find({
+                            relations: ['_user', '_dish', '_group'],
+                            where: { _group: typeorm_2.In(groupIds), _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-%") }
                         })];
                 case 18:
-                    results_vote = (_a.sent());
+                    results_wish = (_a.sent());
                     return [3 /*break*/, 20];
                 case 19:
                     e_4 = _a.sent();
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 20:
+                    if (results_wish == undefined || results_wish == []) {
+                        console.log("e");
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    i = 0;
+                    _a.label = 21;
+                case 21:
+                    if (!(i < results_wish.length)) return [3 /*break*/, 27];
+                    _a.label = 22;
+                case 22:
+                    _a.trys.push([22, 24, , 25]);
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(Vote_1.Vote).find({
+                            relations: ['_wish'],
+                            where: { _wish: results_wish[i].id }
+                        })];
+                case 23:
+                    results_vote = (_a.sent());
+                    return [3 /*break*/, 25];
+                case 24:
+                    e_5 = _a.sent();
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 25:
                     if (results_vote == undefined || results_vote == []) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access1" })];
                     }
@@ -190,18 +210,20 @@ router.get("/", function (req, res) {
                         "daytime": results_wish[i].daytime,
                         "votes": { "positive": vote_positiv, "negative": vote_negativ }
                     });
-                    _a.label = 21;
-                case 21:
+                    _a.label = 26;
+                case 26:
                     i++;
-                    return [3 /*break*/, 16];
-                case 22: return [2 /*return*/, res.status(200).json(json)];
+                    return [3 /*break*/, 21];
+                case 27: return [3 /*break*/, 29];
+                case 28: return [2 /*return*/, res.status(404).json({ "error": "Missing day/month argument" })];
+                case 29: return [2 /*return*/, res.status(200).json(json)];
             }
         });
     });
 });
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var userId, groupId, dishId, daytime, date, user, e_1, group, e_2, dish, e_3, datef, wish, json, e_4;
+        var userId, groupId, dishId, daytime, date, user, e_6, group, e_7, dish, e_8, datef, wish, json, e_9;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -216,15 +238,15 @@ router.post("/", function (req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(User_1.User).findOne({
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(User_1.User).findOne({
                             where: { _id: userId }
                         })];
                 case 2:
                     user = (_a.sent());
                     return [3 /*break*/, 4];
                 case 3:
-                    e_1 = _a.sent();
-                    console.log(e_1);
+                    e_6 = _a.sent();
+                    console.log(e_6);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 4:
                     if (user == null) {
@@ -236,15 +258,15 @@ router.post("/", function (req, res) {
                     _a.label = 5;
                 case 5:
                     _a.trys.push([5, 7, , 8]);
-                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Group_1.Group).findOne({
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(Group_1.Group).findOne({
                             where: { _id: groupId }
                         })];
                 case 6:
                     group = (_a.sent());
                     return [3 /*break*/, 8];
                 case 7:
-                    e_2 = _a.sent();
-                    console.log(e_2);
+                    e_7 = _a.sent();
+                    console.log(e_7);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown groupId" })];
                 case 8:
                     if (group == null) {
@@ -256,15 +278,15 @@ router.post("/", function (req, res) {
                     _a.label = 9;
                 case 9:
                     _a.trys.push([9, 11, , 12]);
-                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Dish_1.Dish).findOne({
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(Dish_1.Dish).findOne({
                             where: { _id: dishId }
                         })];
                 case 10:
                     dish = (_a.sent());
                     return [3 /*break*/, 12];
                 case 11:
-                    e_3 = _a.sent();
-                    console.log(e_3);
+                    e_8 = _a.sent();
+                    console.log(e_8);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown dishId" })];
                 case 12:
                     if (dish == null) {
@@ -284,13 +306,13 @@ router.post("/", function (req, res) {
                     _a.label = 13;
                 case 13:
                     _a.trys.push([13, 15, , 16]);
-                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Wish_1.Wish).manager.save(wish)];
+                    return [4 /*yield*/, typeorm_3.getConnection().getRepository(Wish_1.Wish).manager.save(wish)];
                 case 14:
                     _a.sent();
                     return [3 /*break*/, 16];
                 case 15:
-                    e_4 = _a.sent();
-                    console.log(e_4);
+                    e_9 = _a.sent();
+                    console.log(e_9);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at persistence" })];
                 case 16: return [2 /*return*/, res.status(200).json(json)];
             }

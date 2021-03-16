@@ -137,7 +137,7 @@ router.get("/", function (req, res) {
                         ingrd.push({
                             'id': result[i_1].ingredient.id,
                             'name': result[i_1].ingredient.title,
-                            'done': "missing"
+                            'done': result[i_1].done
                         });
                     }
                     json.push({
@@ -248,8 +248,9 @@ router.post("/", function (req, res) {
                     group = (_a.sent());
                     return [3 /*break*/, 5];
                 case 4:
-                    e_6 = _a.sent();
-                    console.log(e_6);
+
+                    e_3 = _a.sent();
+                    console.log(e_3);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 5:
                     if (user == undefined || group == undefined) {
@@ -264,8 +265,9 @@ router.post("/", function (req, res) {
                     _a.sent();
                     return [3 /*break*/, 9];
                 case 8:
-                    e_7 = _a.sent();
-                    console.log(e_7);
+
+                    e_4 = _a.sent();
+                    console.log(e_4);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 9:
                     json = {

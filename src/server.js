@@ -159,6 +159,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 ];
                 userE.dishes = [];
                 shoppingListA = new ShoppingList_1.ShoppingList("09f6ec3f-05e1-48a8-859a-d14d33506312", "PHA Einkaufsliste", false, userA, undefined, groupA);
+
                 shoppingListB = new ShoppingList_1.ShoppingList("05511be6-e417-482d-b543-571062d42b92", "BA Einkaufsliste", false, userD, undefined, groupA);
                 sliA = new ShoppingListIngredient_1.ShoppingListIngredient("06694575-07dc-45bf-9b3b-0ae5d8544a5a", shoppingListA, ingrdA, 200, "gramm");
                 sliB = new ShoppingListIngredient_1.ShoppingListIngredient("2bc81935-ed05-47e6-8903-576ca14bf7c2", shoppingListA, ingrdB, 200, "gramm");
@@ -170,6 +171,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 sliH = new ShoppingListIngredient_1.ShoppingListIngredient("3e7f463d-8b1a-44f2-aeaf-93c79ffd3af3", shoppingListA, ingrdH, 500, "gramm");
                 sliI = new ShoppingListIngredient_1.ShoppingListIngredient("1d66a872-7fc0-4e32-8149-33bb47c4d98b", shoppingListA, ingrdI, 50, "gramm");
                 slibA = new ShoppingListIngredient_1.ShoppingListIngredient("62fe484d-154c-4621-b323-d9f54cfc6675", shoppingListB, ingrdB, 1, "kilogramm");
+
                 ingrdA.shoppingListIngredients = [sliA];
                 ingrdB.shoppingListIngredients = [sliB, slibA];
                 ingrdC.shoppingListIngredients = [sliC];
@@ -205,10 +207,10 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                     wvC, wvD, wvE
                 ];
                 userA.votes = [wvA];
-                userB.votes = [wvA];
-                userC.votes = [wvA];
-                userD.votes = [wvA];
-                userE.votes = [wvA];
+                userB.votes = [wvB];
+                userC.votes = [wvC];
+                userD.votes = [wvD];
+                userE.votes = [wvE];
                 // TODO persist objects
                 return [4 /*yield*/, connection.manager.save(userE)];
             case 1:
