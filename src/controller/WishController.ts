@@ -96,8 +96,7 @@ router.get("/", async function (req, res) {
             })
         }
 
-    }
-    if (month != undefined && month != "") {
+    } else if (month != undefined && month != "") {
         try {
             results_wish = await getConnection().getRepository(Wish).find(
                 {
@@ -146,6 +145,8 @@ router.get("/", async function (req, res) {
                 "votes": {"positive": vote_positiv, "negative": vote_negativ}
             })
         }
+    } else {
+        return res.status(404).json({"error": "Missing day/month argument"});
     }
 
     return res.status(200).json(json);

@@ -83,7 +83,7 @@ router.get("/", function (req, res) {
                     for (i = 0; i < results_ug.length; i++) {
                         groupIds.push(results_ug[i].group.id);
                     }
-                    if (!(day != undefined && day != "")) return [3 /*break*/, 15];
+                    if (!(day != undefined && day != "")) return [3 /*break*/, 16];
                     if (month == undefined || month == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "month undefined" })];
                     }
@@ -150,44 +150,45 @@ router.get("/", function (req, res) {
                 case 14:
                     i++;
                     return [3 /*break*/, 9];
-                case 15:
-                    if (!(month != undefined && month != "")) return [3 /*break*/, 26];
-                    _a.label = 16;
+                case 15: return [3 /*break*/, 29];
                 case 16:
-                    _a.trys.push([16, 18, , 19]);
+                    if (!(month != undefined && month != "")) return [3 /*break*/, 28];
+                    _a.label = 17;
+                case 17:
+                    _a.trys.push([17, 19, , 20]);
                     return [4 /*yield*/, typeorm_3.getConnection().getRepository(Wish_1.Wish).find({
                             relations: ['_user', '_dish', '_group'],
                             where: { _group: typeorm_2.In(groupIds), _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-%") }
                         })];
-                case 17:
-                    results_wish = (_a.sent());
-                    return [3 /*break*/, 19];
                 case 18:
+                    results_wish = (_a.sent());
+                    return [3 /*break*/, 20];
+                case 19:
                     e_4 = _a.sent();
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
-                case 19:
+                case 20:
                     if (results_wish == undefined || results_wish == []) {
                         console.log("e");
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
                     i = 0;
-                    _a.label = 20;
-                case 20:
-                    if (!(i < results_wish.length)) return [3 /*break*/, 26];
                     _a.label = 21;
                 case 21:
-                    _a.trys.push([21, 23, , 24]);
+                    if (!(i < results_wish.length)) return [3 /*break*/, 27];
+                    _a.label = 22;
+                case 22:
+                    _a.trys.push([22, 24, , 25]);
                     return [4 /*yield*/, typeorm_3.getConnection().getRepository(Vote_1.Vote).find({
                             relations: ['_wish'],
                             where: { _wish: results_wish[i].id }
                         })];
-                case 22:
-                    results_vote = (_a.sent());
-                    return [3 /*break*/, 24];
                 case 23:
+                    results_vote = (_a.sent());
+                    return [3 /*break*/, 25];
+                case 24:
                     e_5 = _a.sent();
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
-                case 24:
+                case 25:
                     if (results_vote == undefined || results_vote == []) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access1" })];
                     }
@@ -209,11 +210,13 @@ router.get("/", function (req, res) {
                         "daytime": results_wish[i].daytime,
                         "votes": { "positive": vote_positiv, "negative": vote_negativ }
                     });
-                    _a.label = 25;
-                case 25:
+                    _a.label = 26;
+                case 26:
                     i++;
-                    return [3 /*break*/, 20];
-                case 26: return [2 /*return*/, res.status(200).json(json)];
+                    return [3 /*break*/, 21];
+                case 27: return [3 /*break*/, 29];
+                case 28: return [2 /*return*/, res.status(404).json({ "error": "Missing day/month argument" })];
+                case 29: return [2 /*return*/, res.status(200).json(json)];
             }
         });
     });
