@@ -551,10 +551,10 @@ createConnection(
 	];
 
 	userA.votes = [ wvA ];
-	userB.votes = [ wvA ];
-	userC.votes = [ wvA ];
-	userD.votes = [ wvA ];
-	userE.votes = [ wvA ];
+	userB.votes = [ wvB ];
+	userC.votes = [ wvC ];
+	userD.votes = [ wvD ];
+	userE.votes = [ wvE ];
 
 	// TODO persist objects
 	await connection.manager.save(userE);
