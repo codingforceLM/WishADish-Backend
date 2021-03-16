@@ -12,15 +12,17 @@ export class ShoppingListIngredient {
     @PrimaryColumn() private _id: string;
     @Column("double") private _ammount: number;
     @Column({type: "varchar", length: 100}) private _unit: string;
+    @Column("boolean") private _done: boolean;
     @ManyToOne(() => ShoppingList, shoppingList => shoppingList.shoppingListIngredients, {cascade: true}) private _list: ShoppingList;
     @ManyToOne(() => Ingredient, ingredient => ingredient.shoppingListIngredients, {cascade: true}) private _ingredient: Ingredient;
 
-    constructor(id: string, list: ShoppingList, ingredient: Ingredient, ammount: number, unit: string) {
+    constructor(id: string, list: ShoppingList, ingredient: Ingredient, ammount: number, unit: string, done: boolean) {
         this._id = id;
         this._ammount = ammount;
         this._unit = unit;
         this._list = list;
         this._ingredient = ingredient;
+        this._done = done;
     }
 
     get id(): string {
@@ -61,6 +63,14 @@ export class ShoppingListIngredient {
 
     set ingredient(value: Ingredient) {
         this._ingredient = value;
+    }
+
+    get done(): boolean {
+        return this._done;
+    }
+
+    set done(value: boolean) {
+        this._done = value;
     }
 
 }

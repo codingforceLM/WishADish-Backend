@@ -63,7 +63,7 @@ router.get("/", async function (req, res) {
             ingrd.push({
                 'id': result[i].ingredient.id,
                 'name': result[i].ingredient.title,
-                'done': "missing"
+                'done': result[i].done
             })
         }
 

@@ -14,12 +14,13 @@ var typeorm_1 = require("typeorm");
 var Ingredient_1 = require("../food/ingredients/Ingredient");
 var ShoppingList_1 = require("./ShoppingList");
 var ShoppingListIngredient = /** @class */ (function () {
-    function ShoppingListIngredient(id, list, ingredient, ammount, unit) {
+    function ShoppingListIngredient(id, list, ingredient, ammount, unit, done) {
         this._id = id;
         this._ammount = ammount;
         this._unit = unit;
         this._list = list;
         this._ingredient = ingredient;
+        this._done = done;
     }
     Object.defineProperty(ShoppingListIngredient.prototype, "id", {
         get: function () {
@@ -71,6 +72,16 @@ var ShoppingListIngredient = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(ShoppingListIngredient.prototype, "done", {
+        get: function () {
+            return this._done;
+        },
+        set: function (value) {
+            this._done = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
@@ -84,6 +95,10 @@ var ShoppingListIngredient = /** @class */ (function () {
         __metadata("design:type", String)
     ], ShoppingListIngredient.prototype, "_unit", void 0);
     __decorate([
+        typeorm_1.Column("boolean"),
+        __metadata("design:type", Boolean)
+    ], ShoppingListIngredient.prototype, "_done", void 0);
+    __decorate([
         typeorm_1.ManyToOne(function () { return ShoppingList_1.ShoppingList; }, function (shoppingList) { return shoppingList.shoppingListIngredients; }, { cascade: true }),
         __metadata("design:type", ShoppingList_1.ShoppingList)
     ], ShoppingListIngredient.prototype, "_list", void 0);
@@ -93,7 +108,7 @@ var ShoppingListIngredient = /** @class */ (function () {
     ], ShoppingListIngredient.prototype, "_ingredient", void 0);
     ShoppingListIngredient = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [String, ShoppingList_1.ShoppingList, Ingredient_1.Ingredient, Number, String])
+        __metadata("design:paramtypes", [String, ShoppingList_1.ShoppingList, Ingredient_1.Ingredient, Number, String, Boolean])
     ], ShoppingListIngredient);
     return ShoppingListIngredient;
 }());
