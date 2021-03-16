@@ -8,7 +8,7 @@ import {User} from "../model/user/User";
 
 const router = express.Router();
 const {v4: uuidv4} = require('uuid');
-router.get("/", function (req, res) {
+router.get("/", async function (req, res) {
     const userId = req.header("userId");
     if (userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"});
