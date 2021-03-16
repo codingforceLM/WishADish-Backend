@@ -200,10 +200,10 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                     wvC, wvD, wvE
                 ];
                 userA.votes = [wvA];
-                userB.votes = [wvA];
-                userC.votes = [wvA];
-                userD.votes = [wvA];
-                userE.votes = [wvA];
+                userB.votes = [wvB];
+                userC.votes = [wvC];
+                userD.votes = [wvD];
+                userE.votes = [wvE];
                 // TODO persist objects
                 return [4 /*yield*/, connection.manager.save(userE)];
             case 1:

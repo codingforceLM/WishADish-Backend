@@ -1,11 +1,13 @@
 import express from "express";
 import {Like} from "typeorm";
+import {In} from 'typeorm';
 import {getConnection} from "typeorm";
 import {User} from "../model/user/User";
 import {Wish} from "../model/food/dish/Wish";
 import {Group} from "../model/user/group/Group";
 import {Dish} from "../model/food/dish/Dish";
 import {Vote} from "../model/user/vote/Vote";
+import {UserGroup} from "../model/user/UserGroup";
 
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();
@@ -19,8 +21,26 @@ router.get("/", async function (req, res) {
     }
     let results_wish;
     let results_vote;
+    let results_ug;
     let json = [];
     let date = new Date()
+
+    try {
+        results_ug = await getConnection().getRepository(UserGroup).find(
+            {
+                relations: ['_group'],
+                where:
+                    {_user: userId}
+            }) as UserGroup[];
+    } catch (e) {
+        return res.status(400).json({"error": "Unknown userId"});
+    }
+
+    let groupIds = [];
+    for(let i=0;i<results_ug.length;i++) {
+        groupIds.push(results_ug[i].group.id);
+    }
+
     if (day != undefined && day != "") {
         if (month == undefined || month == "") {
             return res.status(404).json({"error": "month undefined"})
@@ -31,7 +51,7 @@ router.get("/", async function (req, res) {
                     relations: ['_user', '_dish','_group'],
                     where:
                         // month march or 3 needs to be 03
-                        {_user: userId, _date: Like(date.getFullYear() + "-" + month + "-"+day)}
+                        {_group: In(groupIds), _date: Like(date.getFullYear() + "-" + month + "-"+day)}
                 }) as Wish[];
         } catch (e) {
             return res.status(400).json({"error": "Unknown userId"});
@@ -83,7 +103,7 @@ router.get("/", async function (req, res) {
                 {
                     relations: ['_user', '_dish','_group'],
                     where:
-                        {_user: userId, _date: Like(date.getFullYear() + "-" + month + "-%")}
+                        {_group: In(groupIds), _date: Like(date.getFullYear() + "-" + month + "-%")}
                 }) as Wish[];
         } catch (e) {
             return res.status(400).json({"error": "Unknown userId"});
