@@ -489,7 +489,8 @@ createConnection(
 		shoppingListB,
 		ingrdB,
 		1,
-		"kilogramm"
+		"kilogramm",
+		false
 	);
 
 	ingrdA.shoppingListIngredients = [sliA];

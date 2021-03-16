@@ -213,7 +213,8 @@ router.get("/:id", function (req, res) {
                             "id": ingrd.id,
                             "name": ingrd.title,
                             "amount": results_sli[i].ammount,
-                            "unit": results_sli[i].unit
+                            "unit": results_sli[i].unit,
+                            "done": results_sli[i].done
                         });
                     }
                     return [2 /*return*/, res.status(200).json(json)];
@@ -248,9 +249,8 @@ router.post("/", function (req, res) {
                     group = (_a.sent());
                     return [3 /*break*/, 5];
                 case 4:
-
-                    e_3 = _a.sent();
-                    console.log(e_3);
+                    e_6 = _a.sent();
+                    console.log(e_6);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 5:
                     if (user == undefined || group == undefined) {
@@ -265,9 +265,8 @@ router.post("/", function (req, res) {
                     _a.sent();
                     return [3 /*break*/, 9];
                 case 8:
-
-                    e_4 = _a.sent();
-                    console.log(e_4);
+                    e_7 = _a.sent();
+                    console.log(e_7);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 9:
                     json = {

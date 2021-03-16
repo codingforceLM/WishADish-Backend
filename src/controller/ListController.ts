@@ -151,7 +151,8 @@ router.get("/:id", async function(req, res){
             "id": ingrd.id,
             "name": ingrd.title,
             "amount": results_sli[i].ammount,
-            "unit": results_sli[i].unit
+            "unit": results_sli[i].unit,
+            "done": results_sli[i].done
         });
     }
 
