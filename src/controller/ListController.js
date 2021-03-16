@@ -154,9 +154,76 @@ router.get("/", function (req, res) {
         });
     });
 });
+router.get("/:id", function (req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var id, result, e_4, json, results_sli, e_5, i, ingrd;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    id = req.params.id;
+                    if (id == undefined || id.trim() == "") {
+                        return [2 /*return*/, res.status(400).json({ "error": "required field undefined" })];
+                    }
+                    result = undefined;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).findOne({
+                            where: { _id: id }
+                        })];
+                case 2:
+                    result = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_4 = _a.sent();
+                    console.log(e_4);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown id" })];
+                case 4:
+                    if (result == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Unknown id" })];
+                    }
+                    json = {
+                        "id": result.id,
+                        "name": result.title,
+                        "done": result.done,
+                        "ingredients": []
+                    };
+                    results_sli = undefined;
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingListIngredient_1.ShoppingListIngredient).find({
+                            relations: ['_ingredient'],
+                            where: { _list: result.id }
+                        })];
+                case 6:
+                    results_sli = (_a.sent());
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_5 = _a.sent();
+                    console.log(e_5);
+                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                case 8:
+                    if (results_sli == undefined || results_sli == [] || results_sli.length == 0) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    for (i = 0; i < results_sli.length; i++) {
+                        ingrd = results_sli[i].ingredient;
+                        json.ingredients.push({
+                            "id": ingrd.id,
+                            "name": ingrd.title,
+                            "amount": results_sli[i].ammount,
+                            "unit": results_sli[i].unit
+                        });
+                    }
+                    return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
+});
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var name, groupId, userId, user, group, e_4, list, e_5, json;
+        var name, groupId, userId, user, group, e_6, list, e_7, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -181,8 +248,8 @@ router.post("/", function (req, res) {
                     group = (_a.sent());
                     return [3 /*break*/, 5];
                 case 4:
-                    e_4 = _a.sent();
-                    console.log(e_4);
+                    e_6 = _a.sent();
+                    console.log(e_6);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 5:
                     if (user == undefined || group == undefined) {
@@ -197,8 +264,8 @@ router.post("/", function (req, res) {
                     _a.sent();
                     return [3 /*break*/, 9];
                 case 8:
-                    e_5 = _a.sent();
-                    console.log(e_5);
+                    e_7 = _a.sent();
+                    console.log(e_7);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 9:
                     json = {

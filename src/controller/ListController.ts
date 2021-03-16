@@ -101,6 +101,62 @@ router.get("/", async function (req, res) {
     return res.status(200).json(json);
 });
 
+router.get("/:id", async function(req, res){
+    const id = req.params.id;
+    if(id == undefined || id.trim() == "") {
+        return res.status(400).json({"error": "required field undefined"});
+    }
+
+    let result = undefined as unknown as ShoppingList;
+    try{
+        result = await getConnection().getRepository(ShoppingList).findOne(
+            {
+                where:
+                    {_id: id}
+            }) as ShoppingList;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown id"});
+    }
+    if(result == undefined) {
+        return res.status(400).json({"error": "Unknown id"});
+    }
+
+    let json = {
+        "id": result.id,
+        "name": result.title,
+        "done": result.done,
+        "ingredients": [] as Object[]
+    };
+
+    let results_sli = undefined as unknown as ShoppingListIngredient[];
+    try{
+        results_sli = await getConnection().getRepository(ShoppingListIngredient).find(
+            {
+                relations: ['_ingredient'],
+                where:
+                    {_list: result.id}
+            }) as ShoppingListIngredient[];
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Error at db access"});
+    }
+    if(results_sli == undefined || results_sli == [] || results_sli.length == 0) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
+    for(let i=0;i<results_sli.length;i++) {
+        let ingrd = results_sli[i].ingredient;
+        json.ingredients.push({
+            "id": ingrd.id,
+            "name": ingrd.title,
+            "amount": results_sli[i].ammount,
+            "unit": results_sli[i].unit
+        });
+    }
+
+    return res.status(200).json(json);
+});
 
 router.post("/", async function (req, res) {
     const name = req.header("name");
