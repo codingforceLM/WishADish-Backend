@@ -40,13 +40,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-
 var ShoppingList_1 = require("../model/shoppinglist/ShoppingList");
+var ShoppingListIngredient_1 = require("../model/shoppinglist/ShoppingListIngredient");
 var index_1 = require("typeorm/index");
 var User_1 = require("../model/user/User");
 var Group_1 = require("../model/user/group/Group");
 var uuidv4 = require('uuid').v4;
-
 var router = express_1.default.Router();
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -113,7 +112,7 @@ router.get("/", function (req, res) {
                         ingrd.push({
                             'id': result[i_1].ingredient.id,
                             'name': result[i_1].ingredient.title,
-                            'done': "missing"
+                            'done': result[i_1].done
                         });
                     }
                     json.push({
@@ -132,7 +131,7 @@ router.get("/", function (req, res) {
 });
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var name, groupId, userId, user, group, e_1, list, e_2, json;
+        var name, groupId, userId, user, group, e_3, list, e_4, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -157,8 +156,8 @@ router.post("/", function (req, res) {
                     group = (_a.sent());
                     return [3 /*break*/, 5];
                 case 4:
-                    e_1 = _a.sent();
-                    console.log(e_1);
+                    e_3 = _a.sent();
+                    console.log(e_3);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 5:
                     if (user == undefined || group == undefined) {
@@ -173,8 +172,8 @@ router.post("/", function (req, res) {
                     _a.sent();
                     return [3 /*break*/, 9];
                 case 8:
-                    e_2 = _a.sent();
-                    console.log(e_2);
+                    e_4 = _a.sent();
+                    console.log(e_4);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 9:
                     json = {

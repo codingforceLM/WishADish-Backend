@@ -399,7 +399,8 @@ createConnection(
 		shoppingListA,
 		ingrdA,
 		200,
-		"gramm"
+		"gramm",
+		false
 	);
 
 	let sliB = new ShoppingListIngredient(
@@ -407,7 +408,8 @@ createConnection(
 		shoppingListA,
 		ingrdB,
 		200,
-		"gramm"
+		"gramm",
+		false
 	);
 
 	let sliC = new ShoppingListIngredient(
@@ -415,7 +417,8 @@ createConnection(
 		shoppingListA,
 		ingrdC,
 		1,
-		"kilogramm"
+		"kilogramm",
+		true
 	);
 
 	let sliD = new ShoppingListIngredient(
@@ -423,7 +426,8 @@ createConnection(
 		shoppingListA,
 		ingrdD,
 		400,
-		"gramm"
+		"gramm",
+		false
 	);
 
 	let sliE = new ShoppingListIngredient(
@@ -431,7 +435,8 @@ createConnection(
 		shoppingListA,
 		ingrdE,
 		200,
-		"gramm"
+		"gramm",
+		true
 	);
 
 	let sliF = new ShoppingListIngredient(
@@ -439,7 +444,8 @@ createConnection(
 		shoppingListA,
 		ingrdF,
 		250,
-		"gramm"
+		"gramm",
+		false
 	);
 
 	let sliG = new ShoppingListIngredient(
@@ -447,7 +453,8 @@ createConnection(
 		shoppingListA,
 		ingrdG,
 		1,
-		"kilogramm"
+		"kilogramm",
+		false
 	);
 
 	let sliH = new ShoppingListIngredient(
@@ -455,7 +462,8 @@ createConnection(
 		shoppingListA,
 		ingrdH,
 		500,
-		"gramm"
+		"gramm",
+		false
 	);
 
 	let sliI = new ShoppingListIngredient(
@@ -463,7 +471,8 @@ createConnection(
 		shoppingListA,
 		ingrdI,
 		50,
-		"gramm"
+		"gramm",
+		true
 	);
 
 	ingrdA.shoppingListIngredients = [sliA];
