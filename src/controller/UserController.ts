@@ -28,6 +28,7 @@ router.get("/:name",  async function(req, res) {
     }
 
     let json={
+        "userId": user.id,
         "firstname": user.firstname,
         "lastname": user.lastname,
         "birthdate": user.birthday,
