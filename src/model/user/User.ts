@@ -20,6 +20,8 @@ export class User {
     private _lastname: string;
     @Column({type: "varchar", length: 50})
     private _email: string;
+    @Column({type: "varchar", length: 500})
+    private _password: string;
     @Column("date")
     private _birthday: string;
     @Column({type: "varchar", length: 50})
@@ -37,11 +39,12 @@ export class User {
     @OneToMany(() => ShoppingList, shoppingList => shoppingList.user, {cascade: true})
     private _lists: ShoppingList[];
 
-    constructor(id: string, firstname: string, lastname: string, email: string, birthday: string, username: string, fileurl: string, dishes: Dish[], ingredients: Ingredient[], userGroups: UserGroup[], votes: Vote[], lists: ShoppingList[]) {
+    constructor(id: string, firstname: string, lastname: string, email: string, password: string, birthday: string, username: string, fileurl: string, dishes: Dish[], ingredients: Ingredient[], userGroups: UserGroup[], votes: Vote[], lists: ShoppingList[]) {
         this._id = id;
         this._firstname = firstname;
         this._lastname = lastname;
         this._email = email;
+        this._password = password;
         this._birthday = birthday;
         this._username = username;
         this._fileurl = fileurl;
@@ -148,4 +151,11 @@ export class User {
         this._lists = value;
     }
 
+    get password(): string {
+        return this._password;
+    }
+
+    set password(value: string) {
+        this._password = value;
+    }
 }
