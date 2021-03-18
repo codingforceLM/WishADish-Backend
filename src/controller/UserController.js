@@ -43,9 +43,10 @@ var express_1 = __importDefault(require("express"));
 var User_1 = require("../model/user/User");
 var UserGroup_1 = require("../model/user/UserGroup");
 var index_1 = require("typeorm/index");
+var middleware = require("../middleware/loginsystem");
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
-router.get("/:name", function (req, res) {
+router.get("/:name", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var nick, user, e_1, json;
         return __generator(this, function (_a) {
@@ -84,6 +85,7 @@ router.get("/:name", function (req, res) {
         });
     });
 });
+//register route
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var firstname, lastname, username, email, password, birthday, fileurl, user, e_2, json;
@@ -124,7 +126,7 @@ router.post("/", function (req, res) {
         });
     });
 });
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     var id = req.header("id");
     var firstname = req.header("firstname");
     var lastname = req.header("lastname");

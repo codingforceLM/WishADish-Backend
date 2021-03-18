@@ -7,10 +7,11 @@ import {UserGroup} from "../model/user/UserGroup";
 import {Vote} from "../model/user/vote/Vote";
 import {ShoppingList} from "../model/shoppinglist/ShoppingList";
 import {getConnection} from "typeorm/index";
+const middleware = require("../middleware/loginsystem");
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();
 
-router.get("/:name",  async function(req, res) {
+router.get("/:name",  middleware.isLoggedIn, async function(req, res) {
     const nick = req.params.name;
     if (nick == undefined || nick == ""){
         return res.status(404).json({"error": "cannot get user for undefined"})
@@ -39,7 +40,7 @@ router.get("/:name",  async function(req, res) {
     return res.status(200).json(json);
 });
 
-
+//register route
 router.post("/", async function(req, res) {
     const firstname = req.header("firstname");
     const lastname = req.header("lastname");
@@ -75,10 +76,9 @@ router.post("/", async function(req, res) {
 
     return res.status(200).json(json);
 
-
 });
 
-router.put("/", function(req, res) {
+router.put("/", middleware.isLoggedIn, function(req, res) {
     const id = req.header("id");
     const firstname = req.header("firstname");
     const lastname = req.header("lastname");
