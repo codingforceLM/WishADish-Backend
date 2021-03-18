@@ -36,7 +36,9 @@ router.get("/", async function (req, res) {
 
     for(let i=0; i<results.length;i++){
         json.push({
-            "id": results[i].group.id
+            "id": results[i].group.id,
+            "title": results[i].group.title,
+            "creation": results[i].group.creation
         })
     }
 
@@ -67,7 +69,7 @@ router.get("/:id", async function (req, res) {
         return res.status(400).json({"error": "Error at db access"});
     }
 
-    let json = [];
+    let json = {};
     let userlist = [];
 
     for(let i=0; i<results.length;i++){
@@ -78,11 +80,11 @@ router.get("/:id", async function (req, res) {
         })
     }
 
-    json.push({
+    json={
         "id": results[0].group.id,
         "name": results[0].group.title,
         "user": userlist
-    })
+    }
 
     return res.status(200).json(json);
 });
@@ -172,3 +174,4 @@ router.put("/:id", function (req, res) {
 
 
 module.exports = router;
+
