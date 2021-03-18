@@ -58,6 +58,7 @@ var listController = require("./controller/ListController");
 var dishController = require("./controller/DishController");
 var ingrdController = require("./controller/IngrdController");
 var groupController = require("./controller/GroupController");
+var loginController = require("./controller/LoginController");
 ormconfig.entities = [
     User_1.User,
     Dish_1.Dish,
@@ -228,6 +229,7 @@ app.use("/api/vote", voteController);
 app.use("/api/list", listController);
 app.use("/api/dish", dishController);
 app.use("/api/ingrd", ingrdController);
+app.use("/api/login", loginController);
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
