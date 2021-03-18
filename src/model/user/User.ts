@@ -26,6 +26,8 @@ export class User {
     private _birthday: string;
     @Column({type: "varchar", length: 50})
     private _username: string;
+    @Column({type:"datetime", nullable: true})
+    private _lastlogin: string;
     @Column({type: "varchar", length: 250})
     private _fileurl: string;
     @OneToMany(() => Dish, dish => dish.user, {cascade: true})
@@ -39,7 +41,7 @@ export class User {
     @OneToMany(() => ShoppingList, shoppingList => shoppingList.user, {cascade: true})
     private _lists: ShoppingList[];
 
-    constructor(id: string, firstname: string, lastname: string, email: string, password: string, birthday: string, username: string, fileurl: string, dishes: Dish[], ingredients: Ingredient[], userGroups: UserGroup[], votes: Vote[], lists: ShoppingList[]) {
+    constructor(id: string, firstname: string, lastname: string, email: string, password: string, birthday: string, username: string, lastlogin: string, fileurl: string, dishes: Dish[], ingredients: Ingredient[], userGroups: UserGroup[], votes: Vote[], lists: ShoppingList[]) {
         this._id = id;
         this._firstname = firstname;
         this._lastname = lastname;
@@ -47,6 +49,7 @@ export class User {
         this._password = password;
         this._birthday = birthday;
         this._username = username;
+        this._lastlogin = lastlogin;
         this._fileurl = fileurl;
         this._dishes = dishes;
         this._ingredients = ingredients;
@@ -157,5 +160,13 @@ export class User {
 
     set password(value: string) {
         this._password = value;
+    }
+
+    get lastlogin(): string {
+        return this._lastlogin;
+    }
+
+    set lastlogin(value: string) {
+        this._lastlogin = value;
     }
 }

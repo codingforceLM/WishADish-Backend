@@ -54,7 +54,9 @@ router.post("/", async function(req, res) {
     if(fileurl == undefined){
         fileurl = ""
     }
-    let user = new User(uuidv4(),firstname,lastname,email,birthday,username,fileurl,
+
+    // TODO password hashing
+    let user = new User(uuidv4(),firstname,lastname,email, password, birthday,username, undefined as unknown as string, fileurl,
         undefined as unknown as Dish[],
         undefined as unknown as Ingredient[],
         undefined as unknown as UserGroup[],

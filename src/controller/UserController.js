@@ -103,7 +103,7 @@ router.post("/", function (req, res) {
                     if (fileurl == undefined) {
                         fileurl = "";
                     }
-                    user = new User_1.User(uuidv4(), firstname, lastname, email, birthday, username, fileurl, undefined, undefined, undefined, undefined, undefined);
+                    user = new User_1.User(uuidv4(), firstname, lastname, email, password, birthday, username, undefined, fileurl, undefined, undefined, undefined, undefined, undefined);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
