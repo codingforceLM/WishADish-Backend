@@ -40,12 +40,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-
 var User_1 = require("../model/user/User");
 var UserGroup_1 = require("../model/user/UserGroup");
 var index_1 = require("typeorm/index");
 var uuidv4 = require('uuid').v4;
-
 var router = express_1.default.Router();
 router.get("/:name", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -61,7 +59,7 @@ router.get("/:name", function (req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(User_1.User).findOne({ where: { _username: nick } })];
+                    return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({ where: { _username: nick } })];
                 case 2:
                     user = (_a.sent());
                     return [3 /*break*/, 4];
@@ -74,10 +72,12 @@ router.get("/:name", function (req, res) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
                     json = {
+                        "userId": user.id,
                         "firstname": user.firstname,
                         "lastname": user.lastname,
                         "birthdate": user.birthday,
-                        "email": user.email
+                        "email": user.email,
+                        "fileurl": user.fileurl
                     };
                     return [2 /*return*/, res.status(200).json(json)];
             }
@@ -86,7 +86,7 @@ router.get("/:name", function (req, res) {
 });
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var firstname, lastname, username, email, password, birthday, fileurl, user, e_1, json;
+        var firstname, lastname, username, email, password, birthday, fileurl, user, e_2, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -112,8 +112,8 @@ router.post("/", function (req, res) {
                     _a.sent();
                     return [3 /*break*/, 4];
                 case 3:
-                    e_1 = _a.sent();
-                    console.log(e_1);
+                    e_2 = _a.sent();
+                    console.log(e_2);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 4:
                     json = {

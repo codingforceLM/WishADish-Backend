@@ -32,7 +32,8 @@ router.get("/:name",  async function(req, res) {
         "firstname": user.firstname,
         "lastname": user.lastname,
         "birthdate": user.birthday,
-        "email": user.email
+        "email": user.email,
+        "fileurl": user.fileurl
     }
 
     return res.status(200).json(json);
