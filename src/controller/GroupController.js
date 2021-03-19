@@ -77,7 +77,9 @@ router.get("/", function (req, res) {
                     json = [];
                     for (i = 0; i < results.length; i++) {
                         json.push({
-                            "id": results[i].group.id
+                            "id": results[i].group.id,
+                            "title": results[i].group.title,
+                            "creation": results[i].group.creation
                         });
                     }
                     return [2 /*return*/, res.status(200).json(json)];
@@ -113,20 +115,21 @@ router.get("/:id", function (req, res) {
                     if (results == undefined || results == [] || results.length == 0) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
-                    json = [];
+                    json = {};
                     userlist = [];
                     for (i = 0; i < results.length; i++) {
                         userlist.push({
                             "id": results[i].user.id,
                             "name": results[i].user.firstname + " " + results[i].user.lastname,
-                            "role": results[i].role
+                            "role": results[i].role,
+                            "fileurl": results[i].user.fileurl
                         });
                     }
-                    json.push({
+                    json = {
                         "id": results[0].group.id,
                         "name": results[0].group.title,
                         "user": userlist
-                    });
+                    };
                     return [2 /*return*/, res.status(200).json(json)];
             }
         });

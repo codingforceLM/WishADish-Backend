@@ -76,7 +76,8 @@ router.get("/:id", async function (req, res) {
         userlist.push({
             "id": results[i].user.id,
             "name": results[i].user.firstname + " " + results[i].user.lastname,
-            "role": results[i].role
+            "role": results[i].role,
+            "fileurl": results[i].user.fileurl
         })
     }
 
