@@ -40,13 +40,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var typeorm_1 = require("typeorm");
 var index_1 = require("typeorm/index");
 var Ingredient_1 = require("../model/food/ingredients/Ingredient");
 var User_1 = require("../model/user/User");
+var middleware = require("../middleware/loginsystem");
 var router = express_1.default.Router();
 var uuidv4 = require('uuid').v4;
-router.get("/", function (req, res) {
+router.get("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userId, user, e_1, json, i;
         return __generator(this, function (_a) {
@@ -60,7 +60,7 @@ router.get("/", function (req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, typeorm_1.getConnection().getRepository(Ingredient_1.Ingredient).find({ where: { _user: userId } })];
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Ingredient_1.Ingredient).find({ where: { _user: userId } })];
                 case 2:
                     user = (_a.sent());
                     return [3 /*break*/, 4];
@@ -84,9 +84,9 @@ router.get("/", function (req, res) {
         });
     });
 });
-router.post("/", function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var name, userId, user, e_1, ingrd, e_2, json;
+        var name, userId, user, e_2, ingrd, e_3, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -105,8 +105,8 @@ router.post("/", function (req, res) {
                     user = (_a.sent());
                     return [3 /*break*/, 4];
                 case 3:
-                    e_1 = _a.sent();
-                    console.log(e_1);
+                    e_2 = _a.sent();
+                    console.log(e_2);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
                 case 4:
                     if (user == undefined) {
@@ -121,8 +121,8 @@ router.post("/", function (req, res) {
                     _a.sent();
                     return [3 /*break*/, 8];
                 case 7:
-                    e_2 = _a.sent();
-                    console.log(e_2);
+                    e_3 = _a.sent();
+                    console.log(e_3);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 8:
                     json = {
@@ -133,7 +133,7 @@ router.post("/", function (req, res) {
         });
     });
 });
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     var id = req.header("id");
     var name = req.header("name");
     if (id == undefined || id == "") {
@@ -149,7 +149,7 @@ router.put("/", function (req, res) {
     };
     return res.status(200).json(json);
 });
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     var id = req.header("id");
     if (id == undefined || id == "") {
         return res.status(404).json({ "error": "required field undefined" });

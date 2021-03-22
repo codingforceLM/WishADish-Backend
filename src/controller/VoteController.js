@@ -46,7 +46,8 @@ var User_1 = require("../model/user/User");
 var Wish_1 = require("../model/food/dish/Wish");
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
-router.post("/", function (req, res) {
+var middleware = require("../middleware/loginsystem");
+router.post("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var wishId, userId, votepam, vote, user, wish, e_1, voteObj, e_2, json;
         return __generator(this, function (_a) {

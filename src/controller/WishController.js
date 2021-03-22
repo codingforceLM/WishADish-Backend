@@ -49,9 +49,10 @@ var Group_1 = require("../model/user/group/Group");
 var Dish_1 = require("../model/food/dish/Dish");
 var Vote_1 = require("../model/user/vote/Vote");
 var UserGroup_1 = require("../model/user/UserGroup");
+var middleware = require("../middleware/loginsystem");
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
-router.get("/", function (req, res) {
+router.get("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userId, day, month, results_wish, results_vote, results_ug, json, date, e_1, groupIds, i, e_2, i, e_3, vote_positiv, vote_negativ, i_1, e_4, i, e_5, vote_positiv, vote_negativ, i_2;
         return __generator(this, function (_a) {
@@ -221,7 +222,7 @@ router.get("/", function (req, res) {
         });
     });
 });
-router.post("/", function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userId, groupId, dishId, daytime, date, user, e_6, group, e_7, dish, e_8, datef, wish, json, e_9;
         return __generator(this, function (_a) {
@@ -319,7 +320,7 @@ router.post("/", function (req, res) {
         });
     });
 });
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     var wishId = req.header("wishId");
     var groupId = req.header("groupId");
     var dishId = req.header("dishId");
@@ -339,7 +340,7 @@ router.put("/", function (req, res) {
     };
     return res.status(200).json(json);
 });
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     var wishId = req.header("wishId");
     if (wishId == undefined || wishId == "") {
         return res.status(404).json({ "error": "required field undefined" });

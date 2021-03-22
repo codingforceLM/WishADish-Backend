@@ -7,10 +7,11 @@ import {User} from "../model/user/User";
 import {Group} from "../model/user/group/Group";
 import {UserGroup} from "../model/user/UserGroup";
 const {v4: uuidv4} = require('uuid');
+const middleware = require("../middleware/loginsystem");
 
 const router = express.Router();
 
-router.get("/", async function (req, res) {
+router.get("/", middleware.isLoggedIn, async function (req, res) {
     const userId = req.header("userId");
     const done = req.header("done");
     if (userId == undefined || userId == "") {
@@ -101,7 +102,7 @@ router.get("/", async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.get("/:id", async function(req, res){
+router.get("/:id", middleware.isLoggedIn, async function(req, res){
     const id = req.params.id;
     if(id == undefined || id.trim() == "") {
         return res.status(400).json({"error": "required field undefined"});
@@ -159,7 +160,7 @@ router.get("/:id", async function(req, res){
     return res.status(200).json(json);
 });
 
-router.post("/", async function (req, res) {
+router.post("/", middleware.isLoggedIn, async function (req, res) {
     const name = req.header("name");
     const groupId = req.header("groupId");
     const userId = req.header("userId");
@@ -221,7 +222,7 @@ router.put("/", function (req, res) {
     return res.status(200).json(json);
 });
 
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     const id = req.header("id");
     if (id == undefined || id == "") {
         return res.status(404).json({"error": "required field undefined"});
