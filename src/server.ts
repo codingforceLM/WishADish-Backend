@@ -134,6 +134,26 @@ createConnection(
 		undefined as unknown as ShoppingList[]
 	);
 
+	let userSystem = new User(
+		"dbaaa759-149b-4fa4-8451-b87a18837b2a",
+		"System",
+		"System",
+		"system@system.com",
+		"system",
+		"2020-08-08",
+		"system",
+		undefined as unknown as string,
+		"",
+		undefined as unknown as Dish[],
+		undefined as unknown as Ingredient[],
+		undefined as unknown as UserGroup[],
+		undefined as unknown as Vote[],
+		undefined as unknown as ShoppingList[]
+	);
+	userSystem.dishes = []
+	userSystem.ingredients = []
+	userSystem.votes = []
+
 	let groupA = new Group(
 		"2985167a-f0dd-408c-a392-0b0a76b9b94d",
 		"toeftebois",
@@ -184,18 +204,26 @@ createConnection(
 		groupA
 	);
 
+	let ugF = new UserGroup(
+		"4a253a74-fcfe-4303-8b23-e992435ec054",
+		"2020-08-09",
+		"admin",
+		userSystem,
+		groupA
+	);
 	userA.userGroups = [ugA];
 	userB.userGroups = [ugB];
 	userC.userGroups = [ugC];
 	userD.userGroups = [ugD];
 	userE.userGroups = [ugE];
-
+	userSystem.userGroups = [ugF]
 	groupA.userGroups = [
 		ugA,
 		ugB,
 		ugC,
 		ugD,
-		ugE
+		ugE,
+		ugF
 	];
 
 	let ingrdA = new Ingredient(
@@ -264,11 +292,47 @@ createConnection(
 
 	let ingrdI = new Ingredient(
 		"ba657d12-90fe-4c8f-af81-0e46acfba44d",
-		"Oel", //murica invading
+		"Oel",
 		userD,
 		undefined as unknown as DishIngredient[],
 		undefined as unknown as ShoppingListIngredient[]
 	)
+
+	let ingrdJ = new Ingredient(
+		"cf7bc24e-baeb-4f8c-9686-49d57d16aea7",
+		"Tomate",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdK = new Ingredient(
+		"e39f5f6e-cd84-4247-b482-bd26193ef277",
+		"Gurke",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdL = new Ingredient(
+		"c28c38b2-0238-4765-b1eb-6090823453bb",
+		"Apfel",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdM = new Ingredient(
+		"d447f0dd-932e-4c15-8b0d-c008271e6548",
+		"Schinken",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	userSystem.ingredients = [
+		ingrdA, ingrdJ, ingrdK, ingrdL, ingrdM
+	];
 
 	let dishA = new Dish(
 		"66fcfc11-da4a-4d50-9254-e9e9042c9c42",
@@ -526,7 +590,7 @@ createConnection(
 	userC.lists = [];
 	userD.lists = [ shoppingListB ];
 	userE.lists = [];
-
+	userSystem.lists = [];
 	groupA.lists = [ shoppingListA ];
 
 	let wishA = new Wish(
@@ -596,6 +660,11 @@ createConnection(
 	userC.votes = [ wvC ];
 	userD.votes = [ wvD ];
 	userE.votes = [ wvE ];
+
+
+
+
+
 
 	// TODO persist objects
 	await connection.manager.save(userE);

@@ -73,7 +73,7 @@ ormconfig.entities = [
     Invitation_1.Invitation
 ];
 typeorm_1.createConnection(ormconfig).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var inv, lists, wishes, userA, userB, userC, userD, userE, groupA, ugA, ugB, ugC, ugD, ugE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
+    var inv, lists, wishes, userA, userB, userC, userD, userE, userSystem, groupA, ugA, ugB, ugC, ugD, ugE, ugF, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, ingrdJ, ingrdK, ingrdL, ingrdM, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -87,23 +87,30 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userC = new User_1.User("40eca8dd-d3c4-47ae-9b95-8f57cb9d8185", "Heimdall", "Heimr", "heimdall@asgard.com", "lodpw", "2020-08-08", "hhe", undefined, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
                 userD = new User_1.User("8c957413-2cb6-46af-8f47-816c6a183cd1", "Odin", "Wodan", "odin@asgard.com", "owopw", "2020-08-08", "owo", undefined, "https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg", undefined, undefined, undefined, undefined, undefined);
                 userE = new User_1.User("3a2f5fdf-8b00-4b33-bd73-689a6544f027", "Freya", "Freia", "freya@asgard.com", "ffrpw", "2020-08-08", "ffr", undefined, "https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg", undefined, undefined, undefined, undefined, undefined);
+                userSystem = new User_1.User("dbaaa759-149b-4fa4-8451-b87a18837b2a", "System", "System", "system@system.com", "system", "2020-08-08", "system", undefined, "", undefined, undefined, undefined, undefined, undefined);
+                userSystem.dishes = [];
+                userSystem.ingredients = [];
+                userSystem.votes = [];
                 groupA = new Group_1.Group("2985167a-f0dd-408c-a392-0b0a76b9b94d", "toeftebois", "2021-03-09", undefined, inv, lists, wishes);
                 ugA = new UserGroup_1.UserGroup("0530c310-ddc9-4c25-a262-000a43c7e018", "2020-08-09", "member", userA, groupA);
                 ugB = new UserGroup_1.UserGroup("dbf36590-8163-4dd6-802b-90aafde431a8", "2020-08-09", "member", userB, groupA);
                 ugC = new UserGroup_1.UserGroup("5555da1b-271d-4430-9fa5-c34eb658db73", "2020-08-09", "admin", userC, groupA);
                 ugD = new UserGroup_1.UserGroup("b375702a-716d-47d4-a4d6-7e9ba71b21ba", "2020-08-09", "member", userD, groupA);
                 ugE = new UserGroup_1.UserGroup("4a253a74-fcfe-4303-8b23-e992435ec061", "2020-08-09", "admin", userE, groupA);
+                ugF = new UserGroup_1.UserGroup("4a253a74-fcfe-4303-8b23-e992435ec054", "2020-08-09", "admin", userSystem, groupA);
                 userA.userGroups = [ugA];
                 userB.userGroups = [ugB];
                 userC.userGroups = [ugC];
                 userD.userGroups = [ugD];
                 userE.userGroups = [ugE];
+                userSystem.userGroups = [ugF];
                 groupA.userGroups = [
                     ugA,
                     ugB,
                     ugC,
                     ugD,
-                    ugE
+                    ugE,
+                    ugF
                 ];
                 ingrdA = new Ingredient_1.Ingredient("7468466f-12da-4da4-83b0-fa0ca578c4e2", "Paprika", userA, undefined, undefined);
                 ingrdB = new Ingredient_1.Ingredient("9326354a-f5c5-4943-b7c5-c0d6bf845a0f", "Zwiebel", userA, undefined, undefined);
@@ -113,8 +120,14 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 ingrdF = new Ingredient_1.Ingredient("3b957369-0631-403f-ada8-5cbbe5c99e3a", "Emmentaler gerieben", userA, undefined, undefined);
                 ingrdG = new Ingredient_1.Ingredient("2b2c8e02-34ed-4f2f-8e82-a9e9f21989e1", "Kartoffel", userD, undefined, undefined);
                 ingrdH = new Ingredient_1.Ingredient("7a7f0221-064e-4a64-ac11-83189ef8f6b0", "Zwiebel", userD, undefined, undefined);
-                ingrdI = new Ingredient_1.Ingredient("ba657d12-90fe-4c8f-af81-0e46acfba44d", "Oel", //murica invading
-                userD, undefined, undefined);
+                ingrdI = new Ingredient_1.Ingredient("ba657d12-90fe-4c8f-af81-0e46acfba44d", "Oel", userD, undefined, undefined);
+                ingrdJ = new Ingredient_1.Ingredient("cf7bc24e-baeb-4f8c-9686-49d57d16aea7", "Tomate", userSystem, undefined, undefined);
+                ingrdK = new Ingredient_1.Ingredient("e39f5f6e-cd84-4247-b482-bd26193ef277", "Gurke", userSystem, undefined, undefined);
+                ingrdL = new Ingredient_1.Ingredient("c28c38b2-0238-4765-b1eb-6090823453bb", "Apfel", userSystem, undefined, undefined);
+                ingrdM = new Ingredient_1.Ingredient("d447f0dd-932e-4c15-8b0d-c008271e6548", "Schinken", userSystem, undefined, undefined);
+                userSystem.ingredients = [
+                    ingrdA, ingrdJ, ingrdK, ingrdL, ingrdM
+                ];
                 dishA = new Dish_1.Dish("66fcfc11-da4a-4d50-9254-e9e9042c9c42", "Paprika-Haehnchen Auflauf", userA, undefined, undefined);
                 dishB = new Dish_1.Dish("b3029200-5379-4254-835e-9ea49fddeded", "Bratkartoffeln", userD, undefined, undefined);
                 diA = new DishIngredient_1.DishIngredient("94b9afa3-3c03-4e2a-944f-17f2d30c7191", dishA, ingrdA, 200, "gramm");
@@ -191,6 +204,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userC.lists = [];
                 userD.lists = [shoppingListB];
                 userE.lists = [];
+                userSystem.lists = [];
                 groupA.lists = [shoppingListA];
                 wishA = new Wish_1.Wish("58b3b01f-489a-44f3-9889-0e2445b23097", "lunch", "2021-03-11", userA, dishA, groupA, undefined);
                 wishB = new Wish_1.Wish("7637b9c1-c4b1-447d-ad1c-5780ed75e261", "morning", "2021-03-11", userD, dishB, groupA, undefined);
