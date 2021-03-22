@@ -8,11 +8,13 @@ import {Group} from "../model/user/group/Group";
 import {Dish} from "../model/food/dish/Dish";
 import {Vote} from "../model/user/vote/Vote";
 import {UserGroup} from "../model/user/UserGroup";
+const middleware = require("../middleware/loginsystem");
+
 
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();
 
-router.get("/", async function (req, res) {
+router.get("/", middleware.isLoggedIn, async function (req, res) {
     const userId = req.header("userId");
     const day = req.header("day");
     const month = req.header("month");
@@ -152,7 +154,7 @@ router.get("/", async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.post("/", async function (req, res) {
+router.post("/", middleware.isLoggedIn, async function (req, res) {
     const userId = req.header("userId");
     const groupId = req.header("groupId");
     const dishId = req.header("dishId");
@@ -245,7 +247,7 @@ router.post("/", async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     const wishId = req.header("wishId");
     const groupId = req.header("groupId");
     const dishId = req.header("dishId");
@@ -268,7 +270,7 @@ router.put("/", function (req, res) {
     return res.status(200).json(json);
 });
 
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     const wishId = req.header("wishId");
     if (wishId == undefined || wishId == "") {
         return res.status(404).json({"error": "required field undefined"})

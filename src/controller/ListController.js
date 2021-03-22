@@ -48,8 +48,9 @@ var User_1 = require("../model/user/User");
 var Group_1 = require("../model/user/group/Group");
 var UserGroup_1 = require("../model/user/UserGroup");
 var uuidv4 = require('uuid').v4;
+var middleware = require("../middleware/loginsystem");
 var router = express_1.default.Router();
-router.get("/", function (req, res) {
+router.get("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userId, done, results_ug, e_1, groupIds, i, lists, json, e_2, i, result, e_3, ingrd, i_1;
         return __generator(this, function (_a) {
@@ -154,7 +155,7 @@ router.get("/", function (req, res) {
         });
     });
 });
-router.get("/:id", function (req, res) {
+router.get("/:id", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var id, result, e_4, json, results_sli, e_5, i, ingrd;
         return __generator(this, function (_a) {
@@ -222,7 +223,7 @@ router.get("/:id", function (req, res) {
         });
     });
 });
-router.post("/", function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var name, groupId, userId, user, group, e_6, list, e_7, json;
         return __generator(this, function (_a) {
@@ -295,7 +296,7 @@ router.put("/", function (req, res) {
     };
     return res.status(200).json(json);
 });
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     var id = req.header("id");
     if (id == undefined || id == "") {
         return res.status(404).json({ "error": "required field undefined" });

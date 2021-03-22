@@ -17,13 +17,15 @@ var UserGroup_1 = require("./UserGroup");
 var Vote_1 = require("./vote/Vote");
 var ShoppingList_1 = require("../shoppinglist/ShoppingList");
 var User = /** @class */ (function () {
-    function User(id, firstname, lastname, email, birthday, username, fileurl, dishes, ingredients, userGroups, votes, lists) {
+    function User(id, firstname, lastname, email, password, birthday, username, lastlogin, fileurl, dishes, ingredients, userGroups, votes, lists) {
         this._id = id;
         this._firstname = firstname;
         this._lastname = lastname;
         this._email = email;
+        this._password = password;
         this._birthday = birthday;
         this._username = username;
+        this._lastlogin = lastlogin;
         this._fileurl = fileurl;
         this._dishes = dishes;
         this._ingredients = ingredients;
@@ -151,6 +153,26 @@ var User = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(User.prototype, "password", {
+        get: function () {
+            return this._password;
+        },
+        set: function (value) {
+            this._password = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(User.prototype, "lastlogin", {
+        get: function () {
+            return this._lastlogin;
+        },
+        set: function (value) {
+            this._lastlogin = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         typeorm_1.PrimaryColumn(),
         __metadata("design:type", String)
@@ -168,6 +190,10 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "_email", void 0);
     __decorate([
+        typeorm_1.Column({ type: "varchar", length: 500 }),
+        __metadata("design:type", String)
+    ], User.prototype, "_password", void 0);
+    __decorate([
         typeorm_1.Column("date"),
         __metadata("design:type", String)
     ], User.prototype, "_birthday", void 0);
@@ -175,6 +201,10 @@ var User = /** @class */ (function () {
         typeorm_1.Column({ type: "varchar", length: 50 }),
         __metadata("design:type", String)
     ], User.prototype, "_username", void 0);
+    __decorate([
+        typeorm_1.Column({ type: "datetime", nullable: true }),
+        __metadata("design:type", String)
+    ], User.prototype, "_lastlogin", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 250 }),
         __metadata("design:type", String)
@@ -201,7 +231,7 @@ var User = /** @class */ (function () {
     ], User.prototype, "_lists", void 0);
     User = __decorate([
         typeorm_1.Entity(),
-        __metadata("design:paramtypes", [String, String, String, String, String, String, String, Array, Array, Array, Array, Array])
+        __metadata("design:paramtypes", [String, String, String, String, String, String, String, String, String, Array, Array, Array, Array, Array])
     ], User);
     return User;
 }());

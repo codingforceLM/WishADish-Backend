@@ -5,10 +5,11 @@ import {Ingredient} from "../model/food/ingredients/Ingredient";
 import {DishIngredient} from "../model/food/dish/DishIngredient";
 import {ShoppingListIngredient} from "../model/shoppinglist/ShoppingListIngredient";
 import {User} from "../model/user/User";
+const middleware = require("../middleware/loginsystem");
 
 const router = express.Router();
 const {v4: uuidv4} = require('uuid');
-router.get("/", async function (req, res) {
+router.get("/", middleware.isLoggedIn, async function (req, res) {
     const userId = req.header("userId");
     if (userId == undefined || userId == "") {
         return res.status(404).json({"error": "required field undefined"});
@@ -38,7 +39,7 @@ router.get("/", async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.post("/", async function (req, res) {
+router.post("/", middleware.isLoggedIn, async function (req, res) {
     const name = req.header("name");
     const userId = req.header("userId");
     if (name == undefined || name == "" || userId == undefined || userId == "") {
@@ -72,7 +73,7 @@ router.post("/", async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     const id = req.header("id");
     const name = req.header("name");
     if (id == undefined || id == "") {
@@ -90,7 +91,7 @@ router.put("/", function (req, res) {
     return res.status(200).json(json);
 });
 
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     const id = req.header("id");
     if (id == undefined || id == "") {
         return res.status(404).json({"error": "required field undefined"});

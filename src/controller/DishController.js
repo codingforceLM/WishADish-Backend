@@ -47,7 +47,8 @@ var DishIngredient_1 = require("../model/food/dish/DishIngredient");
 var User_1 = require("../model/user/User");
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
-router.get("/", function (req, res) {
+var middleware = require("../middleware/loginsystem");
+router.get("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userId, dishes, e_1, json, i;
         return __generator(this, function (_a) {
@@ -88,7 +89,7 @@ router.get("/", function (req, res) {
         });
     });
 });
-router.get("/:id", function (req, res) {
+router.get("/:id", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var dishId, dishes, e_2, dish, json, i, ingredient;
         return __generator(this, function (_a) {
@@ -137,7 +138,7 @@ router.get("/:id", function (req, res) {
         });
     });
 });
-router.post("/", function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var name, ingridientsparam, userId, user, e_3, ingredients, i, ingrd, idmiss, ammiss, unmiss, missing, dish, dis, i, ingrd, qIngrd, e_4, json;
         return __generator(this, function (_a) {
@@ -235,7 +236,7 @@ router.post("/", function (req, res) {
         });
     });
 });
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     var dishId = req.header("dishId");
     var name = req.header("name");
     var ingridients = req.header("ingridients");
@@ -253,7 +254,7 @@ router.put("/", function (req, res) {
     };
     return res.status(200).json(json);
 });
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     var dishId = req.header("dishId");
     if (dishId == undefined || dishId == "") {
         return res.status(404).json({ "error": "required field undefined" });

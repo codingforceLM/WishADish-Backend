@@ -40,68 +40,55 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var Vote_1 = require("../model/user/vote/Vote");
 var index_1 = require("typeorm/index");
 var User_1 = require("../model/user/User");
-var Wish_1 = require("../model/food/dish/Wish");
+var logsysconfig = require("../../config/logsysconfig.json");
+var jwt = require('jsonwebtoken');
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
-var middleware = require("../middleware/loginsystem");
-router.post("/", middleware.isLoggedIn, function (req, res) {
+router.post('/', function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var wishId, userId, votepam, vote, user, wish, e_1, voteObj, e_2, json;
+        var email, password, user, e_1, token;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    wishId = req.header("wishId");
-                    userId = req.header("userId");
-                    votepam = req.header("vote");
-                    if (wishId == undefined || wishId == "" || userId == undefined || userId == "" || votepam == "") {
-                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
-                    }
-                    vote = Number(votepam);
-                    if (vote != 0 && vote != 1) {
-                        return [2 /*return*/, res.status(404).json({ "error": "vote unknown" })];
-                    }
+                    email = req.header("email");
+                    password = req.header("password");
+                    user = undefined;
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 4, , 5]);
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({
-                            where: { _id: userId }
+                            where: {
+                                _email: email
+                            }
                         })];
                 case 2:
                     user = (_a.sent());
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Wish_1.Wish).findOne({
-                            where: { _id: wishId }
-                        })];
+                    return [3 /*break*/, 4];
                 case 3:
-                    wish = (_a.sent());
-                    return [3 /*break*/, 5];
-                case 4:
                     e_1 = _a.sent();
                     console.log(e_1);
-                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
-                case 5:
-                    if (user == undefined || wish == undefined) {
-                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    return [2 /*return*/, res.status(400).json({ "error": "Username or password is incorrect!" })];
+                case 4:
+                    if (user == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Username or password is incorrect!" })];
                     }
-                    voteObj = new Vote_1.Vote(uuidv4(), vote, user, wish);
-                    _a.label = 6;
-                case 6:
-                    _a.trys.push([6, 8, , 9]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Vote_1.Vote).manager.save(voteObj)];
-                case 7:
-                    _a.sent();
-                    return [3 /*break*/, 9];
-                case 8:
-                    e_2 = _a.sent();
-                    console.log(e_2);
-                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
-                case 9:
-                    json = {
-                        "msg": "Vote cased"
-                    };
-                    return [2 /*return*/, res.status(200).json(json)];
+                    // de-hash password from database
+                    if (password !== user.password) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Username or password is incorrect!" })];
+                    }
+                    token = jwt.sign({
+                        username: user.username,
+                        userId: user.id
+                    }, logsysconfig.jwtsecret, {
+                        expiresIn: '7d'
+                    });
+                    return [2 /*return*/, res.status(200).json({
+                            "msg": "logged in",
+                            "token": token,
+                            "userId": user.id
+                        })];
             }
         });
     });

@@ -5,8 +5,10 @@ import {User} from "../model/user/User";
 import {Wish} from "../model/food/dish/Wish";
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();
+const middleware = require("../middleware/loginsystem");
 
-router.post("/", async function (req, res) {
+
+router.post("/", middleware.isLoggedIn, async function (req, res) {
     const wishId = req.header("wishId");
     const userId = req.header("userId");
     const votepam = req.header("vote");

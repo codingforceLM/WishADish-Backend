@@ -22,6 +22,7 @@ const listController = require("./controller/ListController");
 const dishController = require("./controller/DishController");
 const ingrdController = require("./controller/IngrdController");
 const groupController = require("./controller/GroupController");
+const loginController = require("./controller/LoginController");
 
 
 ormconfig.entities = [
@@ -38,7 +39,6 @@ ormconfig.entities = [
 	Invitation
 ]
 
-
 createConnection(
 	ormconfig
 ).then(async connection => {
@@ -54,8 +54,10 @@ createConnection(
 		"Thor",
 		"Odinson",
 		"thor@asgard.com",
+		"todpw",
 		"2020-08-08",
 		"tod",
+		undefined as unknown as string,
 		"https://static.wikia.nocookie.net/avengers/images/4/48/Thor_Gladiator.jpg/revision/latest/top-crop/width/360/height/360?cb=20171105082329&path-prefix=de",
 		undefined as unknown as Dish[],
 		undefined as unknown as Ingredient[],
@@ -69,8 +71,10 @@ createConnection(
 		"Loki",
 		"Odinson",
 		"loki@asgard.com",
+		"lodpw",
 		"2020-08-08",
 		"lod",
+		undefined as unknown as string,
 		"https://static.wikia.nocookie.net/antagonisten/images/2/2d/The-avengers-loki.jpg/revision/latest?cb=20170506225328&path-prefix=de",
 		undefined as unknown as Dish[],
 		undefined as unknown as Ingredient[],
@@ -84,8 +88,10 @@ createConnection(
 		"Heimdall",
 		"Heimr",
 		"heimdall@asgard.com",
+		"lodpw",
 		"2020-08-08",
 		"hhe",
+		undefined as unknown as string,
 		"https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png",
 		undefined as unknown as Dish[],
 		undefined as unknown as Ingredient[],
@@ -99,8 +105,10 @@ createConnection(
 		"Odin",
 		"Wodan",
 		"odin@asgard.com",
+		"owopw",
 		"2020-08-08",
 		"owo",
+		undefined as unknown as string,
 		"https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg",
 		undefined as unknown as Dish[],
 		undefined as unknown as Ingredient[],
@@ -114,8 +122,10 @@ createConnection(
 		"Freya",
 		"Freia",
 		"freya@asgard.com",
+		"ffrpw",
 		"2020-08-08",
-		"owo",
+		"ffr",
+		undefined as unknown as string,
 		"https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg",
 		undefined as unknown as Dish[],
 		undefined as unknown as Ingredient[],
@@ -602,6 +612,7 @@ app.use("/api/vote", voteController);
 app.use("/api/list", listController);
 app.use("/api/dish", dishController);
 app.use("/api/ingrd", ingrdController);
+app.use("/api/login", loginController);
 
 app.get('/', function(req, res) {
 	res.send('Hello World!');

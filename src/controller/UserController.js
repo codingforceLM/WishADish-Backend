@@ -43,9 +43,10 @@ var express_1 = __importDefault(require("express"));
 var User_1 = require("../model/user/User");
 var UserGroup_1 = require("../model/user/UserGroup");
 var index_1 = require("typeorm/index");
+var middleware = require("../middleware/loginsystem");
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
-router.get("/:name", function (req, res) {
+router.get("/:name", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var nick, user, e_1, json;
         return __generator(this, function (_a) {
@@ -84,6 +85,7 @@ router.get("/:name", function (req, res) {
         });
     });
 });
+//register route
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var firstname, lastname, username, email, password, birthday, fileurl, user, e_2, json;
@@ -103,7 +105,7 @@ router.post("/", function (req, res) {
                     if (fileurl == undefined) {
                         fileurl = "";
                     }
-                    user = new User_1.User(uuidv4(), firstname, lastname, email, birthday, username, fileurl, undefined, undefined, undefined, undefined, undefined);
+                    user = new User_1.User(uuidv4(), firstname, lastname, email, password, birthday, username, undefined, fileurl, undefined, undefined, undefined, undefined, undefined);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -124,7 +126,7 @@ router.post("/", function (req, res) {
         });
     });
 });
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     var id = req.header("id");
     var firstname = req.header("firstname");
     var lastname = req.header("lastname");

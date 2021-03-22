@@ -44,9 +44,10 @@ var typeorm_1 = require("typeorm");
 var UserGroup_1 = require("../model/user/UserGroup");
 var User_1 = require("../model/user/User");
 var Group_1 = require("../model/user/group/Group");
+var middleware = require("../middleware/loginsystem");
 var router = express_1.default.Router();
 var uuidv4 = require('uuid').v4;
-router.get("/", function (req, res) {
+router.get("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userId, results, e_1, json, i;
         return __generator(this, function (_a) {
@@ -87,7 +88,7 @@ router.get("/", function (req, res) {
         });
     });
 });
-router.get("/:id", function (req, res) {
+router.get("/:id", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var groupId, results, e_2, json, userlist, i;
         return __generator(this, function (_a) {
@@ -135,7 +136,7 @@ router.get("/:id", function (req, res) {
         });
     });
 });
-router.post("/", function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var name, userId, user, e_3, date, group, userGroup, e_4, json;
         return __generator(this, function (_a) {
@@ -189,7 +190,7 @@ router.post("/", function (req, res) {
         });
     });
 });
-router.delete("/", function (req, res) {
+router.delete("/", middleware.isLoggedIn, function (req, res) {
     var id = req.header("id");
     if (id == undefined || id == "") {
         return res.status(404).json({ "error": "ID unknown" });
@@ -203,7 +204,7 @@ router.delete("/", function (req, res) {
     };
     return res.status(200).json(json);
 });
-router.put("/:id", function (req, res) {
+router.put("/:id", middleware.isLoggedIn, function (req, res) {
     var id = req.params.id;
     var user = req.header("user");
     if (id == undefined || id == "") {
