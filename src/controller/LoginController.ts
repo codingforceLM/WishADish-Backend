@@ -45,7 +45,8 @@ router.post('/', async function(req, res){
     return res.status(200).json({
         "msg": "logged in",
         "token": token,
-        "userId": user.id
+        "userId": user.id,
+        "username": user.username
     });
 });
 
