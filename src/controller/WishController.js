@@ -54,18 +54,18 @@ var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
 router.get("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var userId, day, month, results_wish, results_vote, results_ug, json, date, e_1, groupIds, i, e_2, i, e_3, vote_positiv, vote_negativ, i_1, e_4, i, e_5, vote_positiv, vote_negativ, i_2;
+        var userId, day, month, year, results_wish, results_vote, results_ug, json, e_1, groupIds, i, e_2, i, e_3, vote_positiv, vote_negativ, i_1, e_4, i, e_5, vote_positiv, vote_negativ, i_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     userId = req.header("userId");
                     day = req.header("day");
                     month = req.header("month");
-                    if (userId == undefined || userId == "") {
+                    year = req.header("year");
+                    if (userId == undefined || userId == "" || year == undefined || year == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
                     }
                     json = [];
-                    date = new Date();
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -95,7 +95,7 @@ router.get("/", middleware.isLoggedIn, function (req, res) {
                             relations: ['_user', '_dish', '_group'],
                             where: 
                             // month march or 3 needs to be 03
-                            { _group: typeorm_2.In(groupIds), _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-" + day) }
+                            { _group: typeorm_2.In(groupIds), _date: typeorm_1.Like(year + "-" + month + "-" + day) }
                         })];
                 case 6:
                     results_wish = (_a.sent());
@@ -159,7 +159,7 @@ router.get("/", middleware.isLoggedIn, function (req, res) {
                     _a.trys.push([17, 19, , 20]);
                     return [4 /*yield*/, typeorm_3.getConnection().getRepository(Wish_1.Wish).find({
                             relations: ['_user', '_dish', '_group'],
-                            where: { _group: typeorm_2.In(groupIds), _date: typeorm_1.Like(date.getFullYear() + "-" + month + "-%") }
+                            where: { _group: typeorm_2.In(groupIds), _date: typeorm_1.Like(year + "-" + month + "-%") }
                         })];
                 case 18:
                     results_wish = (_a.sent());

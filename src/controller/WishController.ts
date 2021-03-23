@@ -18,14 +18,14 @@ router.get("/", middleware.isLoggedIn, async function (req, res) {
     const userId = req.header("userId");
     const day = req.header("day");
     const month = req.header("month");
-    if (userId == undefined || userId == "") {
+    const year = req.header("year")
+    if (userId == undefined || userId == "" || year == undefined || year == "") {
         return res.status(404).json({"error": "required field undefined"})
     }
     let results_wish;
     let results_vote;
     let results_ug;
     let json = [];
-    let date = new Date()
 
     try {
         results_ug = await getConnection().getRepository(UserGroup).find(
@@ -53,7 +53,7 @@ router.get("/", middleware.isLoggedIn, async function (req, res) {
                     relations: ['_user', '_dish','_group'],
                     where:
                         // month march or 3 needs to be 03
-                        {_group: In(groupIds), _date: Like(date.getFullYear() + "-" + month + "-"+day)}
+                        {_group: In(groupIds), _date: Like(year + "-" + month + "-"+day)}
                 }) as Wish[];
         } catch (e) {
             return res.status(400).json({"error": "Unknown userId"});
@@ -104,7 +104,7 @@ router.get("/", middleware.isLoggedIn, async function (req, res) {
                 {
                     relations: ['_user', '_dish','_group'],
                     where:
-                        {_group: In(groupIds), _date: Like(date.getFullYear() + "-" + month + "-%")}
+                        {_group: In(groupIds), _date: Like(year + "-" + month + "-%")}
                 }) as Wish[];
         } catch (e) {
             return res.status(400).json({"error": "Unknown userId"});
