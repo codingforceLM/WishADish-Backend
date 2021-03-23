@@ -11,15 +11,15 @@ const middleware = require("../middleware/loginsystem");
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();
 
-router.get("/:name",  middleware.isLoggedIn, async function(req, res) {
-    const nick = req.params.name;
-    if (nick == undefined || nick == ""){
+router.get("/:id",  middleware.isLoggedIn, async function(req, res) {
+    const id = req.params.id;
+    if (id == undefined || id == ""){
         return res.status(404).json({"error": "cannot get user for undefined"})
     }
 
     let user = undefined;
     try {
-        user = await getConnection().getRepository(User).findOne({ where: { _username: nick} }) as User;
+        user = await getConnection().getRepository(User).findOne({ where: { _id: id} }) as User;
     } catch (e) {
         console.log(e);
         return res.status(400).json({"error": "Unknown username"});
