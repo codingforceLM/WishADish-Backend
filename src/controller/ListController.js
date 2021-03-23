@@ -205,8 +205,8 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
                     console.log(e_5);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 8:
-                    if (results_sli == undefined || results_sli == [] || results_sli.length == 0) {
-                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    if (results_sli == [] || results_sli.length == 0) {
+                        json.ingredients = [];
                     }
                     for (i = 0; i < results_sli.length; i++) {
                         ingrd = results_sli[i].ingredient;

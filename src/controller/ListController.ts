@@ -142,8 +142,9 @@ router.get("/:id", middleware.isLoggedIn, async function(req, res){
         console.log(e);
         return res.status(400).json({"error": "Error at db access"});
     }
-    if(results_sli == undefined || results_sli == [] || results_sli.length == 0) {
-        return res.status(400).json({"error": "Error at db access"});
+
+    if(results_sli == [] || results_sli.length == 0) {
+        json.ingredients=[]
     }
 
     for(let i=0;i<results_sli.length;i++) {
