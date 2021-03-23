@@ -46,21 +46,21 @@ var index_1 = require("typeorm/index");
 var middleware = require("../middleware/loginsystem");
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
-router.get("/:name", middleware.isLoggedIn, function (req, res) {
+router.get("/:id", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var nick, user, e_1, json;
+        var id, user, e_1, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    nick = req.params.name;
-                    if (nick == undefined || nick == "") {
+                    id = req.params.id;
+                    if (id == undefined || id == "") {
                         return [2 /*return*/, res.status(404).json({ "error": "cannot get user for undefined" })];
                     }
                     user = undefined;
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({ where: { _username: nick } })];
+                    return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({ where: { _id: id } })];
                 case 2:
                     user = (_a.sent());
                     return [3 /*break*/, 4];
@@ -85,10 +85,51 @@ router.get("/:name", middleware.isLoggedIn, function (req, res) {
         });
     });
 });
+router.get("/:id/groups", middleware.isLoggedIn, function (req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var id, user, e_2, json, i, ug;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    id = req.params.id;
+                    if (id == undefined || id == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    user = undefined;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(UserGroup_1.UserGroup).find({
+                            relations: ['_group'],
+                            where: {
+                                _user: id
+                            }
+                        })];
+                case 2:
+                    user = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_2 = _a.sent();
+                    console.log(e_2);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 4:
+                    if (user == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                    }
+                    json = [];
+                    for (i = 0; i < user.length; i++) {
+                        ug = user[i];
+                        json.push(ug.group);
+                    }
+                    return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
+});
 //register route
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var firstname, lastname, username, email, password, birthday, fileurl, user, e_2, json;
+        var firstname, lastname, username, email, password, birthday, fileurl, user, e_3, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -114,8 +155,8 @@ router.post("/", function (req, res) {
                     _a.sent();
                     return [3 /*break*/, 4];
                 case 3:
-                    e_2 = _a.sent();
-                    console.log(e_2);
+                    e_3 = _a.sent();
+                    console.log(e_3);
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 4:
                     json = {
