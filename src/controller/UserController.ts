@@ -40,6 +40,37 @@ router.get("/:id",  middleware.isLoggedIn, async function(req, res) {
     return res.status(200).json(json);
 });
 
+router.get("/:id/groups",  middleware.isLoggedIn, async function(req, res) {
+    const id = req.params.id;
+    if (id == undefined || id == ""){
+        return res.status(404).json({"error": "required field undefined"})
+    }
+
+    let user = undefined;
+    try {
+        user = await getConnection().getRepository(UserGroup).find({
+            relations: ['_group'],
+            where: {
+                _user: id
+            }
+        }) as UserGroup[];
+    } catch (e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
+    }
+    if(user == undefined) {
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
+    let json = [];
+    for(let i=0;i<user.length;i++) {
+        let ug = user[i];
+        json.push(ug.group);
+    }
+
+    return res.status(200).json(json);
+});
+
 //register route
 router.post("/", async function(req, res) {
     const firstname = req.header("firstname");
