@@ -9,7 +9,7 @@ import { Group } from "./Group";
 @Entity()
 export class Invitation {
     @PrimaryColumn() private _id: string;
-    @Column("timestamp") private _timestamp: string;
+    @Column({type: "timestamp", default: () => "CURRENT_TIMESTAMP"}) private _timestamp: string;
     @Column({type: "varchar", length: 500}) private _url: string;
     @ManyToOne(() => Group, group => group.invites, {cascade: true}) private _group: Group;
 

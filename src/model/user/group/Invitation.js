@@ -64,7 +64,7 @@ var Invitation = /** @class */ (function () {
         __metadata("design:type", String)
     ], Invitation.prototype, "_id", void 0);
     __decorate([
-        typeorm_1.Column("timestamp"),
+        typeorm_1.Column({ type: "timestamp", default: function () { return "CURRENT_TIMESTAMP"; } }),
         __metadata("design:type", String)
     ], Invitation.prototype, "_timestamp", void 0);
     __decorate([
