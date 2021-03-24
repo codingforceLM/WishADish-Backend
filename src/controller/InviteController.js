@@ -111,6 +111,9 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
                     console.log(e_3);
                     return [2 /*return*/, res.status(400).json({ "error": "Unknown inviteId" })];
                 case 4:
+                    if (result == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "invite undefined" })];
+                    }
                     group = result.group;
                     _a.label = 5;
                 case 5:
@@ -130,8 +133,8 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
                     return [2 /*return*/, res.status(400).json({ "error": "I dont know really" })];
                 case 8:
                     if (result.length !== 0) {
-                        return [2 /*return*/, res.status(400).json({ "error": "User already member of group" })];
                         console.log(result);
+                        return [2 /*return*/, res.status(400).json({ "error": "User already member of group" })];
                     }
                     _a.label = 9;
                 case 9:

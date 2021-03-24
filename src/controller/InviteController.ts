@@ -65,6 +65,10 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         console.log(e);
         return res.status(400).json({"error": "Unknown inviteId"});
     }
+    if(result == undefined) {
+        return res.status(400).json({"error": "invite undefined"});
+
+    }
 
     let group = result.group;
     try{
@@ -81,8 +85,8 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         return res.status(400).json({"error": "I dont know really"});
     }
     if(result.length !== 0) {
-        return res.status(400).json({"error": "User already member of group"});
         console.log(result);
+        return res.status(400).json({"error": "User already member of group"});
     }
 
     try{
