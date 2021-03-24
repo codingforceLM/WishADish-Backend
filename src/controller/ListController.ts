@@ -203,14 +203,38 @@ router.post("/", middleware.isLoggedIn, async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.put("/", function (req, res) {
+router.put("/", async function (req, res) {
     const id = req.header("id");
     const name = req.header("name");
     const ingredients = req.header("ingredients");
     if (id == undefined || id == "") {
         return res.status(404).json({"error": "required field undefined"});
     }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
+
+    let result = undefined as unknown as ShoppingList;
+    try{
+        result = await getConnection().getRepository(ShoppingList).findOne(
+            {
+                where:
+                    {_id: id}
+            }) as ShoppingList;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown id"});
+    }
+    if(result == undefined) {
+        return res.status(400).json({"error": "Unknown id"});
+    }
+    if(name != undefined || name != ""){
+        result.title=""+name
+    }
+
+    try{
+        await getConnection().getRepository(ShoppingList).manager.save(result)
+    }catch (e){
+        console.log(e)
+        return res.status(400).json({"error": "Error at db access"});
+    }
     let json = {
         "msg": "List updated",
         "arguments": {

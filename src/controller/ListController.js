@@ -279,22 +279,62 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
     });
 });
 router.put("/", function (req, res) {
-    var id = req.header("id");
-    var name = req.header("name");
-    var ingredients = req.header("ingredients");
-    if (id == undefined || id == "") {
-        return res.status(404).json({ "error": "required field undefined" });
-    }
-    //database res.status(400).json({"error": "ID couldnt be processed"})
-    var json = {
-        "msg": "List updated",
-        "arguments": {
-            "id": id,
-            "name": name,
-            "ingredients": ingredients
-        }
-    };
-    return res.status(200).json(json);
+    return __awaiter(this, void 0, void 0, function () {
+        var id, name, ingredients, result, e_8, e_9, json;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    id = req.header("id");
+                    name = req.header("name");
+                    ingredients = req.header("ingredients");
+                    if (id == undefined || id == "") {
+                        return [2 /*return*/, res.status(404).json({ "error": "required field undefined" })];
+                    }
+                    result = undefined;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).findOne({
+                            where: { _id: id }
+                        })];
+                case 2:
+                    result = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_8 = _a.sent();
+                    console.log(e_8);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown id" })];
+                case 4:
+                    if (result == undefined) {
+                        return [2 /*return*/, res.status(400).json({ "error": "Unknown id" })];
+                    }
+                    if (name != undefined || name != "") {
+                        result.title = "" + name;
+                    }
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).manager.save(result)];
+                case 6:
+                    _a.sent();
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_9 = _a.sent();
+                    console.log(e_9);
+                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                case 8:
+                    json = {
+                        "msg": "List updated",
+                        "arguments": {
+                            "id": id,
+                            "name": name,
+                            "ingredients": ingredients
+                        }
+                    };
+                    return [2 /*return*/, res.status(200).json(json)];
+            }
+        });
+    });
 });
 router.delete("/", middleware.isLoggedIn, function (req, res) {
     var id = req.header("id");
