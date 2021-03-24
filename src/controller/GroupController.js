@@ -138,7 +138,7 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
 });
 router.post("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var name, userId, user, e_3, date, group, userGroup, e_4, json;
+        var name, userId, user, e_3, date, dd, mm, yyyy, group, userGroup, e_4, json;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -165,8 +165,11 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
                         return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                     }
                     date = new Date();
-                    group = new Group_1.Group(uuidv4(), name, date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(), undefined, undefined, undefined, undefined);
-                    userGroup = new UserGroup_1.UserGroup(uuidv4(), date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(), "admin", user, group);
+                    dd = String(date.getDate()).padStart(2, '0');
+                    mm = String(date.getMonth() + 1).padStart(2, '0');
+                    yyyy = date.getFullYear();
+                    group = new Group_1.Group(uuidv4(), name, yyyy + "-" + mm + "-" + dd, undefined, undefined, undefined, undefined);
+                    userGroup = new UserGroup_1.UserGroup(uuidv4(), yyyy + "-" + mm + "-" + dd, "admin", user, group);
                     _a.label = 5;
                 case 5:
                     _a.trys.push([5, 8, , 9]);

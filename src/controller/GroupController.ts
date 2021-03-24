@@ -113,16 +113,21 @@ router.post("/", middleware.isLoggedIn, async function (req, res) {
         return res.status(400).json({"error": "Error at db access"});
     }
     let date: Date = new Date();
+
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = date.getFullYear();
+
     let group = new Group(
         uuidv4(),
         name,
-        date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay(),
+        yyyy+"-"+mm+"-"+dd,
         undefined as unknown as UserGroup[],
         undefined as unknown as Invitation[],
         undefined as unknown as ShoppingList[],
         undefined as unknown as Wish[]
     );
-    let userGroup = new UserGroup(uuidv4(),date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay(),"admin",user,group)
+    let userGroup = new UserGroup(uuidv4(),yyyy+"-"+mm+"-"+dd,"admin",user,group)
     try{
         await getConnection().getRepository(Group).manager.save(group);
         await getConnection().getRepository(Group).manager.save(userGroup);
