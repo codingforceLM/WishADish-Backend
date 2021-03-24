@@ -48,6 +48,9 @@ createConnection(
 	let inv: Array<Invitation> = [];
 	let lists: Array<ShoppingList> = [];
 	let wishes: Array<Wish> = [];
+	let invB: Array<Invitation> = [];
+	let listsB: Array<ShoppingList> = [];
+	let wishesB: Array<Wish> = [];
 
 	let userA = new User(
 		"8bdb8aed-e579-4b25-a16a-9cf219572ca7",
@@ -144,6 +147,16 @@ createConnection(
 		wishes
 	);
 
+	let groupB = new Group(
+		"a40d3ae0-016b-4e76-aa4b-cfe6c8bb4c13",
+		"kohlenstoffmonoxid",
+		"2021-03-09",
+		undefined as unknown as UserGroup[],
+		invB,
+		listsB,
+		wishesB
+	);
+
 	let ugA = new UserGroup(
 		"0530c310-ddc9-4c25-a262-000a43c7e018",
 		"2020-08-09",
@@ -184,11 +197,19 @@ createConnection(
 		groupA
 	);
 
+	let ugbE = new UserGroup(
+		"511e578e-26a6-4585-9b5e-c831adf2bbcc",
+		"2020-08-09",
+		"admin",
+		userE,
+		groupB
+	);
+
 	userA.userGroups = [ugA];
 	userB.userGroups = [ugB];
 	userC.userGroups = [ugC];
 	userD.userGroups = [ugD];
-	userE.userGroups = [ugE];
+	userE.userGroups = [ugE, ugbE];
 
 	groupA.userGroups = [
 		ugA,
@@ -196,6 +217,10 @@ createConnection(
 		ugC,
 		ugD,
 		ugE
+	];
+
+	groupB.userGroups = [
+		ugbE
 	];
 
 	let ingrdA = new Ingredient(
