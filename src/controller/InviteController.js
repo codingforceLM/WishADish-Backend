@@ -40,6 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var User_1 = require("../model/user/User");
+var UserGroup_1 = require("../model/user/UserGroup");
 var index_1 = require("typeorm/index");
 var Group_1 = require("../model/user/group/Group");
 var Invitation_1 = require("../model/user/group/Invitation");
@@ -81,6 +83,89 @@ router.get("/", middleware.isLoggedIn, function (req, res) {
                     return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
                 case 8: return [2 /*return*/, res.status(200).json({
                         "id": inv.id
+                    })];
+            }
+        });
+    });
+});
+router.post("/", middleware.isLoggedIn, function (req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var inviteId, userId, result, e_3, group, e_4, e_5, user, date, dd, mm, yyyy, ug, e_6;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    inviteId = req.header("inviteId");
+                    userId = req.header("userId");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Invitation_1.Invitation).findOne({
+                            relations: ['_group'],
+                            where: { _id: inviteId }
+                        })];
+                case 2:
+                    result = (_a.sent());
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_3 = _a.sent();
+                    console.log(e_3);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown inviteId" })];
+                case 4:
+                    group = result.group;
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(UserGroup_1.UserGroup).find({
+                            where: {
+                                _group: group.id,
+                                _user: userId
+                            }
+                        })];
+                case 6:
+                    result = (_a.sent());
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_4 = _a.sent();
+                    console.log(e_4);
+                    return [2 /*return*/, res.status(400).json({ "error": "I dont know really" })];
+                case 8:
+                    if (result.length !== 0) {
+                        return [2 /*return*/, res.status(400).json({ "error": "User already member of group" })];
+                        console.log(result);
+                    }
+                    _a.label = 9;
+                case 9:
+                    _a.trys.push([9, 11, , 12]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({
+                            where: { _id: userId }
+                        })];
+                case 10:
+                    result = (_a.sent());
+                    return [3 /*break*/, 12];
+                case 11:
+                    e_5 = _a.sent();
+                    console.log(e_5);
+                    return [2 /*return*/, res.status(400).json({ "error": "Unknown userId" })];
+                case 12:
+                    user = result;
+                    date = new Date();
+                    dd = String(date.getDate()).padStart(2, '0');
+                    mm = String(date.getMonth() + 1).padStart(2, '0');
+                    yyyy = date.getFullYear();
+                    ug = new UserGroup_1.UserGroup(uuidv4(), yyyy + "-" + mm + "-" + dd, "member", user, group);
+                    _a.label = 13;
+                case 13:
+                    _a.trys.push([13, 15, , 16]);
+                    return [4 /*yield*/, index_1.getConnection().getRepository(UserGroup_1.UserGroup).manager.save(ug)];
+                case 14:
+                    _a.sent();
+                    return [3 /*break*/, 16];
+                case 15:
+                    e_6 = _a.sent();
+                    console.log(e_6);
+                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                case 16: return [2 /*return*/, res.status(200).json({
+                        "msg": "user joined group"
                     })];
             }
         });

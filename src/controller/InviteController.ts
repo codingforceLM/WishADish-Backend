@@ -49,4 +49,78 @@ router.get("/", middleware.isLoggedIn, async function(req, res) {
 
 });
 
+router.post("/", middleware.isLoggedIn, async function(req, res) {
+    const inviteId = req.header("inviteId");
+    const userId = req.header("userId");
+
+    let result;
+    try{
+        result = await getConnection().getRepository(Invitation).findOne(
+            {
+                relations: ['_group'],
+                where:
+                    {_id: inviteId}
+            }) as Invitation;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown inviteId"});
+    }
+
+    let group = result.group;
+    try{
+        result = await getConnection().getRepository(UserGroup).find(
+            {
+                where:
+                    {
+                        _group: group.id,
+                        _user: userId
+                    }
+            }) as UserGroup[];
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "I dont know really"});
+    }
+    if(result.length !== 0) {
+        return res.status(400).json({"error": "User already member of group"});
+        console.log(result);
+    }
+
+    try{
+        result = await getConnection().getRepository(User).findOne(
+            {
+                where:
+                    {_id: userId}
+            }) as User;
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown userId"});
+    }
+
+    let user = result;
+    let date = new Date();
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = date.getFullYear();
+
+    let ug = new UserGroup(
+        uuidv4(),
+        yyyy+"-"+mm+"-"+dd,
+        "member",
+        user,
+        group
+    );
+
+    try{
+        await getConnection().getRepository(UserGroup).manager.save(ug);
+    } catch (e){
+        console.log(e)
+        return res.status(400).json({"error": "Error at db access"});
+    }
+
+    return res.status(200).json({
+        "msg": "user joined group"
+    });
+
+});
+
 module.exports = router;
