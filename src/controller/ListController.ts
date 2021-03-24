@@ -204,48 +204,87 @@ router.post("/", middleware.isLoggedIn, async function (req, res) {
 });
 
 router.put("/", async function (req, res) {
-    const id = req.header("id");
+    const shoppinglist = req.header("shoppinglist");
     const name = req.header("name");
-    const ingredients = req.header("ingredients");
-    if (id == undefined || id == "") {
+    const done = req.header("done");
+    let slJson = []
+    if (shoppinglist == undefined || shoppinglist == "") {
         return res.status(404).json({"error": "required field undefined"});
     }
-
-    let result = undefined as unknown as ShoppingList;
     try{
-        result = await getConnection().getRepository(ShoppingList).findOne(
+        if (shoppinglist != null) {
+            slJson = JSON.parse(shoppinglist)
+        }
+    }catch (e) {
+        console.log(e)
+    }
+
+    //ShoppingList
+    let slEntity = undefined;
+    try{
+        slEntity = await getConnection().getRepository(ShoppingList).findOne(
             {
                 where:
-                    {_id: id}
+                    {_id: slJson.id}
             }) as ShoppingList;
     }catch(e) {
         console.log(e);
         return res.status(400).json({"error": "Unknown id"});
     }
-    if(result == undefined) {
+    if(slEntity == undefined) {
         return res.status(400).json({"error": "Unknown id"});
     }
-    if(name != undefined || name != ""){
-        result.title=""+name
+    if(name != undefined && name != ""){
+        slEntity.title=name
+    }
+    if(done != undefined && done != ""){
+        slEntity.done= ((done=="true") ? true : false)
     }
 
+    //ShoppingListIngredient
+    let ingredients = undefined;
     try{
-        await getConnection().getRepository(ShoppingList).manager.save(result)
+        ingredients = await getConnection().getRepository(ShoppingListIngredient).find(
+            {
+                relations: ['_ingredient'],
+                where:
+                    {_list: slJson.id}
+            }) as ShoppingListIngredient[];
+    }catch(e) {
+        console.log(e);
+        return res.status(400).json({"error": "Unknown id"});
+    }
+    if(ingredients == undefined) {
+        return res.status(400).json({"error": "Unknown id"});
+    }
+    try{
+        await getConnection().getRepository(ShoppingListIngredient).manager.remove(ingredients)
     }catch (e){
         console.log(e)
         return res.status(400).json({"error": "Error at db access"});
     }
-    let json = {
-        "msg": "List updated",
-        "arguments": {
-            "id": id,
-            "name": name,
-            "ingredients": ingredients
-        }
+    let newIngredients: ShoppingListIngredient[] = []
+    for(let i=0; i<slJson.ingredients.length; i++){
+        newIngredients.push(new ShoppingListIngredient(
+            uuidv4(),
+            slJson.id,
+            slJson.ingredients[i].id,
+            slJson.ingredients[i].amount,
+            slJson.ingredients[i].unit,
+            slJson.ingredients[i].done))
+    }
+    try{
+        await getConnection().getRepository(ShoppingListIngredient).manager.save(newIngredients)
+        await getConnection().getRepository(ShoppingList).manager.save(slEntity)
+    }catch (e){
+        console.log(e)
+        return res.status(400).json({"error": "Error at db access"});
     }
 
-    return res.status(200).json(json);
+    return res.status(200).json({"msg": "List updated"});
 });
+
+
 
 router.delete("/", middleware.isLoggedIn, function (req, res) {
     const id = req.header("id");
