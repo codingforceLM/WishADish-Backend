@@ -59,6 +59,7 @@ var dishController = require("./controller/DishController");
 var ingrdController = require("./controller/IngrdController");
 var groupController = require("./controller/GroupController");
 var loginController = require("./controller/LoginController");
+var inviteController = require("./controller/InviteController");
 ormconfig.entities = [
     User_1.User,
     Dish_1.Dish,
@@ -73,7 +74,7 @@ ormconfig.entities = [
     Invitation_1.Invitation
 ];
 typeorm_1.createConnection(ormconfig).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var inv, lists, wishes, userA, userB, userC, userD, userE, groupA, ugA, ugB, ugC, ugD, ugE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
+    var inv, lists, wishes, invB, listsB, wishesB, userA, userB, userC, userD, userE, groupA, groupB, ugA, ugB, ugC, ugD, ugE, ugbE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -82,28 +83,36 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 inv = [];
                 lists = [];
                 wishes = [];
+                invB = [];
+                listsB = [];
+                wishesB = [];
                 userA = new User_1.User("8bdb8aed-e579-4b25-a16a-9cf219572ca7", "Thor", "Odinson", "thor@asgard.com", "todpw", "2020-08-08", "tod", undefined, "https://static.wikia.nocookie.net/avengers/images/4/48/Thor_Gladiator.jpg/revision/latest/top-crop/width/360/height/360?cb=20171105082329&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
                 userB = new User_1.User("3cb7d028-5629-442c-bd17-24689115694c", "Loki", "Odinson", "loki@asgard.com", "lodpw", "2020-08-08", "lod", undefined, "https://static.wikia.nocookie.net/antagonisten/images/2/2d/The-avengers-loki.jpg/revision/latest?cb=20170506225328&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
                 userC = new User_1.User("40eca8dd-d3c4-47ae-9b95-8f57cb9d8185", "Heimdall", "Heimr", "heimdall@asgard.com", "lodpw", "2020-08-08", "hhe", undefined, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
                 userD = new User_1.User("8c957413-2cb6-46af-8f47-816c6a183cd1", "Odin", "Wodan", "odin@asgard.com", "owopw", "2020-08-08", "owo", undefined, "https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg", undefined, undefined, undefined, undefined, undefined);
                 userE = new User_1.User("3a2f5fdf-8b00-4b33-bd73-689a6544f027", "Freya", "Freia", "freya@asgard.com", "ffrpw", "2020-08-08", "ffr", undefined, "https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg", undefined, undefined, undefined, undefined, undefined);
                 groupA = new Group_1.Group("2985167a-f0dd-408c-a392-0b0a76b9b94d", "toeftebois", "2021-03-09", undefined, inv, lists, wishes);
+                groupB = new Group_1.Group("a40d3ae0-016b-4e76-aa4b-cfe6c8bb4c13", "kohlenstoffmonoxid", "2021-03-09", undefined, invB, listsB, wishesB);
                 ugA = new UserGroup_1.UserGroup("0530c310-ddc9-4c25-a262-000a43c7e018", "2020-08-09", "member", userA, groupA);
                 ugB = new UserGroup_1.UserGroup("dbf36590-8163-4dd6-802b-90aafde431a8", "2020-08-09", "member", userB, groupA);
                 ugC = new UserGroup_1.UserGroup("5555da1b-271d-4430-9fa5-c34eb658db73", "2020-08-09", "admin", userC, groupA);
                 ugD = new UserGroup_1.UserGroup("b375702a-716d-47d4-a4d6-7e9ba71b21ba", "2020-08-09", "member", userD, groupA);
                 ugE = new UserGroup_1.UserGroup("4a253a74-fcfe-4303-8b23-e992435ec061", "2020-08-09", "admin", userE, groupA);
+                ugbE = new UserGroup_1.UserGroup("511e578e-26a6-4585-9b5e-c831adf2bbcc", "2020-08-09", "admin", userE, groupB);
                 userA.userGroups = [ugA];
                 userB.userGroups = [ugB];
                 userC.userGroups = [ugC];
                 userD.userGroups = [ugD];
-                userE.userGroups = [ugE];
+                userE.userGroups = [ugE, ugbE];
                 groupA.userGroups = [
                     ugA,
                     ugB,
                     ugC,
                     ugD,
                     ugE
+                ];
+                groupB.userGroups = [
+                    ugbE
                 ];
                 ingrdA = new Ingredient_1.Ingredient("7468466f-12da-4da4-83b0-fa0ca578c4e2", "Paprika", userA, undefined, undefined);
                 ingrdB = new Ingredient_1.Ingredient("9326354a-f5c5-4943-b7c5-c0d6bf845a0f", "Zwiebel", userA, undefined, undefined);
@@ -230,6 +239,7 @@ app.use("/api/list", listController);
 app.use("/api/dish", dishController);
 app.use("/api/ingrd", ingrdController);
 app.use("/api/login", loginController);
+app.use("/api/invite", inviteController);
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
