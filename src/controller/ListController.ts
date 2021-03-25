@@ -203,7 +203,7 @@ router.post("/", middleware.isLoggedIn, async function (req, res) {
     return res.status(200).json(json);
 });
 
-router.put("/", async function (req, res) {
+router.put("/", middleware.isLoggedIn, async function (req, res) {
     const shoppinglist = req.header("shoppinglist");
     const name = req.header("name");
     const done = req.header("done");

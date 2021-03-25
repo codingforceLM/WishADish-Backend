@@ -278,7 +278,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
         });
     });
 });
-router.put("/", function (req, res) {
+router.put("/", middleware.isLoggedIn, function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var shoppinglist, name, done, slJson, slEntity, e_8, ingredients, e_9, e_10, newIngredients, i, e_11;
         return __generator(this, function (_a) {
