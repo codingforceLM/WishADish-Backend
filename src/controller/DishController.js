@@ -64,9 +64,11 @@ router.get("/", middleware.isLoggedIn, function (req, res) {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, typeorm_1.getConnection().getRepository(Dish_1.Dish).find({
                             relations: ["_user"],
-                            where: { _user: userId }
+                            where: { _user: userId },
+                            order: { _title: "ASC" }
                         })];
                 case 2:
+                    // @ts-ignore
                     dishes = (_a.sent());
                     return [3 /*break*/, 4];
                 case 3:
@@ -133,6 +135,8 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
                             "unit": dishes[i].unit
                         });
                     }
+                    // @ts-ignore
+                    json.ingredients.sort(function (a, b) { return (a["name"] > b["name"] ? 1 : -1); });
                     return [2 /*return*/, res.status(200).json(json)];
             }
         });

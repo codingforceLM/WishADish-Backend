@@ -90,15 +90,19 @@ router.get("/", middleware.isLoggedIn, function (req, res) {
                     _a.trys.push([5, 10, , 11]);
                     if (!(done == "true")) return [3 /*break*/, 7];
                     return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).find({
-                            where: { _group: typeorm_1.In(groupIds), _done: Number(0) }
+                            where: { _group: typeorm_1.In(groupIds), _done: Number(0) },
+                            order: { _title: "ASC" }
                         })];
                 case 6:
+                    // @ts-ignore
                     lists = (_a.sent());
                     return [3 /*break*/, 9];
                 case 7: return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).find({
-                        where: { _group: typeorm_1.In(groupIds) }
+                        where: { _group: typeorm_1.In(groupIds) },
+                        order: { _title: "ASC" }
                     })];
                 case 8:
+                    // @ts-ignore
                     lists = (_a.sent());
                     _a.label = 9;
                 case 9: return [3 /*break*/, 11];
@@ -170,9 +174,11 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
                 case 1:
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, index_1.getConnection().getRepository(ShoppingList_1.ShoppingList).findOne({
-                            where: { _id: id }
+                            where: { _id: id },
+                            order: { _title: "ASC" }
                         })];
                 case 2:
+                    // @ts-ignore
                     result = (_a.sent());
                     return [3 /*break*/, 4];
                 case 3:
@@ -218,6 +224,8 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
                             "done": results_sli[i].done
                         });
                     }
+                    // @ts-ignore
+                    json.ingredients.sort(function (a, b) { return (a["name"] > b["name"] ? 1 : -1); });
                     return [2 /*return*/, res.status(200).json(json)];
             }
         });
