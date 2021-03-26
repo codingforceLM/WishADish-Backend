@@ -137,6 +137,23 @@ createConnection(
 		undefined as unknown as ShoppingList[]
 	);
 
+	let userSystem = new User(
+		"dbaaa759-149b-4fa4-8451-b87a18837b2a",
+		"System",
+		"System",
+		"System@System.com",
+		"System",
+		"2020-08-08",
+		"System",
+		undefined as unknown as string,
+		"",
+		undefined as unknown as Dish[],
+		undefined as unknown as Ingredient[],
+		undefined as unknown as UserGroup[],
+		undefined as unknown as Vote[],
+		undefined as unknown as ShoppingList[]
+	);
+
 	let groupA = new Group(
 		"2985167a-f0dd-408c-a392-0b0a76b9b94d",
 		"toeftebois",
@@ -289,8 +306,56 @@ createConnection(
 
 	let ingrdI = new Ingredient(
 		"ba657d12-90fe-4c8f-af81-0e46acfba44d",
-		"Oel", //murica invading
+		"Oel",
 		userD,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdJ = new Ingredient(
+		"ec5494f4-f40a-4047-bd20-872fcbf6fede",
+		"Oel",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdK = new Ingredient(
+		"501d4e30-8607-4729-9425-ef8403832c37",
+		"Schinken",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdL = new Ingredient(
+		"94d6eddb-60ed-4a20-85b5-8551431ac3ab",
+		"Tomate",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdM = new Ingredient(
+		"2177994e-3691-4086-999e-8c06d6c0ea79",
+		"Paprika",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdN = new Ingredient(
+		"65abf073-15ea-456b-a752-5662b119845c",
+		"Gurke",
+		userSystem,
+		undefined as unknown as DishIngredient[],
+		undefined as unknown as ShoppingListIngredient[]
+	)
+
+	let ingrdO = new Ingredient(
+		"70dfea0a-1ec8-43e6-8cc5-b50a53545878",
+		"Lauch",
+		userSystem,
 		undefined as unknown as DishIngredient[],
 		undefined as unknown as ShoppingListIngredient[]
 	)
@@ -316,7 +381,7 @@ createConnection(
 		dishA,
 		ingrdA,
 		200,
-		"gramm"
+		"g"
 	);
 
 	let diB = new DishIngredient(
@@ -324,7 +389,7 @@ createConnection(
 		dishA,
 		ingrdB,
 		200,
-		"gramm"
+		"g"
 	);
 
 	let diC = new DishIngredient(
@@ -332,7 +397,7 @@ createConnection(
 		dishA,
 		ingrdC,
 		1,
-		"kilogramm"
+		"kg"
 	);
 
 	let diD = new DishIngredient(
@@ -340,7 +405,7 @@ createConnection(
 		dishA,
 		ingrdD,
 		400,
-		"gramm"
+		"g"
 	);
 
 	let diE = new DishIngredient(
@@ -348,7 +413,7 @@ createConnection(
 		dishA,
 		ingrdE,
 		200,
-		"gramm"
+		"g"
 	);
 
 	let diF = new DishIngredient(
@@ -356,7 +421,7 @@ createConnection(
 		dishA,
 		ingrdF,
 		250,
-		"gramm"
+		"g"
 	);
 
 	let diG = new DishIngredient(
@@ -364,7 +429,7 @@ createConnection(
 		dishB,
 		ingrdG,
 		1,
-		"kilogramm"
+		"kg"
 	);
 
 	let diH = new DishIngredient(
@@ -372,7 +437,7 @@ createConnection(
 		dishB,
 		ingrdH,
 		500,
-		"gramm"
+		"g"
 	);
 
 	let diI = new DishIngredient(
@@ -380,7 +445,7 @@ createConnection(
 		dishB,
 		ingrdI,
 		50,
-		"gramm"
+		"g"
 	);
 
 	ingrdA.dishIngredients = [diA];
@@ -409,6 +474,7 @@ createConnection(
 		ingrdF, ingrdG, ingrdH
 	];
 	userE.ingredients = [];
+	userSystem.ingredients = [ingrdJ,ingrdK,ingrdL,ingrdM,ingrdN,ingrdO];
 
 	userA.dishes = [
 		dishA
@@ -443,7 +509,7 @@ createConnection(
 		shoppingListA,
 		ingrdA,
 		200,
-		"gramm",
+		"g",
 		false
 	);
 
@@ -452,7 +518,7 @@ createConnection(
 		shoppingListA,
 		ingrdB,
 		200,
-		"gramm",
+		"g",
 		false
 	);
 
@@ -461,7 +527,7 @@ createConnection(
 		shoppingListA,
 		ingrdC,
 		1,
-		"kilogramm",
+		"kg",
 		true
 	);
 
@@ -470,7 +536,7 @@ createConnection(
 		shoppingListA,
 		ingrdD,
 		400,
-		"gramm",
+		"g",
 		false
 	);
 
@@ -479,7 +545,7 @@ createConnection(
 		shoppingListA,
 		ingrdE,
 		200,
-		"gramm",
+		"g",
 		true
 	);
 
@@ -488,7 +554,7 @@ createConnection(
 		shoppingListA,
 		ingrdF,
 		250,
-		"gramm",
+		"g",
 		false
 	);
 
@@ -497,7 +563,7 @@ createConnection(
 		shoppingListA,
 		ingrdG,
 		1,
-		"kilogramm",
+		"kg",
 		false
 	);
 
@@ -506,7 +572,7 @@ createConnection(
 		shoppingListA,
 		ingrdH,
 		500,
-		"gramm",
+		"g",
 		false
 	);
 
@@ -515,7 +581,7 @@ createConnection(
 		shoppingListA,
 		ingrdI,
 		50,
-		"gramm",
+		"ml",
 		true
 	);
 
@@ -524,7 +590,7 @@ createConnection(
 		shoppingListB,
 		ingrdB,
 		1,
-		"kilogramm",
+		"kg",
 		false
 	);
 
@@ -622,14 +688,18 @@ createConnection(
 	userD.votes = [ wvD ];
 	userE.votes = [ wvE ];
 
-	// TODO persist objects
 	await connection.manager.save(userE);
+	await connection.manager.save(userSystem);
 	console.log("Created sample data!");
 }).catch(error => console.log(error));
 
 //Create a new express app instance
 const app: express.Application = express();
-
+let cors = require('cors')
+app.options('*', cors())
+app.use(cors({
+	origin: 'http://localhost:8080',
+}))
 app.use("/api/user", userController);
 app.use("/api/group", groupController);
 app.use("/api/wish", wishController);
@@ -643,6 +713,8 @@ app.use("/api/invite", inviteController);
 app.get('/', function(req, res) {
 	res.send('Hello World!');
 });
+
+
 
 app.listen(3000, function() {
 	console.log('App is listening on port 3000!');

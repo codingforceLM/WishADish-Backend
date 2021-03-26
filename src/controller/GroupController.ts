@@ -41,8 +41,13 @@ router.get("/", middleware.isLoggedIn, async function (req, res) {
             "creation": results[i].group.creation
         })
     }
-    // @ts-ignore
-    json.sort((a,b)=> (a["title"]> b["title"] ? 1 : -1))
+    try{
+        // @ts-ignore
+        json.sort((a,b)=> (a["title"]> b["title"] ? 1 : -1))
+    }catch (e) {
+        console.log(e)
+    }
+
     return res.status(200).json(json);
 });
 
@@ -81,14 +86,18 @@ router.get("/:id", middleware.isLoggedIn, async function (req, res) {
             "fileurl": results[i].user.fileurl
         })
     }
-
+    try{
+        // @ts-ignore
+        userlist.sort((a,b)=> (a["name"]> b["name"] ? 1 : -1))
+    }catch (e) {
+        console.log(e)
+    }
     json={
         "id": results[0].group.id,
         "name": results[0].group.title,
         "user": userlist
     }
-    // @ts-ignore
-    json.sort((a,b)=> (a["title"]> b["title"] ? 1 : -1))
+
     return res.status(200).json(json);
 });
 
