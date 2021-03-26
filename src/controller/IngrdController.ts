@@ -17,8 +17,9 @@ router.get("/", middleware.isLoggedIn, async function (req, res) {
 
     let user = undefined;
     try {
+        // @ts-ignore
         user = await getConnection().getRepository(Ingredient).find(
-            { where: { _user: userId } }
+            { where: { _user: userId }, order: {_title: "ASC"} }
         ) as Ingredient[];
     } catch (e) {
         console.log(e);

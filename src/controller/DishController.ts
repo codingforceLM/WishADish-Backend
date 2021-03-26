@@ -18,9 +18,11 @@ router.get("/", middleware.isLoggedIn, async function(req, res) {
     }
     let dishes = undefined;
     try {
+        // @ts-ignore
         dishes = await getConnection().getRepository(Dish).find({
             relations: ["_user"],
-            where: { _user: userId }
+            where: { _user: userId },
+            order: {_title: "ASC"}
         }) as Dish[];
     } catch (e) {
         console.log(e);
@@ -81,7 +83,8 @@ router.get("/:id", middleware.isLoggedIn, async function(req, res) {
             "unit": dishes[i].unit
         });
     }
-
+    // @ts-ignore
+    json.ingredients.sort((a,b)=> (a["name"]> b["name"] ? 1 : -1))
     return res.status(200).json(json);
 });
 

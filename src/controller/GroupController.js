@@ -83,6 +83,8 @@ router.get("/", middleware.isLoggedIn, function (req, res) {
                             "creation": results[i].group.creation
                         });
                     }
+                    // @ts-ignore
+                    json.sort(function (a, b) { return (a["title"] > b["title"] ? 1 : -1); });
                     return [2 /*return*/, res.status(200).json(json)];
             }
         });
@@ -131,6 +133,8 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
                         "name": results[0].group.title,
                         "user": userlist
                     };
+                    // @ts-ignore
+                    json.sort(function (a, b) { return (a["title"] > b["title"] ? 1 : -1); });
                     return [2 /*return*/, res.status(200).json(json)];
             }
         });

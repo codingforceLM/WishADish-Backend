@@ -45,16 +45,20 @@ router.get("/", middleware.isLoggedIn, async function (req, res) {
     let json = [];
     try{
         if(done == "true"){
+            // @ts-ignore
             lists = await getConnection().getRepository(ShoppingList).find(
                 {
                     where:
-                        {_group: In(groupIds),_done : Number(0)}
+                        {_group: In(groupIds),_done : Number(0)},
+                    order: {_title: "ASC"}
                 }) as ShoppingList[];
         }else {
+            // @ts-ignore
             lists = await getConnection().getRepository(ShoppingList).find(
                 {
                     where:
-                        {_group: In(groupIds)}
+                        {_group: In(groupIds)},
+                    order: {_title: "ASC"}
                 }) as ShoppingList[];
         }
 
@@ -111,10 +115,12 @@ router.get("/:id", middleware.isLoggedIn, async function(req, res){
 
     let result = undefined as unknown as ShoppingList;
     try{
+        // @ts-ignore
         result = await getConnection().getRepository(ShoppingList).findOne(
             {
                 where:
-                    {_id: id}
+                    {_id: id},
+                order: {_title: "ASC"}
             }) as ShoppingList;
     }catch(e) {
         console.log(e);

@@ -60,8 +60,9 @@ router.get("/", middleware.isLoggedIn, function (req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(Ingredient_1.Ingredient).find({ where: { _user: userId } })];
+                    return [4 /*yield*/, index_1.getConnection().getRepository(Ingredient_1.Ingredient).find({ where: { _user: userId }, order: { _title: "ASC" } })];
                 case 2:
+                    // @ts-ignore
                     user = (_a.sent());
                     return [3 /*break*/, 4];
                 case 3:
