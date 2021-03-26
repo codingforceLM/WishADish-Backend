@@ -218,6 +218,8 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
                             "done": results_sli[i].done
                         });
                     }
+                    // @ts-ignore
+                    json.ingredients.sort(function (a, b) { return (a["name"] > b["name"] ? 1 : -1); });
                     return [2 /*return*/, res.status(200).json(json)];
             }
         });

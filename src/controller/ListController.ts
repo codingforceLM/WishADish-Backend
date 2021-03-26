@@ -6,6 +6,7 @@ import {In} from "typeorm";
 import {User} from "../model/user/User";
 import {Group} from "../model/user/group/Group";
 import {UserGroup} from "../model/user/UserGroup";
+import {Ingredient} from "../model/food/ingredients/Ingredient";
 const {v4: uuidv4} = require('uuid');
 const middleware = require("../middleware/loginsystem");
 
@@ -157,7 +158,8 @@ router.get("/:id", middleware.isLoggedIn, async function(req, res){
             "done": results_sli[i].done
         });
     }
-
+ // @ts-ignore
+    json.ingredients.sort((a,b)=> (a["name"]> b["name"] ? 1 : -1))
     return res.status(200).json(json);
 });
 
