@@ -74,7 +74,7 @@ ormconfig.entities = [
     Invitation_1.Invitation
 ];
 typeorm_1.createConnection(ormconfig).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var inv, lists, wishes, invB, listsB, wishesB, userA, userB, userC, userD, userE, groupA, groupB, ugA, ugB, ugC, ugD, ugE, ugbE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
+    var inv, lists, wishes, invB, listsB, wishesB, userA, userB, userC, userD, userE, userSystem, groupA, groupB, ugA, ugB, ugC, ugD, ugE, ugbE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, ingrdJ, ingrdK, ingrdL, ingrdM, ingrdN, ingrdO, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -91,6 +91,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userC = new User_1.User("40eca8dd-d3c4-47ae-9b95-8f57cb9d8185", "Heimdall", "Heimr", "heimdall@asgard.com", "lodpw", "2020-08-08", "hhe", undefined, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
                 userD = new User_1.User("8c957413-2cb6-46af-8f47-816c6a183cd1", "Odin", "Wodan", "odin@asgard.com", "owopw", "2020-08-08", "owo", undefined, "https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg", undefined, undefined, undefined, undefined, undefined);
                 userE = new User_1.User("3a2f5fdf-8b00-4b33-bd73-689a6544f027", "Freya", "Freia", "freya@asgard.com", "ffrpw", "2020-08-08", "ffr", undefined, "https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg", undefined, undefined, undefined, undefined, undefined);
+                userSystem = new User_1.User("dbaaa759-149b-4fa4-8451-b87a18837b2a", "System", "System", "System@System.com", "System", "2020-08-08", "System", undefined, "", undefined, undefined, undefined, undefined, undefined);
                 groupA = new Group_1.Group("2985167a-f0dd-408c-a392-0b0a76b9b94d", "toeftebois", "2021-03-09", undefined, inv, lists, wishes);
                 groupB = new Group_1.Group("a40d3ae0-016b-4e76-aa4b-cfe6c8bb4c13", "kohlenstoffmonoxid", "2021-03-09", undefined, invB, listsB, wishesB);
                 ugA = new UserGroup_1.UserGroup("0530c310-ddc9-4c25-a262-000a43c7e018", "2020-08-09", "member", userA, groupA);
@@ -122,19 +123,24 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 ingrdF = new Ingredient_1.Ingredient("3b957369-0631-403f-ada8-5cbbe5c99e3a", "Emmentaler gerieben", userA, undefined, undefined);
                 ingrdG = new Ingredient_1.Ingredient("2b2c8e02-34ed-4f2f-8e82-a9e9f21989e1", "Kartoffel", userD, undefined, undefined);
                 ingrdH = new Ingredient_1.Ingredient("7a7f0221-064e-4a64-ac11-83189ef8f6b0", "Zwiebel", userD, undefined, undefined);
-                ingrdI = new Ingredient_1.Ingredient("ba657d12-90fe-4c8f-af81-0e46acfba44d", "Oel", //murica invading
-                userD, undefined, undefined);
+                ingrdI = new Ingredient_1.Ingredient("ba657d12-90fe-4c8f-af81-0e46acfba44d", "Oel", userD, undefined, undefined);
+                ingrdJ = new Ingredient_1.Ingredient("ec5494f4-f40a-4047-bd20-872fcbf6fede", "Oel", userSystem, undefined, undefined);
+                ingrdK = new Ingredient_1.Ingredient("501d4e30-8607-4729-9425-ef8403832c37", "Schinken", userSystem, undefined, undefined);
+                ingrdL = new Ingredient_1.Ingredient("94d6eddb-60ed-4a20-85b5-8551431ac3ab", "Tomate", userSystem, undefined, undefined);
+                ingrdM = new Ingredient_1.Ingredient("2177994e-3691-4086-999e-8c06d6c0ea79", "Paprika", userSystem, undefined, undefined);
+                ingrdN = new Ingredient_1.Ingredient("65abf073-15ea-456b-a752-5662b119845c", "Gurke", userSystem, undefined, undefined);
+                ingrdO = new Ingredient_1.Ingredient("70dfea0a-1ec8-43e6-8cc5-b50a53545878", "Lauch", userSystem, undefined, undefined);
                 dishA = new Dish_1.Dish("66fcfc11-da4a-4d50-9254-e9e9042c9c42", "Paprika-Haehnchen Auflauf", userA, undefined, undefined);
                 dishB = new Dish_1.Dish("b3029200-5379-4254-835e-9ea49fddeded", "Bratkartoffeln", userD, undefined, undefined);
-                diA = new DishIngredient_1.DishIngredient("94b9afa3-3c03-4e2a-944f-17f2d30c7191", dishA, ingrdA, 200, "gramm");
-                diB = new DishIngredient_1.DishIngredient("56115f58-0cee-4298-91d2-fbc049fe4e0c", dishA, ingrdB, 200, "gramm");
-                diC = new DishIngredient_1.DishIngredient("5ec73635-988b-4681-a54c-02c2fa76ca76", dishA, ingrdC, 1, "kilogramm");
-                diD = new DishIngredient_1.DishIngredient("3de8cd5d-db83-426b-94a9-42a14951897c", dishA, ingrdD, 400, "gramm");
-                diE = new DishIngredient_1.DishIngredient("cbd6ceb1-393f-448e-9250-52033f589ea0", dishA, ingrdE, 200, "gramm");
-                diF = new DishIngredient_1.DishIngredient("3fbd04f1-92d5-447a-b0bf-348a73082625", dishA, ingrdF, 250, "gramm");
-                diG = new DishIngredient_1.DishIngredient("80040453-7de4-490b-a457-04b99ef52cab", dishB, ingrdG, 1, "kilogramm");
-                diH = new DishIngredient_1.DishIngredient("6c78a45d-d98b-421e-9eef-2c3968afa2c7", dishB, ingrdH, 500, "gramm");
-                diI = new DishIngredient_1.DishIngredient("5a360d49-141d-438c-b86b-6f43d518ef2b", dishB, ingrdI, 50, "gramm");
+                diA = new DishIngredient_1.DishIngredient("94b9afa3-3c03-4e2a-944f-17f2d30c7191", dishA, ingrdA, 200, "g");
+                diB = new DishIngredient_1.DishIngredient("56115f58-0cee-4298-91d2-fbc049fe4e0c", dishA, ingrdB, 200, "g");
+                diC = new DishIngredient_1.DishIngredient("5ec73635-988b-4681-a54c-02c2fa76ca76", dishA, ingrdC, 1, "kg");
+                diD = new DishIngredient_1.DishIngredient("3de8cd5d-db83-426b-94a9-42a14951897c", dishA, ingrdD, 400, "g");
+                diE = new DishIngredient_1.DishIngredient("cbd6ceb1-393f-448e-9250-52033f589ea0", dishA, ingrdE, 200, "g");
+                diF = new DishIngredient_1.DishIngredient("3fbd04f1-92d5-447a-b0bf-348a73082625", dishA, ingrdF, 250, "g");
+                diG = new DishIngredient_1.DishIngredient("80040453-7de4-490b-a457-04b99ef52cab", dishB, ingrdG, 1, "kg");
+                diH = new DishIngredient_1.DishIngredient("6c78a45d-d98b-421e-9eef-2c3968afa2c7", dishB, ingrdH, 500, "g");
+                diI = new DishIngredient_1.DishIngredient("5a360d49-141d-438c-b86b-6f43d518ef2b", dishB, ingrdI, 50, "g");
                 ingrdA.dishIngredients = [diA];
                 ingrdB.dishIngredients = [diB];
                 ingrdC.dishIngredients = [diC];
@@ -159,6 +165,7 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                     ingrdF, ingrdG, ingrdH
                 ];
                 userE.ingredients = [];
+                userSystem.ingredients = [ingrdJ, ingrdK, ingrdL, ingrdM, ingrdN, ingrdO];
                 userA.dishes = [
                     dishA
                 ];
@@ -170,16 +177,16 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userE.dishes = [];
                 shoppingListA = new ShoppingList_1.ShoppingList("09f6ec3f-05e1-48a8-859a-d14d33506312", "PHA Einkaufsliste", false, userA, undefined, groupA);
                 shoppingListB = new ShoppingList_1.ShoppingList("05511be6-e417-482d-b543-571062d42b92", "BA Einkaufsliste", false, userD, undefined, groupA);
-                sliA = new ShoppingListIngredient_1.ShoppingListIngredient("06694575-07dc-45bf-9b3b-0ae5d8544a5a", shoppingListA, ingrdA, 200, "gramm", false);
-                sliB = new ShoppingListIngredient_1.ShoppingListIngredient("2bc81935-ed05-47e6-8903-576ca14bf7c2", shoppingListA, ingrdB, 200, "gramm", false);
-                sliC = new ShoppingListIngredient_1.ShoppingListIngredient("206adbc3-a473-49f0-aaf3-4640d7d4e556", shoppingListA, ingrdC, 1, "kilogramm", true);
-                sliD = new ShoppingListIngredient_1.ShoppingListIngredient(" b5328bc3-54bb-4f4a-9b86-12086f532879", shoppingListA, ingrdD, 400, "gramm", false);
-                sliE = new ShoppingListIngredient_1.ShoppingListIngredient("5d4451c1-55cd-4479-a5ea-667556e1fa06", shoppingListA, ingrdE, 200, "gramm", true);
-                sliF = new ShoppingListIngredient_1.ShoppingListIngredient("a8405910-27b9-447f-8c6a-13865ca8cfb8", shoppingListA, ingrdF, 250, "gramm", false);
-                sliG = new ShoppingListIngredient_1.ShoppingListIngredient("f36f3186-f64e-4607-8bce-0f257fe67621", shoppingListA, ingrdG, 1, "kilogramm", false);
-                sliH = new ShoppingListIngredient_1.ShoppingListIngredient("3e7f463d-8b1a-44f2-aeaf-93c79ffd3af3", shoppingListA, ingrdH, 500, "gramm", false);
-                sliI = new ShoppingListIngredient_1.ShoppingListIngredient("1d66a872-7fc0-4e32-8149-33bb47c4d98b", shoppingListA, ingrdI, 50, "gramm", true);
-                slibA = new ShoppingListIngredient_1.ShoppingListIngredient("62fe484d-154c-4621-b323-d9f54cfc6675", shoppingListB, ingrdB, 1, "kilogramm", false);
+                sliA = new ShoppingListIngredient_1.ShoppingListIngredient("06694575-07dc-45bf-9b3b-0ae5d8544a5a", shoppingListA, ingrdA, 200, "g", false);
+                sliB = new ShoppingListIngredient_1.ShoppingListIngredient("2bc81935-ed05-47e6-8903-576ca14bf7c2", shoppingListA, ingrdB, 200, "g", false);
+                sliC = new ShoppingListIngredient_1.ShoppingListIngredient("206adbc3-a473-49f0-aaf3-4640d7d4e556", shoppingListA, ingrdC, 1, "kg", true);
+                sliD = new ShoppingListIngredient_1.ShoppingListIngredient(" b5328bc3-54bb-4f4a-9b86-12086f532879", shoppingListA, ingrdD, 400, "g", false);
+                sliE = new ShoppingListIngredient_1.ShoppingListIngredient("5d4451c1-55cd-4479-a5ea-667556e1fa06", shoppingListA, ingrdE, 200, "g", true);
+                sliF = new ShoppingListIngredient_1.ShoppingListIngredient("a8405910-27b9-447f-8c6a-13865ca8cfb8", shoppingListA, ingrdF, 250, "g", false);
+                sliG = new ShoppingListIngredient_1.ShoppingListIngredient("f36f3186-f64e-4607-8bce-0f257fe67621", shoppingListA, ingrdG, 1, "kg", false);
+                sliH = new ShoppingListIngredient_1.ShoppingListIngredient("3e7f463d-8b1a-44f2-aeaf-93c79ffd3af3", shoppingListA, ingrdH, 500, "g", false);
+                sliI = new ShoppingListIngredient_1.ShoppingListIngredient("1d66a872-7fc0-4e32-8149-33bb47c4d98b", shoppingListA, ingrdI, 50, "ml", true);
+                slibA = new ShoppingListIngredient_1.ShoppingListIngredient("62fe484d-154c-4621-b323-d9f54cfc6675", shoppingListB, ingrdB, 1, "kg", false);
                 ingrdA.shoppingListIngredients = [sliA];
                 ingrdB.shoppingListIngredients = [sliB, slibA];
                 ingrdC.shoppingListIngredients = [sliC];
@@ -219,10 +226,11 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userC.votes = [wvC];
                 userD.votes = [wvD];
                 userE.votes = [wvE];
-                // TODO persist objects
                 return [4 /*yield*/, connection.manager.save(userE)];
             case 1:
-                // TODO persist objects
+                _a.sent();
+                return [4 /*yield*/, connection.manager.save(userSystem)];
+            case 2:
                 _a.sent();
                 console.log("Created sample data!");
                 return [2 /*return*/];
@@ -231,6 +239,11 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
 }); }).catch(function (error) { return console.log(error); });
 //Create a new express app instance
 var app = express();
+var cors = require('cors');
+app.options('*', cors());
+app.use(cors({
+    origin: 'http://localhost:8080',
+}));
 app.use("/api/user", userController);
 app.use("/api/group", groupController);
 app.use("/api/wish", wishController);
