@@ -164,8 +164,13 @@ router.get("/:id", middleware.isLoggedIn, async function(req, res){
             "done": results_sli[i].done
         });
     }
- // @ts-ignore
-    json.ingredients.sort((a,b)=> (a["name"]> b["name"] ? 1 : -1))
+    try{
+        // @ts-ignore
+        json.ingredients.sort((a,b)=> (a["name"]> b["name"] ? 1 : -1))
+    }catch (e) {
+        console.log(e)
+    }
+
     return res.status(200).json(json);
 });
 

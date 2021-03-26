@@ -128,13 +128,18 @@ router.get("/:id", middleware.isLoggedIn, function (req, res) {
                             "fileurl": results[i].user.fileurl
                         });
                     }
+                    try {
+                        // @ts-ignore
+                        userlist.sort(function (a, b) { return (a["name"] > b["name"] ? 1 : -1); });
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
                     json = {
                         "id": results[0].group.id,
                         "name": results[0].group.title,
                         "user": userlist
                     };
-                    // @ts-ignore
-                    json.sort(function (a, b) { return (a["title"] > b["title"] ? 1 : -1); });
                     return [2 /*return*/, res.status(200).json(json)];
             }
         });
