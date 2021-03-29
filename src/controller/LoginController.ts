@@ -2,6 +2,7 @@ import express from "express";
 import {getConnection} from "typeorm/index";
 import {User} from "../model/user/User";
 
+const bcrypt = require('bcrypt');
 const logsysconfig = require("../../config/logsysconfig.json");
 const jwt = require('jsonwebtoken');
 const {v4: uuidv4} = require('uuid');
@@ -26,8 +27,9 @@ router.post('/', async function(req, res){
         return res.status(400).json({"error": "Username or password is incorrect!"});
     }
 
-    // de-hash password from database
-    if(password !== user.password) {
+    const match = await bcrypt.compare(password, user.password);
+
+    if(!match) {
         return res.status(400).json({"error": "Username or password is incorrect!"});
     }
 

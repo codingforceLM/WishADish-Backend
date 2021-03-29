@@ -50,6 +50,7 @@ var Vote_1 = require("./model/user/vote/Vote");
 var ShoppingList_1 = require("./model/shoppinglist/ShoppingList");
 var ShoppingListIngredient_1 = require("./model/shoppinglist/ShoppingListIngredient");
 var Invitation_1 = require("./model/user/group/Invitation");
+var bcrypt = require('bcrypt');
 var ormconfig = require("../config/ormconfig.json");
 var userController = require("./controller/UserController");
 var wishController = require("./controller/WishController");
@@ -74,7 +75,7 @@ ormconfig.entities = [
     Invitation_1.Invitation
 ];
 typeorm_1.createConnection(ormconfig).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var inv, lists, wishes, invB, listsB, wishesB, userA, userB, userC, userD, userE, userSystem, groupA, groupB, ugA, ugB, ugC, ugD, ugE, ugbE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, ingrdJ, ingrdK, ingrdL, ingrdM, ingrdN, ingrdO, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
+    var inv, lists, wishes, invB, listsB, wishesB, pwHash, userA, userB, userC, userD, userE, userSystem, groupA, groupB, ugA, ugB, ugC, ugD, ugE, ugbE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, ingrdJ, ingrdK, ingrdL, ingrdM, ingrdN, ingrdO, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -86,12 +87,48 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 invB = [];
                 listsB = [];
                 wishesB = [];
-                userA = new User_1.User("8bdb8aed-e579-4b25-a16a-9cf219572ca7", "Thor", "Odinson", "thor@asgard.com", "todpw", "2020-08-08", "tod", undefined, "https://static.wikia.nocookie.net/avengers/images/4/48/Thor_Gladiator.jpg/revision/latest/top-crop/width/360/height/360?cb=20171105082329&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
-                userB = new User_1.User("3cb7d028-5629-442c-bd17-24689115694c", "Loki", "Odinson", "loki@asgard.com", "lodpw", "2020-08-08", "lod", undefined, "https://static.wikia.nocookie.net/antagonisten/images/2/2d/The-avengers-loki.jpg/revision/latest?cb=20170506225328&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
-                userC = new User_1.User("40eca8dd-d3c4-47ae-9b95-8f57cb9d8185", "Heimdall", "Heimr", "heimdall@asgard.com", "lodpw", "2020-08-08", "hhe", undefined, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
-                userD = new User_1.User("8c957413-2cb6-46af-8f47-816c6a183cd1", "Odin", "Wodan", "odin@asgard.com", "owopw", "2020-08-08", "owo", undefined, "https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg", undefined, undefined, undefined, undefined, undefined);
-                userE = new User_1.User("3a2f5fdf-8b00-4b33-bd73-689a6544f027", "Freya", "Freia", "freya@asgard.com", "ffrpw", "2020-08-08", "ffr", undefined, "https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg", undefined, undefined, undefined, undefined, undefined);
-                userSystem = new User_1.User("dbaaa759-149b-4fa4-8451-b87a18837b2a", "System", "System", "System@System.com", "System", "2020-08-08", "System", undefined, "", undefined, undefined, undefined, undefined, undefined);
+                pwHash = undefined;
+                return [4 /*yield*/, bcrypt.hash("todpw", 10).then(function (hash) {
+                        pwHash = hash;
+                    })];
+            case 1:
+                _a.sent();
+                userA = new User_1.User("8bdb8aed-e579-4b25-a16a-9cf219572ca7", "Thor", "Odinson", "thor@asgard.com", pwHash, "2020-08-08", "tod", undefined, "https://static.wikia.nocookie.net/avengers/images/4/48/Thor_Gladiator.jpg/revision/latest/top-crop/width/360/height/360?cb=20171105082329&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
+                pwHash = undefined;
+                return [4 /*yield*/, bcrypt.hash("lodpw", 10).then(function (hash) {
+                        pwHash = hash;
+                    })];
+            case 2:
+                _a.sent();
+                userB = new User_1.User("3cb7d028-5629-442c-bd17-24689115694c", "Loki", "Odinson", "loki@asgard.com", pwHash, "2020-08-08", "lod", undefined, "https://static.wikia.nocookie.net/antagonisten/images/2/2d/The-avengers-loki.jpg/revision/latest?cb=20170506225328&path-prefix=de", undefined, undefined, undefined, undefined, undefined);
+                pwHash = undefined;
+                return [4 /*yield*/, bcrypt.hash("hhepw", 10).then(function (hash) {
+                        pwHash = hash;
+                    })];
+            case 3:
+                _a.sent();
+                userC = new User_1.User("40eca8dd-d3c4-47ae-9b95-8f57cb9d8185", "Heimdall", "Heimr", "heimdall@asgard.com", pwHash, "2020-08-08", "hhe", undefined, "https://cdn.vox-cdn.com/thumbor/G99dGM7X_R1gjLV7OF-bPuoP4GY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/18969934/Screen_Shot_2019_08_13_at_3.47.16_PM.png", undefined, undefined, undefined, undefined, undefined);
+                pwHash = undefined;
+                return [4 /*yield*/, bcrypt.hash("owopw", 10).then(function (hash) {
+                        pwHash = hash;
+                    })];
+            case 4:
+                _a.sent();
+                userD = new User_1.User("8c957413-2cb6-46af-8f47-816c6a183cd1", "Odin", "Wodan", "odin@asgard.com", pwHash, "2020-08-08", "owo", undefined, "https://image.freepik.com/vektoren-kostenlos/odin-vektor-logo_43623-397.jpg", undefined, undefined, undefined, undefined, undefined);
+                pwHash = undefined;
+                return [4 /*yield*/, bcrypt.hash("ffrpw", 10).then(function (hash) {
+                        pwHash = hash;
+                    })];
+            case 5:
+                _a.sent();
+                userE = new User_1.User("3a2f5fdf-8b00-4b33-bd73-689a6544f027", "Freya", "Freia", "freya@asgard.com", pwHash, "2020-08-08", "ffr", undefined, "https://i.etsystatic.com/10036582/r/il/fd9f8e/1296541546/il_570xN.1296541546_98xd.jpg", undefined, undefined, undefined, undefined, undefined);
+                pwHash = undefined;
+                return [4 /*yield*/, bcrypt.hash("system", 10).then(function (hash) {
+                        pwHash = hash;
+                    })];
+            case 6:
+                _a.sent();
+                userSystem = new User_1.User("dbaaa759-149b-4fa4-8451-b87a18837b2a", "System", "System", "System@System.com", pwHash, "2020-08-08", "System", undefined, "", undefined, undefined, undefined, undefined, undefined);
                 groupA = new Group_1.Group("2985167a-f0dd-408c-a392-0b0a76b9b94d", "toeftebois", "2021-03-09", undefined, inv, lists, wishes);
                 groupB = new Group_1.Group("a40d3ae0-016b-4e76-aa4b-cfe6c8bb4c13", "kohlenstoffmonoxid", "2021-03-09", undefined, invB, listsB, wishesB);
                 ugA = new UserGroup_1.UserGroup("0530c310-ddc9-4c25-a262-000a43c7e018", "2020-08-09", "member", userA, groupA);
@@ -227,10 +264,10 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userD.votes = [wvD];
                 userE.votes = [wvE];
                 return [4 /*yield*/, connection.manager.save(userE)];
-            case 1:
+            case 7:
                 _a.sent();
                 return [4 /*yield*/, connection.manager.save(userSystem)];
-            case 2:
+            case 8:
                 _a.sent();
                 console.log("Created sample data!");
                 return [2 /*return*/];

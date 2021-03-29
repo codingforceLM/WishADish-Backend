@@ -43,6 +43,7 @@ var express_1 = __importDefault(require("express"));
 var User_1 = require("../model/user/User");
 var UserGroup_1 = require("../model/user/UserGroup");
 var index_1 = require("typeorm/index");
+var bcrypt = require('bcrypt');
 var middleware = require("../middleware/loginsystem");
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
@@ -129,41 +130,52 @@ router.get("/:id/groups", middleware.isLoggedIn, function (req, res) {
 //register route
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var firstname, lastname, username, email, password, birthday, fileurl, user, e_3, json;
+        var firstname, lastname, username, email, password, birthday, fileurl;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    firstname = req.header("firstname");
-                    lastname = req.header("lastname");
-                    username = req.header("username");
-                    email = req.header("email");
-                    password = req.header("password");
-                    birthday = req.header("birthday");
-                    fileurl = req.header("fileurl");
-                    if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthday == undefined) {
-                        return [2 /*return*/, res.status(400).json({ "error": "required field undefined" })];
-                    }
-                    if (fileurl == undefined) {
-                        fileurl = "";
-                    }
-                    user = new User_1.User(uuidv4(), firstname, lastname, email, password, birthday, username, undefined, fileurl, undefined, undefined, undefined, undefined, undefined);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, index_1.getConnection().getRepository(UserGroup_1.UserGroup).manager.save(user)];
-                case 2:
-                    _a.sent();
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_3 = _a.sent();
-                    console.log(e_3);
-                    return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
-                case 4:
-                    json = {
-                        "msg": "User created"
-                    };
-                    return [2 /*return*/, res.status(200).json(json)];
+            firstname = req.header("firstname");
+            lastname = req.header("lastname");
+            username = req.header("username");
+            email = req.header("email");
+            password = req.header("password");
+            birthday = req.header("birthday");
+            fileurl = req.header("fileurl");
+            if (firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthday == undefined) {
+                return [2 /*return*/, res.status(400).json({ "error": "required field undefined" })];
             }
+            if (fileurl == undefined) {
+                fileurl = "";
+            }
+            bcrypt.hash(password, 10, function (err, hash) {
+                return __awaiter(this, void 0, void 0, function () {
+                    var user, e_3, json;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (err) {
+                                    return [2 /*return*/, res.status(400).json({ "error": "couldnt hash password" })];
+                                }
+                                user = new User_1.User(uuidv4(), firstname, lastname, email, hash, birthday, username, undefined, fileurl, undefined, undefined, undefined, undefined, undefined);
+                                _a.label = 1;
+                            case 1:
+                                _a.trys.push([1, 3, , 4]);
+                                return [4 /*yield*/, index_1.getConnection().getRepository(UserGroup_1.UserGroup).manager.save(user)];
+                            case 2:
+                                _a.sent();
+                                return [3 /*break*/, 4];
+                            case 3:
+                                e_3 = _a.sent();
+                                console.log(e_3);
+                                return [2 /*return*/, res.status(400).json({ "error": "Error at db access" })];
+                            case 4:
+                                json = {
+                                    "msg": "User created"
+                                };
+                                return [2 /*return*/, res.status(200).json(json)];
+                        }
+                    });
+                });
+            });
+            return [2 /*return*/];
         });
     });
 });

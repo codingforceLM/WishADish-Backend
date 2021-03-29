@@ -14,6 +14,7 @@ import { ShoppingList } from "./model/shoppinglist/ShoppingList";
 import { ShoppingListIngredient } from "./model/shoppinglist/ShoppingListIngredient";
 import { Invitation } from "./model/user/group/Invitation";
 
+const bcrypt = require('bcrypt');
 const ormconfig = require("../config/ormconfig.json");
 const userController = require("./controller/UserController");
 const wishController = require("./controller/WishController");
@@ -52,12 +53,16 @@ createConnection(
 	let listsB: Array<ShoppingList> = [];
 	let wishesB: Array<Wish> = [];
 
+	let pwHash = undefined as unknown as string;
+	await bcrypt.hash("todpw", 10).then(function (hash: any) {
+		pwHash = hash;
+	});
 	let userA = new User(
 		"8bdb8aed-e579-4b25-a16a-9cf219572ca7",
 		"Thor",
 		"Odinson",
 		"thor@asgard.com",
-		"todpw",
+		pwHash,
 		"2020-08-08",
 		"tod",
 		undefined as unknown as string,
@@ -69,12 +74,16 @@ createConnection(
 		undefined as unknown as ShoppingList[]
 	);
 
+	pwHash = undefined as unknown as string;
+	await bcrypt.hash("lodpw", 10).then(function (hash: any) {
+		pwHash = hash;
+	});
 	let userB = new User(
 		"3cb7d028-5629-442c-bd17-24689115694c",
 		"Loki",
 		"Odinson",
 		"loki@asgard.com",
-		"lodpw",
+		pwHash,
 		"2020-08-08",
 		"lod",
 		undefined as unknown as string,
@@ -86,12 +95,16 @@ createConnection(
 		undefined as unknown as ShoppingList[]
 	);
 
+	pwHash = undefined as unknown as string;
+	await bcrypt.hash("hhepw", 10).then(function (hash: any) {
+		pwHash = hash;
+	});
 	let userC = new User(
 		"40eca8dd-d3c4-47ae-9b95-8f57cb9d8185",
 		"Heimdall",
 		"Heimr",
 		"heimdall@asgard.com",
-		"lodpw",
+		pwHash,
 		"2020-08-08",
 		"hhe",
 		undefined as unknown as string,
@@ -103,12 +116,16 @@ createConnection(
 		undefined as unknown as ShoppingList[]
 	);
 
+	pwHash = undefined as unknown as string;
+	await bcrypt.hash("owopw", 10).then(function (hash: any) {
+		pwHash = hash;
+	});
 	let userD = new User(
 		"8c957413-2cb6-46af-8f47-816c6a183cd1",
 		"Odin",
 		"Wodan",
 		"odin@asgard.com",
-		"owopw",
+		pwHash,
 		"2020-08-08",
 		"owo",
 		undefined as unknown as string,
@@ -120,12 +137,16 @@ createConnection(
 		undefined as unknown as ShoppingList[]
 	);
 
+	pwHash = undefined as unknown as string;
+	await bcrypt.hash("ffrpw", 10).then(function (hash: any) {
+		pwHash = hash;
+	});
 	let userE = new User(
 		"3a2f5fdf-8b00-4b33-bd73-689a6544f027",
 		"Freya",
 		"Freia",
 		"freya@asgard.com",
-		"ffrpw",
+		pwHash,
 		"2020-08-08",
 		"ffr",
 		undefined as unknown as string,
@@ -137,12 +158,16 @@ createConnection(
 		undefined as unknown as ShoppingList[]
 	);
 
+	pwHash = undefined as unknown as string;
+	await bcrypt.hash("system", 10).then(function (hash: any) {
+		pwHash = hash;
+	});
 	let userSystem = new User(
 		"dbaaa759-149b-4fa4-8451-b87a18837b2a",
 		"System",
 		"System",
 		"System@System.com",
-		"System",
+		pwHash,
 		"2020-08-08",
 		"System",
 		undefined as unknown as string,
