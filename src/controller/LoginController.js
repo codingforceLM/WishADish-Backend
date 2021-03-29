@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var index_1 = require("typeorm/index");
 var User_1 = require("../model/user/User");
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var logsysconfig = require("../../config/logsysconfig.json");
 var jwt = require('jsonwebtoken');
 var uuidv4 = require('uuid').v4;

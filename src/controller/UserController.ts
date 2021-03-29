@@ -7,7 +7,7 @@ import {UserGroup} from "../model/user/UserGroup";
 import {Vote} from "../model/user/vote/Vote";
 import {ShoppingList} from "../model/shoppinglist/ShoppingList";
 import {getConnection} from "typeorm/index";
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const middleware = require("../middleware/loginsystem");
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();

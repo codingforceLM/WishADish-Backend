@@ -14,7 +14,7 @@ import { ShoppingList } from "./model/shoppinglist/ShoppingList";
 import { ShoppingListIngredient } from "./model/shoppinglist/ShoppingListIngredient";
 import { Invitation } from "./model/user/group/Invitation";
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const ormconfig = require("../config/ormconfig.json");
 const userController = require("./controller/UserController");
 const wishController = require("./controller/WishController");
