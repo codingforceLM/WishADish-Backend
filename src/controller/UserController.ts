@@ -7,6 +7,7 @@ import {UserGroup} from "../model/user/UserGroup";
 import {Vote} from "../model/user/vote/Vote";
 import {ShoppingList} from "../model/shoppinglist/ShoppingList";
 import {getConnection} from "typeorm/index";
+const bcrypt = require('bcryptjs');
 const middleware = require("../middleware/loginsystem");
 const {v4: uuidv4} = require('uuid');
 const router = express.Router();
@@ -79,7 +80,7 @@ router.post("/", async function(req, res) {
     const email = req.header("email");
     const password = req.header("password");
     const birthday = req.header("birthday");
-    let fileurl = req.header("fileurl");
+    let fileurl = req.header("fileurl") as string;
     if(firstname == undefined || lastname == undefined || username == undefined || email == undefined || password == undefined || birthday == undefined){
         return res.status(400).json({"error": "required field undefined"});
     }
@@ -87,25 +88,30 @@ router.post("/", async function(req, res) {
         fileurl = ""
     }
 
-    // TODO password hashing
-    let user = new User(uuidv4(),firstname,lastname,email, password, birthday,username, undefined as unknown as string, fileurl,
-        undefined as unknown as Dish[],
-        undefined as unknown as Ingredient[],
-        undefined as unknown as UserGroup[],
-        undefined as unknown as Vote[],
-        undefined as unknown as ShoppingList[]
-    )
-    try{
-        await getConnection().getRepository(UserGroup).manager.save(user)
-    }catch (e){
-        console.log(e)
-        return res.status(400).json({"error": "Error at db access"});
-    }
-    let json = {
-        "msg": "User created"
-    };
+    bcrypt.hash(password, 10, async function(err: any, hash: any) {
+        if(err) {
+            return res.status(400).json({"error": "couldnt hash password"});
+        }
 
-    return res.status(200).json(json);
+        let user = new User(uuidv4(),firstname,lastname,email, hash, birthday,username, undefined as unknown as string, fileurl,
+            undefined as unknown as Dish[],
+            undefined as unknown as Ingredient[],
+            undefined as unknown as UserGroup[],
+            undefined as unknown as Vote[],
+            undefined as unknown as ShoppingList[]
+        )
+        try{
+            await getConnection().getRepository(UserGroup).manager.save(user)
+        }catch (e){
+            console.log(e)
+            return res.status(400).json({"error": "Error at db access"});
+        }
+        let json = {
+            "msg": "User created"
+        };
+
+        return res.status(200).json(json);
+    });
 
 });
 

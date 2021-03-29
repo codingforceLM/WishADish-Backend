@@ -42,13 +42,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var index_1 = require("typeorm/index");
 var User_1 = require("../model/user/User");
+var bcrypt = require('bcryptjs');
 var logsysconfig = require("../../config/logsysconfig.json");
 var jwt = require('jsonwebtoken');
 var uuidv4 = require('uuid').v4;
 var router = express_1.default.Router();
 router.post('/', function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var email, password, user, e_1, token;
+        var email, password, user, e_1, match, token;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -74,8 +75,10 @@ router.post('/', function (req, res) {
                     if (user == undefined) {
                         return [2 /*return*/, res.status(400).json({ "error": "Username or password is incorrect!" })];
                     }
-                    // de-hash password from database
-                    if (password !== user.password) {
+                    return [4 /*yield*/, bcrypt.compare(password, user.password)];
+                case 5:
+                    match = _a.sent();
+                    if (!match) {
                         return [2 /*return*/, res.status(400).json({ "error": "Username or password is incorrect!" })];
                     }
                     token = jwt.sign({
