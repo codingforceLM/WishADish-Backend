@@ -50,6 +50,7 @@ var Vote_1 = require("./model/user/vote/Vote");
 var ShoppingList_1 = require("./model/shoppinglist/ShoppingList");
 var ShoppingListIngredient_1 = require("./model/shoppinglist/ShoppingListIngredient");
 var Invitation_1 = require("./model/user/group/Invitation");
+var index_1 = require("typeorm/index");
 var bcrypt = require('bcryptjs');
 var ormconfig = require("../config/ormconfig.json");
 var userController = require("./controller/UserController");
@@ -75,12 +76,11 @@ ormconfig.entities = [
     Invitation_1.Invitation
 ];
 typeorm_1.createConnection(ormconfig).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
-    var inv, lists, wishes, invB, listsB, wishesB, pwHash, userA, userB, userC, userD, userE, userSystem, groupA, groupB, ugA, ugB, ugC, ugD, ugE, ugbE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, ingrdJ, ingrdK, ingrdL, ingrdM, ingrdN, ingrdO, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE;
+    var inv, lists, wishes, invB, listsB, wishesB, pwHash, userA, userB, userC, userD, userE, userSystem, groupA, groupB, ugA, ugB, ugC, ugD, ugE, ugbE, ingrdA, ingrdB, ingrdC, ingrdD, ingrdE, ingrdF, ingrdG, ingrdH, ingrdI, ingrdJ, ingrdK, ingrdL, ingrdM, ingrdN, ingrdO, dishA, dishB, diA, diB, diC, diD, diE, diF, diG, diH, diI, shoppingListA, shoppingListB, sliA, sliB, sliC, sliD, sliE, sliF, sliG, sliH, sliI, slibA, wishA, wishB, wvA, wvB, wvC, wvD, wvE, sampleData, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log("Connection established!");
-                console.log("Creating example data!");
                 inv = [];
                 lists = [];
                 wishes = [];
@@ -263,14 +263,30 @@ typeorm_1.createConnection(ormconfig).then(function (connection) { return __awai
                 userC.votes = [wvC];
                 userD.votes = [wvD];
                 userE.votes = [wvE];
-                return [4 /*yield*/, connection.manager.save(userE)];
+                sampleData = undefined;
+                _a.label = 7;
             case 7:
+                _a.trys.push([7, 12, , 13]);
+                return [4 /*yield*/, index_1.getConnection().getRepository(User_1.User).findOne({
+                        where: { _id: userSystem.id }
+                    })];
+            case 8:
+                sampleData = (_a.sent());
+                if (!(sampleData == undefined)) return [3 /*break*/, 11];
+                console.log("Creating example data!");
+                return [4 /*yield*/, connection.manager.save(userE)];
+            case 9:
                 _a.sent();
                 return [4 /*yield*/, connection.manager.save(userSystem)];
-            case 8:
+            case 10:
                 _a.sent();
                 console.log("Created sample data!");
-                return [2 /*return*/];
+                _a.label = 11;
+            case 11: return [3 /*break*/, 13];
+            case 12:
+                e_1 = _a.sent();
+                return [2 /*return*/, console.log(e_1)];
+            case 13: return [2 /*return*/];
         }
     });
 }); }).catch(function (error) { return console.log(error); });
