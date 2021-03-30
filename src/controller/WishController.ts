@@ -160,9 +160,7 @@ router.post("/", middleware.isLoggedIn, async function (req, res) {
     const dishId = req.header("dishId");
     const daytime = req.header("daytime");
     const date = req.header("wishDate");
-
-    console.log(userId, groupId, dishId, daytime, date);
-
+    
     if (groupId == undefined || groupId == "" || dishId == undefined || dishId == "" || daytime == undefined || daytime == "" || date == undefined || date == "") {
         return res.status(404).json({"error": "required field undefined"})
     }
