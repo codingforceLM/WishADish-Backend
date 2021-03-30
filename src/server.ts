@@ -13,6 +13,8 @@ import { Vote } from "./model/user/vote/Vote";
 import { ShoppingList } from "./model/shoppinglist/ShoppingList";
 import { ShoppingListIngredient } from "./model/shoppinglist/ShoppingListIngredient";
 import { Invitation } from "./model/user/group/Invitation";
+import {getConnection} from "typeorm/index";
+
 
 const bcrypt = require('bcryptjs');
 const ormconfig = require("../config/ormconfig.json");
@@ -45,7 +47,6 @@ createConnection(
 ).then(async connection => {
 	console.log("Connection established!");
 
-	console.log("Creating example data!");
 	let inv: Array<Invitation> = [];
 	let lists: Array<ShoppingList> = [];
 	let wishes: Array<Wish> = [];
@@ -712,10 +713,26 @@ createConnection(
 	userC.votes = [ wvC ];
 	userD.votes = [ wvD ];
 	userE.votes = [ wvE ];
+	let sampleData = undefined
+	try {
+		sampleData = await getConnection().getRepository(User).findOne(
+			{
+				where:
+					{_id: userSystem.id}
+			}) as User;
 
-	await connection.manager.save(userE);
-	await connection.manager.save(userSystem);
-	console.log("Created sample data!");
+		if(sampleData == undefined){
+			console.log("Creating example data!");
+			await connection.manager.save(userE);
+			await connection.manager.save(userSystem);
+			console.log("Created sample data!");
+		}
+	} catch (e) {
+		return console.log(e)
+	}
+
+
+
 }).catch(error => console.log(error));
 
 //Create a new express app instance
